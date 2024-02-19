@@ -1,14 +1,6 @@
 <?php
 global $wpdb;
 
-$read_only_field_for_create = [1081, 5145, 5149];
-$editable_field_for_create = [388, 385, 387];
-$fields_to_show_for_create = implode(',', array_merge($read_only_field_for_create, $editable_field_for_create));
-
-$read_only_field_for_update = [1081, 5145, 5149];
-$editable_field_for_update = [388, 385, 387];
-$fields_to_show_for_update = implode(',', array_merge($read_only_field_for_update, $editable_field_for_update));
-
 $provider = [
     'user_id' => get_current_user_id()
 ];
@@ -34,20 +26,15 @@ $proposal = ['id' => $wpdb->get_var("
 ")];
 
 $html = '';
-$_GET['submit_type'] = 'link'; // Conditional Logic Field [5147]
 if (is_null($proposal['id'])) {
     $html = do_shortcode("
         [frmmodal-content modal_title=\" \" modal_class=\"{$rfp['id']}\" size=\"large\" label=\"Click to Submit\"]
-            [formidable id=30 fields={$fields_to_show_for_create} trans_param=\"{$rfp[903]}\" service_param=\"{$rfp[883]}\" eng_provider_param=\"{$provider['provider_name']}\"]
+            [formidable id=30 submit_type=\"link\" trans_param=\"{$rfp[903]}\" service_param=\"{$rfp[883]}\" eng_provider_param=\"{$provider['provider_name']}\"]
         [/frmmodal-content]
     ");
-    $read_only_field_for_create = implode(',', array_map(function ($field_id) {
-        return "[name=\"item_meta[{$field_id}]\"]";
-    }, $read_only_field_for_create));
     $html .= "
 		<script type='text/javascript'>
 		jQuery(document).ready(() => {
-            const modal = 
             setTimeout(() => {
                 jQuery(`.modal.{$rfp['id']} .dz-remove`).click()
             }, 100)
@@ -67,19 +54,9 @@ if (is_null($proposal['id'])) {
     $html = "<embed style=\"height: 63px\" src=\"{$pdf}\" type=\"application/pdf\">";
     $html .= do_shortcode("
         [frmmodal-content modal_title=\" \" modal_class=\"{$rfp['id']}\" size=\"large\" label=\"Edit Proposal\"]
-            [formidable id=30 entry_id={$proposal['id']} fields={$fields_to_show_for_update}]
+            [formidable id=30 entry_id={$proposal['id']} submit_type=\"link\"]
         [/frmmodal-content]
     ");
-    $read_only_field_for_update = implode(',', array_map(function ($field_id) {
-        return "[name=\"item_meta[{$field_id}]\"]";
-    }, $read_only_field_for_update));
-    $html .= "
-		<script type='text/javascript'>
-		jQuery(document).ready(() => {
-			jQuery(`.modal.{$rfp['id']} [name=\"item_meta[5147]\"]`).val(`link`)
-		})
-		</script>
-	";
 }
 echo $html;
 
