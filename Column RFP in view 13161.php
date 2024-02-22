@@ -96,10 +96,20 @@ $data = $wpdb->get_row("
     ORDER BY fo119fi2439.item_id DESC LIMIT 1
 ");
 
+$detail_download = "";
+if (!is_null($data->fo58fi3713_answer)) {
+    $xls_url = $wpdb->get_var("SELECT guid FROM {$wpdb->prefix}posts WHERE ID = {$data->fo58fi3713_answer}");
+    $detail_download = "
+        <li><a href=\"{$xls_url}\" download>Download</a></li>
+        <li><a href=\"https://view.officeapps.live.com/op/view.aspx?src={$xls_url}\" target=\"_blank\">View</a></li>
+    ";
+}
+
 echo "
     <div class=\"show-hide-hover\">
         <button><i class=\"fa fa-ellipsis-h\"></i></button>
         <ul>
+            {$detail_download}
             <li><a href=\"[detaillink]\">Details</a></li>
         </ul>
     </div>
