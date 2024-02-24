@@ -105,12 +105,14 @@ if (!is_null($data->fo58fi3713_answer)) {
     ";
 }
 
+$detail_link = "http://rbundle.local/provider/rfps/entry/{$entry_id}/";
+
 echo "
     <div class=\"show-hide-hover\">
         <button><i class=\"fa fa-ellipsis-h\"></i></button>
         <ul>
             {$detail_download}
-            <li><a href=\"[detaillink]\">Details</a></li>
+            <li><a href=\"{$detail_link}\">Details</a></li>
         </ul>
     </div>
 ";
