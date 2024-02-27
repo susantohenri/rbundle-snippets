@@ -87,45 +87,42 @@ $data = $wpdb->get_row("
     ORDER BY fo119fi2439.item_id DESC LIMIT 1
 ");
 
-$detail_download = "";
-if (!is_null($data->fo58fi3713_answer)) {
-    $xls_url = $wpdb->get_var("SELECT guid FROM {$wpdb->prefix}posts WHERE ID = {$data->fo58fi3713_answer}");
-    if ('Yes' == $is_detail_page) {
-        if ('Yes' == $data->fo119fi4302_answer && 'Yes' == $data->fo119fi4311_answer) {
-            $user_ids = $data->fo58fi5060_answer;
-            $user_id = get_current_user_id();
-            $user_ids = '' == $user_ids ? $user_id : "{$user_ids},{$user_id}";
-            $detail_download = "
-                <strong>RFP</strong> <a href=\"#\" data-bs-toggle=\"modal\" data-bs-target=\"#confirmationModal{$entry_id}\" onclick=\"jQuery(`.download-{$entry_id}`).show(); jQuery(`.view-{$entry_id}`).hide()\">Download</a> / <a href=\"#\" data-bs-toggle=\"modal\" data-bs-target=\"#confirmationModal{$entry_id}\" onclick=\"jQuery(`.download-{$entry_id}`).hide(); jQuery(`.view-{$entry_id}`).show()\">View</a>
-                <script type=\"text/javascript\">
-                jQuery(`body`).append(`
-                    <div class=\"modal fade\" id=\"confirmationModal{$entry_id}\" tabindex=\"-1\" aria-labelledby=\"confirmationModalLabel{$entry_id}\" aria-hidden=\"true\">
-                    <div class=\"modal-dialog\">
-                        <div class=\"modal-content\">
-                            <div class=\"modal-body\">
-                            Litigation Conflicts: {$data->fo58fi5058_answer}
-                            <br>Transaction Conflicts: {$data->fo58fi5059_answer}
-                            </div>
-                            <div class=\"modal-footer\">
-                            <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Do not Proceed</button>
-                            <a class=\"btn btn-primary download-{$entry_id}\" href=\"{$xls_url}\" onclick=\"frmUpdateField({$entry_id},5060,'{$user_ids}','');return true;\" download>Proceed</a>
-                            <a class=\"btn btn-primary view-{$entry_id}\" href=\"https://view.officeapps.live.com/op/view.aspx?src={$xls_url}\" target=\"_blank\" onclick=\"frmUpdateField({$entry_id},5060,'{$user_ids}','');return true;\">Proceed</a>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                `)
-                </script>
-                ";
-        } else {
-            $detail_download = "<strong>RFP</strong> <a href=\"{$xls_url}\" download=\"\">Download</a> / <a target=\"_blank\" href=\"https://view.officeapps.live.com/op/view.aspx?src={$xls_url}\">View</a>";
-        }
-    } else {
-        if ('Yes' == $data->fo119fi4302_answer && 'Yes' == $data->fo119fi4311_answer) {
-            $user_ids = $data->fo58fi5060_answer;
-            $user_id = get_current_user_id();
-            $user_ids = '' == $user_ids ? $user_id : "{$user_ids},{$user_id}";
-            $detail_download = "
+$detail_download = '';
+$detail_link = site_url() . "/provider/rfps/entry/{$entry_id}/";
+$user_ids = $data->fo58fi5060_answer;
+$user_id = get_current_user_id();
+$user_ids = '' == $user_ids ? $user_id : "{$user_ids},{$user_id}";
+$has_xls = !is_null($data->fo58fi3713_answer);
+if ($has_xls) $xls_url = $wpdb->get_var("SELECT guid FROM {$wpdb->prefix}posts WHERE ID = {$data->fo58fi3713_answer}");
+$display_type = 'Yes' == $is_detail_page ? 'entry' : 'view';
+$show_confirmation_modal = 'Legal' == $data->fo58fi5057_answer && 'Yes' == $data->fo119fi4302_answer && 'Yes' == $data->fo119fi4311_answer;
+
+if (!$has_xls && 'view' == $display_type) {
+    $detail_download = "
+        <div class=\"show-hide-hover\">
+            <button><i class=\"fa fa-ellipsis-h\"></i></button>
+            <ul>
+                <li><a href=\"{$detail_link}\">Details</a></li>
+            </ul>
+        </div>
+    ";
+} else if (!$has_xls && 'entry' == $display_type) {
+} else if ($has_xls && 'view' == $display_type && !$show_confirmation_modal) {
+    $detail_download = "
+        <div class=\"show-hide-hover\">
+            <button><i class=\"fa fa-ellipsis-h\"></i></button>
+            <ul>
+                <li><a href=\"{$xls_url}\" download>Download</a></li>
+                <li><a href=\"https://view.officeapps.live.com/op/view.aspx?src={$xls_url}\" target=\"_blank\">View</a></li>
+                <li><a href=\"{$detail_link}\">Details</a></li>
+            </ul>
+        </div>
+    ";
+} else if ($has_xls && 'view' == $display_type && $show_confirmation_modal) {
+    $detail_download = "
+        <div class=\"show-hide-hover\">
+            <button><i class=\"fa fa-ellipsis-h\"></i></button>
+            <ul>
                 <li><a href=\"#\" data-bs-toggle=\"modal\" data-bs-target=\"#confirmationModal{$entry_id}\" onclick=\"jQuery(`.download-{$entry_id}`).show(); jQuery(`.view-{$entry_id}`).hide()\">Download</a></li>
                 <li><a href=\"#\" data-bs-toggle=\"modal\" data-bs-target=\"#confirmationModal{$entry_id}\" onclick=\"jQuery(`.download-{$entry_id}`).hide(); jQuery(`.view-{$entry_id}`).show()\">View</a></li>
                 <script type=\"text/javascript\">
@@ -147,24 +144,35 @@ if (!is_null($data->fo58fi3713_answer)) {
                     </div>
                 `)
                 </script>
-                ";
-        } else {
-            $detail_download = "
-                <li><a href=\"{$xls_url}\" download>Download</a></li>
-                <li><a href=\"https://view.officeapps.live.com/op/view.aspx?src={$xls_url}\" target=\"_blank\">View</a></li>
-            ";
-        }
-        $detail_link = site_url() . "/provider/rfps/entry/{$entry_id}/";
-        $detail_download = "
-            <div class=\"show-hide-hover\">
-                <button><i class=\"fa fa-ellipsis-h\"></i></button>
-                <ul>
-                    {$detail_download}
-                    <li><a href=\"{$detail_link}\">Details</a></li>
-                </ul>
+                <li><a href=\"{$detail_link}\">Details</a></li>
+            </ul>
+        </div>
+    ";
+} else if ($has_xls && 'entry' == $display_type && !$show_confirmation_modal) {
+    $detail_download = "<strong>RFP</strong> <a href=\"{$xls_url}\" download=\"\">Download</a> / <a target=\"_blank\" href=\"https://view.officeapps.live.com/op/view.aspx?src={$xls_url}\">View</a>";
+} else if ($has_xls && 'entry' == $display_type && $show_confirmation_modal) {
+    $detail_download = "
+        <strong>RFP</strong> <a href=\"#\" data-bs-toggle=\"modal\" data-bs-target=\"#confirmationModal{$entry_id}\" onclick=\"jQuery(`.download-{$entry_id}`).show(); jQuery(`.view-{$entry_id}`).hide()\">Download</a> / <a href=\"#\" data-bs-toggle=\"modal\" data-bs-target=\"#confirmationModal{$entry_id}\" onclick=\"jQuery(`.download-{$entry_id}`).hide(); jQuery(`.view-{$entry_id}`).show()\">View</a>
+        <script type=\"text/javascript\">
+        jQuery(`body`).append(`
+            <div class=\"modal fade\" id=\"confirmationModal{$entry_id}\" tabindex=\"-1\" aria-labelledby=\"confirmationModalLabel{$entry_id}\" aria-hidden=\"true\">
+            <div class=\"modal-dialog\">
+                <div class=\"modal-content\">
+                    <div class=\"modal-body\">
+                    Litigation Conflicts: {$data->fo58fi5058_answer}
+                    <br>Transaction Conflicts: {$data->fo58fi5059_answer}
+                    </div>
+                    <div class=\"modal-footer\">
+                    <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Do not Proceed</button>
+                    <a class=\"btn btn-primary download-{$entry_id}\" href=\"{$xls_url}\" onclick=\"frmUpdateField({$entry_id},5060,'{$user_ids}','');return true;\" download>Proceed</a>
+                    <a class=\"btn btn-primary view-{$entry_id}\" href=\"https://view.officeapps.live.com/op/view.aspx?src={$xls_url}\" target=\"_blank\" onclick=\"frmUpdateField({$entry_id},5060,'{$user_ids}','');return true;\">Proceed</a>
+                    </div>
+                </div>
             </div>
+            </div>
+        `)
+        </script>
         ";
-    }
 }
 
 echo $detail_download;
