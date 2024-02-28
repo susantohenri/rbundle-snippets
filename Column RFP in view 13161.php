@@ -95,7 +95,7 @@ $user_ids = '' == $user_ids ? $user_id : "{$user_ids},{$user_id}";
 $has_xls = !is_null($data->fo58fi3713_answer);
 if ($has_xls) $xls_url = $wpdb->get_var("SELECT guid FROM {$wpdb->prefix}posts WHERE ID = {$data->fo58fi3713_answer}");
 $display_type = 'Yes' == $is_detail_page ? 'entry' : 'view';
-$show_confirmation_modal = 'Legal' == $data->fo58fi5057_answer && 'Yes' == $data->fo119fi4302_answer && 'Yes' == $data->fo119fi4311_answer;
+$show_confirmation_modal = 'Legal' == $data->fo58fi5057_answer;
 
 if (!$has_xls && 'view' == $display_type) {
     $detail_download = "
