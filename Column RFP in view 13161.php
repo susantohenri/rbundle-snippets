@@ -136,8 +136,8 @@ if (!$has_xls && 'view' == $display_type) {
                             </div>
                             <div class=\"modal-footer\">
                             <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Do not Proceed</button>
-                            <a class=\"btn btn-primary download-{$entry_id}\" href=\"{$xls_url}\" onclick=\"frmUpdateField({$entry_id},5060,'{$user_ids}','');return true;\" download>Proceed</a>
-                            <a class=\"btn btn-primary view-{$entry_id}\" href=\"https://view.officeapps.live.com/op/view.aspx?src={$xls_url}\" target=\"_blank\" onclick=\"frmUpdateField({$entry_id},5060,'{$user_ids}','');return true;\">Proceed</a>
+                            <a class=\"btn btn-primary download-{$entry_id}\" href=\"{$xls_url}\" onclick=\"frmUpdateField({$entry_id},5060,'{$user_ids}','');jQuery('#confirmationModal{$entry_id}').modal('hide');return true;\" download>Proceed</a>
+                            <a class=\"btn btn-primary view-{$entry_id}\" href=\"https://view.officeapps.live.com/op/view.aspx?src={$xls_url}\" target=\"_blank\" onclick=\"frmUpdateField({$entry_id},5060,'{$user_ids}','');jQuery('#confirmationModal{$entry_id}').modal('hide');return true;\" >Proceed</a>
                             </div>
                         </div>
                     </div>
@@ -164,8 +164,8 @@ if (!$has_xls && 'view' == $display_type) {
                     </div>
                     <div class=\"modal-footer\">
                     <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Do not Proceed</button>
-                    <a class=\"btn btn-primary download-{$entry_id}\" href=\"{$xls_url}\" onclick=\"frmUpdateField({$entry_id},5060,'{$user_ids}','');return true;\" download>Proceed</a>
-                    <a class=\"btn btn-primary view-{$entry_id}\" href=\"https://view.officeapps.live.com/op/view.aspx?src={$xls_url}\" target=\"_blank\" onclick=\"frmUpdateField({$entry_id},5060,'{$user_ids}','');return true;\">Proceed</a>
+                    <a class=\"btn btn-primary download-{$entry_id}\" href=\"{$xls_url}\" onclick=\"frmUpdateField({$entry_id},5060,'{$user_ids}','');jQuery('#confirmationModal{$entry_id}').modal('hide');return true;\" download>Proceed</a>
+                    <a class=\"btn btn-primary view-{$entry_id}\" href=\"https://view.officeapps.live.com/op/view.aspx?src={$xls_url}\" target=\"_blank\" onclick=\"frmUpdateField({$entry_id},5060,'{$user_ids}','');jQuery('#confirmationModal{$entry_id}').modal('hide');return true;\" >Proceed</a>
                     </div>
                 </div>
             </div>
