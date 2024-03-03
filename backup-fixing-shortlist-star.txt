@@ -1,0 +1,20 @@
+URL: https://rbundle.com/wp-admin/?page=formidable-views-editor&view=13418
+deleted from: Edit After Content
+
+<script>
+    jQuery(document).ready(function () {
+        jQuery(".with_frm_style").hide(); // Hide the element on page load.
+
+        // Show the element when the page has finished loading.
+        jQuery(window).load(function () {
+            jQuery(".with_frm_style").show();
+        });
+    });
+
+    jQuery(document).ajaxComplete(function (e) {
+        e.preventDefault();
+        setTimeout(function () {
+            window.location.reload();
+        }, 1000);
+    });
+</script>
