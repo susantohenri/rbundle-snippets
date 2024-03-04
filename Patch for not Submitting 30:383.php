@@ -2,8 +2,6 @@
 add_action('init', function () {
     if (isset($_POST)) {
         if (isset($_POST['item_meta'])) {
-            global $wpdb;
-            $wpdb->insert('wp_options', ['option_name' => 'henri' . time(), 'option_value' => json_encode($_POST)]);
             if (isset($_POST['item_meta']['383'])) {
                 $_POST['item_meta']['383_replica'] = $_POST['item_meta']['383'];
             }
