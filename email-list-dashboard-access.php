@@ -1,7 +1,13 @@
 <?php
+// Email List & Dashboard Access
 add_action('frm_after_create_entry', function ($entry_id, $form_id) {
     elda_1($entry_id, $form_id);
+    elda_2($entry_id, $form_id);
 }, 30, 2);
+
+add_action('frm_after_update_entry', function ($entry_id, $form_id) {
+    elda_2($entry_id, $form_id);
+}, 10, 2);
 
 // Grant Existing Eligible Provider Users Access to RFP in Dashboard
 function elda_1($entry_id, $form_id)
@@ -31,8 +37,21 @@ function elda_1($entry_id, $form_id)
 }
 
 // Update Eligible Provider Users Access to RFP in Dashboard From Form 31 Submission
-function elda_2()
+function elda_2($entry_id, $form_id)
 {
+    // 2.a.i
+    if (31 != $form_id) return false;
+    $entry_31 = elda_get_entry_by_id($entry_id);
+
+    // 2.b.i
+    $entries_58 = array_map(function ($entry_58_id) {
+        return elda_get_entry_by_id($entry_58_id);
+    }, elda_get_entry_ids_by_form_id(58));
+    $filtered_entries_58 = array_filter($entries_58, function ($entry_58) use ($entry_31) {
+        $is_submitted = 'Submitted' == $entry_58[1086];
+        $is_1526_includes_729 = elda_compare($entry_58, 1526, 'includes', $entry_31, 729);
+        return $is_submitted && $is_1526_includes_729;
+    });
 }
 
 // Update Eligible Provider Users Access to RFP in Dashboard From Form 58 Update Submission
@@ -87,14 +106,18 @@ function elda_compare($left_entry, $left_field, $operator, $right_entry, $right_
     if (!isset($right_entry[$right_field])) return false;
     $left_answer = $left_entry[$left_field];
     $right_answer = $right_entry[$right_field];
-    $left_answer = is_array($left_answer) ? $left_answer : [$left_answer];
-    $right_answer = is_array($right_answer) ? $right_answer : [$right_answer];
 
     $filter_result = false;
     switch ($operator) {
         case 'match':
+            $left_answer = is_array($left_answer) ? $left_answer : [$left_answer];
+            $right_answer = is_array($right_answer) ? $right_answer : [$right_answer];
+
             if (in_array('All States', $left_answer) || in_array('All States', $right_answer)) $filter_result = true;
             else $filter_result = 0 < count(array_intersect($left_answer, $right_answer));
+            break;
+        case 'includes':
+            $filter_result = in_array($right_answer, explode(';', $left_answer));
             break;
     }
     return $filter_result;
