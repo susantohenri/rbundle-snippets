@@ -7,6 +7,7 @@ add_action('frm_after_create_entry', function ($entry_id, $form_id) {
 
 add_action('frm_after_update_entry', function ($entry_id, $form_id) {
     elda_2($entry_id, $form_id);
+    elda_3($entry_id, $form_id);
 }, 10, 2);
 
 // Grant Existing Eligible Provider Users Access to RFP in Dashboard
@@ -95,8 +96,22 @@ function elda_2($entry_id, $form_id)
 }
 
 // Update Eligible Provider Users Access to RFP in Dashboard From Form 58 Update Submission
-function elda_3()
+function elda_3($entry_id, $form_id)
 {
+    // 3.a
+    if (58 != $form_id) return false;
+    $entry_58 = elda_get_entry_by_id($entry_id);
+    if ('Single Service' != $entry_58[880]) return false;
+
+    // 3.b.i
+    $entries_31 = array_map(function ($entry_31_id) {
+        return elda_get_entry_by_id($entry_31_id);
+    }, elda_get_entry_ids_by_form_id(31));
+    $entries_31_3bi = array_filter($entries_31, function ($entry_31) use ($entry_58) {
+        return elda_compare($entry_31, 729, 'included', $entry_58, 1526);
+    });
+
+    // 3.b.ii: something wrong with the instruction
 }
 
 // For Otherwise Ineligible Provider Users Grive Access to RFP in Dashboard From Form 58 Entry
@@ -110,8 +125,34 @@ function elda_5()
 }
 
 // Provider Email Notification
-function elda_6()
+function elda_6($entry_id, $field_id)
 {
+    // fn Provider Email Notification.1.a
+    if (1526 != $field_id) return false;
+
+    $entry_58 = elda_get_entry_by_id($entry_id);
+
+    // fn Provider Email Notification.2.a
+    $entries_31 = array_map(function ($entry_31_id) {
+        return elda_get_entry_by_id($entry_31_id);
+    }, elda_get_entry_ids_by_form_id(31));
+    $entries_31_62a = array_filter($entries_31, function ($entry_31) use ($entry_58) {
+        $is_729_match_1526 = elda_compare($entry_31, 729, 'match', $entry_58, 1526);
+        $is_5069_match_883 = elda_compare($entry_31, 5069, 'match', $entry_58, 883);
+        return $is_729_match_1526 && $is_5069_match_883;
+    });
+
+    // fn Provider Email Notification.2.b
+    $entries_31_62b = array_filter($entries_31_62a, function ($entry_31) {
+        return 'Yes' == $entry_31[5265];
+    });
+
+    // fn Provider Email Notification.2.c
+    $email_address_list = array_map(function ($entry_31) {
+        return $entry_31[870];
+    }, $entries_31_62b);
+    $email_address_list = implode(';', $email_address_list);
+    elda_update_answer($entry_58['id'], 1088, $email_address_list);
 }
 
 function elda_get_entry_ids_by_form_id($form_id)
@@ -157,6 +198,9 @@ function elda_compare($left_entry, $left_field, $operator, $right_entry, $right_
         case 'includes':
             $comparison_result = in_array($right_answer, explode(';', $left_answer));
             break;
+        case 'included':
+            $comparison_result = in_array($left_answer, explode(';', $right_answer));
+            break;
     }
     return $comparison_result;
 }
@@ -168,6 +212,8 @@ function elda_update_answer($entry_id, $field_id, $answer)
     $answer_exists = $wpdb->get_var("SELECT meta_value FROM {$answer_table} WHERE item_id = {$entry_id} AND field_id = {$field_id}");
     if ($answer_exists) $wpdb->update($answer_table, ['meta_value' => $answer], ['item_id' => $entry_id, 'field_id' => $field_id]);
     else $wpdb->insert($answer_table, ['meta_value' => $answer, 'item_id' => $entry_id, 'field_id' => $field_id]);
+
+    elda_6($entry_id, $field_id);
 }
 
 // Debugger
