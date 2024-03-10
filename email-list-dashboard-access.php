@@ -72,6 +72,26 @@ function elda_2($entry_id, $form_id)
             elda_update_answer($entry_58['id'], 1526, $entry_58_1526);
         }
     }
+
+    // 2.b.iii
+    $entries_58 = array_map(function ($entry_58_id) {
+        return elda_get_entry_by_id($entry_58_id);
+    }, elda_get_entry_ids_by_form_id(58));
+    $entries_58_2biii = array_filter($entries_58, function ($entry_58) use ($entry_31) {
+        $is_1086_submitted = 'Submitted' == $entry_58[1086];
+        $is_match_883_5069 = elda_compare($entry_58, 883, 'match', $entry_31, 5069);
+        $is_match_884_431 = elda_compare($entry_58, 884, 'match', $entry_31, 431);
+        $is_match_885_728 = elda_compare($entry_58, 885, 'match', $entry_31, 728);
+        return $is_1086_submitted && $is_match_883_5069 && ($is_match_884_431 || $is_match_885_728);
+    });
+
+    // 2.b.iv
+    foreach ($entries_58_2biii as $entry_58) {
+        $entry_58_1526 = explode(';', $entry_58[1526]);
+        $entry_58_1526[] = $entry_31[729];
+        $entry_58_1526 = implode(';', $entry_58_1526);
+        elda_update_answer($entry_58['id'], 1526, $entry_58_1526);
+    }
 }
 
 // Update Eligible Provider Users Access to RFP in Dashboard From Form 58 Update Submission
