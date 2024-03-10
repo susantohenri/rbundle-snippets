@@ -18,10 +18,10 @@ function elda_1($entry_id, $form_id)
     if ('Single Service' != $entry_58[880]) return false;
 
     // 1.b.i
-    $entries_ids_31 = elda_get_entry_ids_by_form_id(31);
-    $entries_31 = [];
-    foreach ($entries_ids_31 as $id) $entries_31[] = elda_get_entry_by_id($id);
-    $filtered_entries_31 = array_filter($entries_31, function ($entry_31) use ($entry_58) {
+    $entries_31 = array_map(function ($entry_31_id) {
+        return elda_get_entry_by_id($entry_31_id);
+    }, elda_get_entry_ids_by_form_id(31));
+    $provider_service_subscribers = array_filter($entries_31, function ($entry_31) use ($entry_58) {
         $is_match_5069_883 = elda_compare($entry_31, 5069, 'match', $entry_58, 883);
         $is_match_431_884 = elda_compare($entry_31, 431, 'match', $entry_58, 884);
         $is_match_728_885 = elda_compare($entry_31, 728, 'match', $entry_58, 885);
@@ -30,10 +30,10 @@ function elda_1($entry_id, $form_id)
     });
 
     // 1.b.ii
-    $provider_service_subscribers = array_map(function ($entry_31) {
+    $provider_service_subscribers_ids = array_map(function ($entry_31) {
         return $entry_31[729];
-    }, $filtered_entries_31);
-    elda_update_answer($entry_58['id'], 1526, implode(';', $provider_service_subscribers));
+    }, $provider_service_subscribers);
+    elda_update_answer($entry_58['id'], 1526, implode(';', $provider_service_subscribers_ids));
 }
 
 // Update Eligible Provider Users Access to RFP in Dashboard From Form 31 Submission
@@ -47,11 +47,31 @@ function elda_2($entry_id, $form_id)
     $entries_58 = array_map(function ($entry_58_id) {
         return elda_get_entry_by_id($entry_58_id);
     }, elda_get_entry_ids_by_form_id(58));
-    $filtered_entries_58 = array_filter($entries_58, function ($entry_58) use ($entry_31) {
+    $entries_58_2bi = array_filter($entries_58, function ($entry_58) use ($entry_31) {
         $is_submitted = 'Submitted' == $entry_58[1086];
         $is_1526_includes_729 = elda_compare($entry_58, 1526, 'includes', $entry_31, 729);
         return $is_submitted && $is_1526_includes_729;
     });
+
+    // 2.b.ii
+    $entries_58_2bii = array_filter($entries_58_2bi, function ($entry_58) use ($entry_31) {
+        $is_1086_submitted = 'Submitted' == $entry_58[1086];
+        $is_match_883_5069 = elda_compare($entry_58, 883, 'match', $entry_31, 5069);
+        $is_match_884_431 = elda_compare($entry_58, 884, 'match', $entry_31, 431);
+        $is_match_885_728 = elda_compare($entry_58, 885, 'match', $entry_31, 728);
+
+        $is_true = $is_1086_submitted && $is_match_883_5069 && ($is_match_884_431 || $is_match_885_728);
+        return !$is_true;
+    });
+    foreach ($entries_58_2bii as $entry_58) {
+        $entry_58_1526 = explode(';', $entry_58[1526]);
+        if (in_array($entry_31[729], $entry_58_1526)) {
+            unset($entry_58_1526[$entry_31[729]]);
+            $entry_58_1526 = array_values($entry_58_1526);
+            $entry_58_1526 = implode(';', $entry_58_1526);
+            elda_update_answer($entry_58['id'], 1526, $entry_58_1526);
+        }
+    }
 }
 
 // Update Eligible Provider Users Access to RFP in Dashboard From Form 58 Update Submission
@@ -102,25 +122,23 @@ function elda_get_entry_by_id($entry_id)
 
 function elda_compare($left_entry, $left_field, $operator, $right_entry, $right_field)
 {
-    if (!isset($left_entry[$left_field])) return false;
-    if (!isset($right_entry[$right_field])) return false;
-    $left_answer = $left_entry[$left_field];
-    $right_answer = $right_entry[$right_field];
+    $comparison_result = false;
+    $left_answer = isset($left_entry[$left_field]) ? $left_entry[$left_field] : null;
+    $right_answer = isset($right_entry[$right_field]) ? $right_entry[$right_field] : null;
 
-    $filter_result = false;
-    switch ($operator) {
+    if (!is_null($left_answer) && !is_null($right_answer)) switch ($operator) {
         case 'match':
             $left_answer = is_array($left_answer) ? $left_answer : [$left_answer];
             $right_answer = is_array($right_answer) ? $right_answer : [$right_answer];
 
-            if (in_array('All States', $left_answer) || in_array('All States', $right_answer)) $filter_result = true;
-            else $filter_result = 0 < count(array_intersect($left_answer, $right_answer));
+            if (in_array('All States', $left_answer) || in_array('All States', $right_answer)) $comparison_result = true;
+            else $comparison_result = 0 < count(array_intersect($left_answer, $right_answer));
             break;
         case 'includes':
-            $filter_result = in_array($right_answer, explode(';', $left_answer));
+            $comparison_result = in_array($right_answer, explode(';', $left_answer));
             break;
     }
-    return $filter_result;
+    return $comparison_result;
 }
 
 function elda_update_answer($entry_id, $field_id, $answer)
