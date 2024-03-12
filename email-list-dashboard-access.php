@@ -61,13 +61,15 @@ function elda_2($entry_id, $form_id)
         $is_match_884_431 = elda_compare($entry_58, 884, 'match', $entry_31, 431);
         $is_match_885_728 = elda_compare($entry_58, 885, 'match', $entry_31, 728);
 
-        $is_true = $is_1086_submitted && $is_match_883_5069 && ($is_match_884_431 || $is_match_885_728);
-        return !$is_true;
+        $is_true = $is_match_883_5069 && ($is_match_884_431 || $is_match_885_728);
+        return $is_1086_submitted && !$is_true;
     });
     foreach ($entries_58_2bii as $entry_58) {
         $entry_58_1526 = explode(';', $entry_58[1526]);
         if (in_array($entry_31[729], $entry_58_1526)) {
-            unset($entry_58_1526[$entry_31[729]]);
+            $entry_58_1526 = array_filter($entry_58_1526, function ($user_id) use ($entry_31) {
+                return $entry_31[729] != $user_id;
+            });
             $entry_58_1526 = array_values($entry_58_1526);
             $entry_58_1526 = implode(';', $entry_58_1526);
             elda_update_answer($entry_58['id'], 1526, $entry_58_1526);
