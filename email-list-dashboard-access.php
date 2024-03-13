@@ -2,13 +2,18 @@
 // Email List & Dashboard Access
 add_action('frm_after_create_entry', function ($entry_id, $form_id) {
     elda_1($entry_id, $form_id);
-    elda_2($entry_id, $form_id);
+    elda_2($entry_id, $form_id, 'create');
 }, 30, 2);
 
 add_action('frm_after_update_entry', function ($entry_id, $form_id) {
-    elda_2($entry_id, $form_id);
+    elda_2($entry_id, $form_id, 'update');
     elda_3($entry_id, $form_id);
 }, 10, 2);
+
+add_action('frm_before_destroy_entry', function ($entry_id) {
+    $entry = FrmEntry::getOne($entry_id);
+    if (31 == $entry->form_id) elda_2($entry_id, $entry->form_id, 'delete');
+});
 
 // Grant Existing Eligible Provider Users Access to RFP in Dashboard
 function elda_1($entry_id, $form_id)
@@ -38,12 +43,72 @@ function elda_1($entry_id, $form_id)
 }
 
 // Update Eligible Provider Users Access to RFP in Dashboard From Form 31 Submission
-function elda_2($entry_id, $form_id)
+function elda_2($entry_id, $form_id, $hook)
 {
     // 2.a.i
     if (31 != $form_id) return false;
     $entry_31 = elda_get_entry_by_id($entry_id);
 
+    switch ($hook) {
+        case 'update':
+            // exclusion
+            $entries_58_2bii = elda_2_collect_record_to_exclude($entry_31);
+            foreach ($entries_58_2bii as $entry_58) {
+                $entry_58_1526 = explode(';', $entry_58[1526]);
+                if (in_array($entry_31[729], $entry_58_1526)) {
+                    $entry_58_1526 = array_filter($entry_58_1526, function ($user_id) use ($entry_31) {
+                        return $entry_31[729] != $user_id;
+                    });
+                    $entry_58_1526 = array_values($entry_58_1526);
+                    $entry_58_1526 = implode(';', $entry_58_1526);
+                    elda_update_answer($entry_58['id'], 1526, $entry_58_1526);
+                }
+            }
+        case 'create':
+            // inclusion
+            $entries_58_2biii = elda_2_collect_record_to_include($entry_31);
+            // 2.b.iv
+            foreach ($entries_58_2biii as $entry_58) {
+                $entry_58_1526 = explode(';', $entry_58[1526]);
+                $entry_58_1526[] = $entry_31[729];
+                $entry_58_1526 = implode(';', $entry_58_1526);
+                elda_update_answer($entry_58['id'], 1526, $entry_58_1526);
+            }
+            break;
+        case 'delete':
+            $entries_58 = elda_2_collect_record_to_include($entry_31);
+            foreach ($entries_58 as $entry_58) {
+                $entry_58_1526 = explode(';', $entry_58[1526]);
+                if (in_array($entry_31[729], $entry_58_1526)) {
+                    $entry_58_1526 = array_filter($entry_58_1526, function ($user_id) use ($entry_31) {
+                        return $entry_31[729] != $user_id;
+                    });
+                    $entry_58_1526 = array_values($entry_58_1526);
+                    $entry_58_1526 = implode(';', $entry_58_1526);
+                    elda_update_answer($entry_58['id'], 1526, $entry_58_1526);
+                }
+            }
+            break;
+    }
+}
+
+function elda_2_collect_record_to_include($entry_31)
+{
+    // 2.b.iii
+    $entries_58 = array_map(function ($entry_58_id) {
+        return elda_get_entry_by_id($entry_58_id);
+    }, elda_get_entry_ids_by_form_id(58));
+    return array_filter($entries_58, function ($entry_58) use ($entry_31) {
+        $is_1086_submitted = 'Submitted' == $entry_58[1086];
+        $is_match_883_5069 = elda_compare($entry_58, 883, 'match', $entry_31, 5069);
+        $is_match_884_431 = elda_compare($entry_58, 884, 'match', $entry_31, 431);
+        $is_match_885_728 = elda_compare($entry_58, 885, 'match', $entry_31, 728);
+        return $is_1086_submitted && $is_match_883_5069 && ($is_match_884_431 || $is_match_885_728);
+    });
+}
+
+function elda_2_collect_record_to_exclude($entry_31)
+{
     // 2.b.i
     $entries_58 = array_map(function ($entry_58_id) {
         return elda_get_entry_by_id($entry_58_id);
@@ -55,7 +120,7 @@ function elda_2($entry_id, $form_id)
     });
 
     // 2.b.ii
-    $entries_58_2bii = array_filter($entries_58_2bi, function ($entry_58) use ($entry_31) {
+    return array_filter($entries_58_2bi, function ($entry_58) use ($entry_31) {
         $is_1086_submitted = 'Submitted' == $entry_58[1086];
         $is_match_883_5069 = elda_compare($entry_58, 883, 'match', $entry_31, 5069);
         $is_match_884_431 = elda_compare($entry_58, 884, 'match', $entry_31, 431);
@@ -64,37 +129,6 @@ function elda_2($entry_id, $form_id)
         $is_true = $is_match_883_5069 && ($is_match_884_431 || $is_match_885_728);
         return $is_1086_submitted && !$is_true;
     });
-    foreach ($entries_58_2bii as $entry_58) {
-        $entry_58_1526 = explode(';', $entry_58[1526]);
-        if (in_array($entry_31[729], $entry_58_1526)) {
-            $entry_58_1526 = array_filter($entry_58_1526, function ($user_id) use ($entry_31) {
-                return $entry_31[729] != $user_id;
-            });
-            $entry_58_1526 = array_values($entry_58_1526);
-            $entry_58_1526 = implode(';', $entry_58_1526);
-            elda_update_answer($entry_58['id'], 1526, $entry_58_1526);
-        }
-    }
-
-    // 2.b.iii
-    $entries_58 = array_map(function ($entry_58_id) {
-        return elda_get_entry_by_id($entry_58_id);
-    }, elda_get_entry_ids_by_form_id(58));
-    $entries_58_2biii = array_filter($entries_58, function ($entry_58) use ($entry_31) {
-        $is_1086_submitted = 'Submitted' == $entry_58[1086];
-        $is_match_883_5069 = elda_compare($entry_58, 883, 'match', $entry_31, 5069);
-        $is_match_884_431 = elda_compare($entry_58, 884, 'match', $entry_31, 431);
-        $is_match_885_728 = elda_compare($entry_58, 885, 'match', $entry_31, 728);
-        return $is_1086_submitted && $is_match_883_5069 && ($is_match_884_431 || $is_match_885_728);
-    });
-
-    // 2.b.iv
-    foreach ($entries_58_2biii as $entry_58) {
-        $entry_58_1526 = explode(';', $entry_58[1526]);
-        $entry_58_1526[] = $entry_31[729];
-        $entry_58_1526 = implode(';', $entry_58_1526);
-        elda_update_answer($entry_58['id'], 1526, $entry_58_1526);
-    }
 }
 
 // Update Eligible Provider Users Access to RFP in Dashboard From Form 58 Update Submission
@@ -212,8 +246,10 @@ function elda_update_answer($entry_id, $field_id, $answer)
     global $wpdb;
     $answer_table = "{$wpdb->prefix}frm_item_metas";
     $answer_exists = $wpdb->get_var("SELECT meta_value FROM {$answer_table} WHERE item_id = {$entry_id} AND field_id = {$field_id}");
-    if ($answer_exists) $wpdb->update($answer_table, ['meta_value' => $answer], ['item_id' => $entry_id, 'field_id' => $field_id]);
-    else $wpdb->insert($answer_table, ['meta_value' => $answer, 'item_id' => $entry_id, 'field_id' => $field_id]);
+    if ($answer_exists) {
+        if ('' == $answer) $wpdb->delete($answer_table, ['item_id' => $entry_id, 'field_id' => $field_id]);
+        else $wpdb->update($answer_table, ['meta_value' => $answer], ['item_id' => $entry_id, 'field_id' => $field_id]);
+    } else $wpdb->insert($answer_table, ['meta_value' => $answer, 'item_id' => $entry_id, 'field_id' => $field_id]);
 
     elda_6($entry_id, $field_id);
 }
