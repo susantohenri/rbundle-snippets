@@ -39,7 +39,9 @@ function elda_1($entry_id, $form_id)
     $provider_service_subscribers_ids = array_map(function ($entry_31) {
         return $entry_31[729];
     }, $provider_service_subscribers);
-    elda_update_answer($entry_58['id'], 1526, implode(';', $provider_service_subscribers_ids));
+    $entry_58_1526 = array_unique($provider_service_subscribers_ids);
+    $entry_58_1526 = implode(';', $entry_58_1526);
+    elda_update_answer($entry_58['id'], 1526, $entry_58_1526);
 }
 
 // Update Eligible Provider Users Access to RFP in Dashboard From Form 31 Submission
@@ -60,6 +62,7 @@ function elda_2($entry_id, $form_id, $hook)
                         return $entry_31[729] != $user_id;
                     });
                     $entry_58_1526 = array_values($entry_58_1526);
+                    $entry_58_1526 = array_unique($entry_58_1526);
                     $entry_58_1526 = implode(';', $entry_58_1526);
                     elda_update_answer($entry_58['id'], 1526, $entry_58_1526);
                 }
@@ -71,6 +74,7 @@ function elda_2($entry_id, $form_id, $hook)
             foreach ($entries_58_2biii as $entry_58) {
                 $entry_58_1526 = explode(';', $entry_58[1526]);
                 $entry_58_1526[] = $entry_31[729];
+                $entry_58_1526 = array_unique($entry_58_1526);
                 $entry_58_1526 = implode(';', $entry_58_1526);
                 elda_update_answer($entry_58['id'], 1526, $entry_58_1526);
             }
@@ -84,6 +88,7 @@ function elda_2($entry_id, $form_id, $hook)
                         return $entry_31[729] != $user_id;
                     });
                     $entry_58_1526 = array_values($entry_58_1526);
+                    $entry_58_1526 = array_unique($entry_58_1526);
                     $entry_58_1526 = implode(';', $entry_58_1526);
                     elda_update_answer($entry_58['id'], 1526, $entry_58_1526);
                 }
