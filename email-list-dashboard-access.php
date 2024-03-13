@@ -28,10 +28,10 @@ function elda_1($entry_id, $form_id)
         return elda_get_entry_by_id($entry_31_id);
     }, elda_get_entry_ids_by_form_id(31));
     $provider_service_subscribers = array_filter($entries_31, function ($entry_31) use ($entry_58) {
-        $is_match_5069_883 = elda_compare($entry_31, 5069, 'match', $entry_58, 883);
-        $is_match_431_884 = elda_compare($entry_31, 431, 'match', $entry_58, 884);
-        $is_match_728_885 = elda_compare($entry_31, 728, 'match', $entry_58, 885);
-        $filter_result = $is_match_5069_883 && ($is_match_431_884 || $is_match_728_885);
+        $is_5069_match_883 = elda_compare($entry_31, 5069, 'match', $entry_58, 883);
+        $is_431_match_884 = elda_compare($entry_31, 431, 'match', $entry_58, 884);
+        $is_728_match_885 = elda_compare($entry_31, 728, 'match', $entry_58, 885);
+        $filter_result = $is_5069_match_883 && ($is_431_match_884 || $is_728_match_885);
         return $filter_result;
     });
 
@@ -70,7 +70,7 @@ function elda_2($entry_id, $form_id, $hook)
         case 'create':
             // inclusion
             $entries_58_2biii = elda_2_collect_record_to_include($entry_31);
-            // 2.b.iv
+            // 2.b.iv.1
             foreach ($entries_58_2biii as $entry_58) {
                 $entry_58_1526 = explode(';', $entry_58[1526]);
                 $entry_58_1526[] = $entry_31[729];
@@ -105,10 +105,10 @@ function elda_2_collect_record_to_include($entry_31)
     }, elda_get_entry_ids_by_form_id(58));
     return array_filter($entries_58, function ($entry_58) use ($entry_31) {
         $is_1086_submitted = 'Submitted' == $entry_58[1086];
-        $is_match_883_5069 = elda_compare($entry_58, 883, 'match', $entry_31, 5069);
-        $is_match_884_431 = elda_compare($entry_58, 884, 'match', $entry_31, 431);
-        $is_match_885_728 = elda_compare($entry_58, 885, 'match', $entry_31, 728);
-        return $is_1086_submitted && $is_match_883_5069 && ($is_match_884_431 || $is_match_885_728);
+        $is_883_match_5069 = elda_compare($entry_58, 883, 'match', $entry_31, 5069);
+        $is_884_match_431 = elda_compare($entry_58, 884, 'match', $entry_31, 431);
+        $is_885_match_728 = elda_compare($entry_58, 885, 'match', $entry_31, 728);
+        return $is_1086_submitted && $is_883_match_5069 && ($is_884_match_431 || $is_885_match_728);
     });
 }
 
@@ -127,11 +127,11 @@ function elda_2_collect_record_to_exclude($entry_31)
     // 2.b.ii
     return array_filter($entries_58_2bi, function ($entry_58) use ($entry_31) {
         $is_1086_submitted = 'Submitted' == $entry_58[1086];
-        $is_match_883_5069 = elda_compare($entry_58, 883, 'match', $entry_31, 5069);
-        $is_match_884_431 = elda_compare($entry_58, 884, 'match', $entry_31, 431);
-        $is_match_885_728 = elda_compare($entry_58, 885, 'match', $entry_31, 728);
+        $is_883_match_5069 = elda_compare($entry_58, 883, 'match', $entry_31, 5069);
+        $is_884_match_431 = elda_compare($entry_58, 884, 'match', $entry_31, 431);
+        $is_885_match_728 = elda_compare($entry_58, 885, 'match', $entry_31, 728);
 
-        $is_true = $is_match_883_5069 && ($is_match_884_431 || $is_match_885_728);
+        $is_true = $is_883_match_5069 && ($is_884_match_431 || $is_885_match_728);
         return $is_1086_submitted && !$is_true;
     });
 }
@@ -152,7 +152,38 @@ function elda_3($entry_id, $form_id)
         return elda_compare($entry_31, 729, 'included', $entry_58, 1526);
     });
 
-    // 3.b.ii: something wrong with the instruction
+    // 3.b.ii
+    $entry_31_3bii = array_filter($entries_31_3bi, function ($entry_31) use ($entry_58) {
+        $is_5069_match_883 = elda_compare($entry_31, 5069, 'match', $entry_58, 883);
+        $is_431_match_884 = elda_compare($entry_31, 431, 'match', $entry_58, 884);
+        $is_728_match_885 = elda_compare($entry_31, 728, 'match', $entry_58, 885);
+        $is_true = $is_5069_match_883 && ($is_431_match_884 || $is_728_match_885);
+        return !$is_true;
+    });
+    $user_id_to_remove = array_map(function ($entry_31) {
+        return $entry_31[729];
+    }, $entry_31_3bii);
+    $user_ids = explode(';', $entry_58[1526]);
+    $user_ids = array_filter($user_ids, function ($user_id) use ($user_id_to_remove) {
+        return !in_array($user_id, $user_id_to_remove);
+    });
+    $user_ids = array_unique($user_ids);
+    $user_ids = implode(';', $user_ids);
+    elda_update_answer($entry_58['id'], 1526, $user_ids);
+
+    // 3.b.iii
+    $entry_31_3biii = array_filter($entries_31, function ($entry_31) use ($entry_58) {
+        $is_5069_match_883 = elda_compare($entry_31, 5069, 'match', $entry_58, 883);
+        $is_431_match_884 = elda_compare($entry_31, 431, 'match', $entry_58, 884);
+        $is_728_match_885 = elda_compare($entry_31, 728, 'match', $entry_58, 885);
+        return $is_5069_match_883 && ($is_431_match_884 || $is_728_match_885);
+    });
+    $entry_58 = elda_get_entry_by_id($entry_id);
+    $entry_58_1526 = explode(';', $entry_58[1526]);
+    foreach ($entry_31_3biii as $entry_31) $entry_58_1526[] = $entry_31[729];
+    $entry_58_1526 = array_unique($entry_58_1526);
+    $entry_58_1526 = implode(';', $entry_58_1526);
+    elda_update_answer($entry_58['id'], 1526, $entry_58_1526);
 }
 
 // For Otherwise Ineligible Provider Users Grive Access to RFP in Dashboard From Form 58 Entry
@@ -220,6 +251,7 @@ function elda_get_entry_by_id($entry_id)
         if ('a:' === substr($entry_obj[$answer->field_id], 0, 2)) $entry_obj[$answer->field_id] = unserialize($entry_obj[$answer->field_id]);
     }
     $entry_obj['id'] = $entry_id;
+    $entry_obj[1526] = ''; // ribet ngasih if form_id
     return $entry_obj;
 }
 
