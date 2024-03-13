@@ -173,20 +173,21 @@ function elda_6($entry_id, $field_id)
         return elda_get_entry_by_id($entry_31_id);
     }, elda_get_entry_ids_by_form_id(31));
     $entries_31_62a = array_filter($entries_31, function ($entry_31) use ($entry_58) {
-        $is_729_match_1526 = elda_compare($entry_31, 729, 'match', $entry_58, 1526);
+        $is_729_match_1526 = elda_compare($entry_31, 729, 'included', $entry_58, 1526);
         $is_5069_match_883 = elda_compare($entry_31, 5069, 'match', $entry_58, 883);
         return $is_729_match_1526 && $is_5069_match_883;
     });
 
     // fn Provider Email Notification.2.b
     $entries_31_62b = array_filter($entries_31_62a, function ($entry_31) {
-        return 'Yes' == $entry_31[5265];
+        return ['Yes'] == $entry_31[5265];
     });
 
     // fn Provider Email Notification.2.c
     $email_address_list = array_map(function ($entry_31) {
         return $entry_31[870];
     }, $entries_31_62b);
+
     $email_address_list = implode(';', $email_address_list);
     elda_update_answer($entry_58['id'], 1088, $email_address_list);
 }
