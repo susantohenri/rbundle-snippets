@@ -283,7 +283,7 @@ function elda_update_answer($entry_id, $field_id, $answer)
 {
     global $wpdb;
     $answer_table = "{$wpdb->prefix}frm_item_metas";
-    $answer_exists = $wpdb->get_var("SELECT meta_value FROM {$answer_table} WHERE item_id = {$entry_id} AND field_id = {$field_id}");
+    $answer_exists = $wpdb->get_var("SELECT id FROM {$answer_table} WHERE item_id = {$entry_id} AND field_id = {$field_id}");
     if ($answer_exists) {
         if ('' == $answer) $wpdb->delete($answer_table, ['item_id' => $entry_id, 'field_id' => $field_id]);
         else $wpdb->update($answer_table, ['meta_value' => $answer], ['item_id' => $entry_id, 'field_id' => $field_id]);
