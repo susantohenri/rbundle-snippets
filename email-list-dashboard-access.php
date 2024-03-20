@@ -251,7 +251,7 @@ function elda_get_entry_by_id($entry_id)
         if ('a:' === substr($entry_obj[$answer->field_id], 0, 2)) $entry_obj[$answer->field_id] = unserialize($entry_obj[$answer->field_id]);
     }
     $entry_obj['id'] = $entry_id;
-    $entry_obj[1526] = ''; // ribet ngasih if form_id
+    if (!isset($entry_obj[1526])) $entry_obj[1526] = '';
     return $entry_obj;
 }
 
