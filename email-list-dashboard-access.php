@@ -55,44 +55,16 @@ function elda_2($entry_id, $form_id, $hook)
         case 'update':
             // exclusion
             $entries_58_2bii = elda_2_collect_record_to_exclude($entry_31);
-            foreach ($entries_58_2bii as $entry_58) {
-                $entry_58_1526 = explode(';', $entry_58[1526]);
-                if (in_array($entry_31[729], $entry_58_1526)) {
-                    $entry_58_1526 = array_filter($entry_58_1526, function ($user_id) use ($entry_31) {
-                        return $entry_31[729] != $user_id;
-                    });
-                    $entry_58_1526 = array_values($entry_58_1526);
-                    $entry_58_1526 = array_unique($entry_58_1526);
-                    $entry_58_1526 = implode(';', $entry_58_1526);
-                    elda_update_answer($entry_58['id'], 1526, $entry_58_1526);
-                }
-            }
+            foreach ($entries_58_2bii as $entry_58) elda_exclude_provider($entry_58, $entry_31[729]);
         case 'create':
             // inclusion
             $entries_58_2biii = elda_2_collect_record_to_include($entry_31);
             // 2.b.iv.1
-            foreach ($entries_58_2biii as $entry_58) {
-                $entry_58_1526 = explode(';', $entry_58[1526]);
-                $entry_58_1526[] = $entry_31[729];
-                $entry_58_1526 = array_unique($entry_58_1526);
-                $entry_58_1526 = implode(';', $entry_58_1526);
-                elda_update_answer($entry_58['id'], 1526, $entry_58_1526);
-            }
+            foreach ($entries_58_2biii as $entry_58) elda_include_provider($entry_58, $entry_31[729]);
             break;
         case 'delete':
             $entries_58 = elda_2_collect_record_to_include($entry_31);
-            foreach ($entries_58 as $entry_58) {
-                $entry_58_1526 = explode(';', $entry_58[1526]);
-                if (in_array($entry_31[729], $entry_58_1526)) {
-                    $entry_58_1526 = array_filter($entry_58_1526, function ($user_id) use ($entry_31) {
-                        return $entry_31[729] != $user_id;
-                    });
-                    $entry_58_1526 = array_values($entry_58_1526);
-                    $entry_58_1526 = array_unique($entry_58_1526);
-                    $entry_58_1526 = implode(';', $entry_58_1526);
-                    elda_update_answer($entry_58['id'], 1526, $entry_58_1526);
-                }
-            }
+            foreach ($entries_58 as $entry_58) elda_exclude_provider($entry_58, $entry_31[729]);
             break;
     }
 }
@@ -160,16 +132,7 @@ function elda_3($entry_id, $form_id)
         $is_true = $is_5069_match_883 && ($is_431_match_884 || $is_728_match_885);
         return !$is_true;
     });
-    $user_id_to_remove = array_map(function ($entry_31) {
-        return $entry_31[729];
-    }, $entry_31_3bii);
-    $user_ids = explode(';', $entry_58[1526]);
-    $user_ids = array_filter($user_ids, function ($user_id) use ($user_id_to_remove) {
-        return !in_array($user_id, $user_id_to_remove);
-    });
-    $user_ids = array_unique($user_ids);
-    $user_ids = implode(';', $user_ids);
-    elda_update_answer($entry_58['id'], 1526, $user_ids);
+    foreach ($entry_31_3bii as $entry_31) elda_exclude_provider($entry_58, $entry_31[729]);
 
     // 3.b.iii
     $entry_31_3biii = array_filter($entries_31, function ($entry_31) use ($entry_58) {
@@ -179,11 +142,7 @@ function elda_3($entry_id, $form_id)
         return $is_5069_match_883 && ($is_431_match_884 || $is_728_match_885);
     });
     $entry_58 = elda_get_entry_by_id($entry_id);
-    $entry_58_1526 = explode(';', $entry_58[1526]);
-    foreach ($entry_31_3biii as $entry_31) $entry_58_1526[] = $entry_31[729];
-    $entry_58_1526 = array_unique($entry_58_1526);
-    $entry_58_1526 = implode(';', $entry_58_1526);
-    elda_update_answer($entry_58['id'], 1526, $entry_58_1526);
+    foreach ($entry_31_3biii as $entry_31) elda_include_provider($entry_58, $entry_31[729]);
 }
 
 // For Otherwise Ineligible Provider Users Grive Access to RFP in Dashboard From Form 58 Entry
@@ -277,6 +236,29 @@ function elda_compare($left_entry, $left_field, $operator, $right_entry, $right_
             break;
     }
     return $comparison_result;
+}
+
+function elda_include_provider($entry_58, $user_id)
+{
+    $entry_58_1526 = explode(';', $entry_58[1526]);
+    $entry_58_1526[] = $user_id;
+    $entry_58_1526 = array_unique($entry_58_1526);
+    $entry_58_1526 = implode(';', $entry_58_1526);
+    elda_update_answer($entry_58['id'], 1526, $entry_58_1526);
+}
+
+function elda_exclude_provider($entry_58, $user_id)
+{
+    $entry_58_1526 = explode(';', $entry_58[1526]);
+    if (in_array($user_id, $entry_58_1526)) {
+        $entry_58_1526 = array_filter($entry_58_1526, function ($uid) use ($user_id) {
+            return $uid != $user_id;
+        });
+        $entry_58_1526 = array_values($entry_58_1526);
+        $entry_58_1526 = array_unique($entry_58_1526);
+        $entry_58_1526 = implode(';', $entry_58_1526);
+        elda_update_answer($entry_58['id'], 1526, $entry_58_1526);
+    }
 }
 
 function elda_update_answer($entry_id, $field_id, $answer)
