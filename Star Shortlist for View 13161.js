@@ -1,6 +1,7 @@
 jQuery(`.star-shortlist`).click((e) => {
     const self = jQuery(e.target)
     if (self.hasClass(`fa-star-o`)) {
+		self.removeClass(`fa-star-o`).addClass(`fa-star`)
 		const form_url = `${frm_js.ajax_url}?action=frm_forms_preview&form=dummyform`
 		jQuery.get(form_url, (form156) => {
 			jQuery(`body`).append(`<div id="temporary_form_156" class="hidden">${form156}</div>`)
@@ -9,7 +10,7 @@ jQuery(`.star-shortlist`).click((e) => {
 			jQuery.post(form_url, jQuery(`#temporary_form_156 form`).serialize(), (confirmation_page) => {
 				const created_id = confirmation_page.split(`<p>`)[1].split(`</p>`)[0]
 				jQuery(`#temporary_form_156`).remove()
-				self.removeClass(`fa-star-o`).addClass(`fa-star`).attr(`data-id`, created_id)
+				self.attr(`data-id`, created_id)
 			})
 		})
     } else {
