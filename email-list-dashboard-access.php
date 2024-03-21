@@ -258,6 +258,34 @@ function elda_exclude_provider($entry_58, $user_id)
         $entry_58_1526 = array_unique($entry_58_1526);
         $entry_58_1526 = implode(';', $entry_58_1526);
         elda_update_answer($entry_58['id'], 1526, $entry_58_1526);
+        elda_remove_start_shortlist($user_id, $entry_58['id']);
+    }
+}
+
+function elda_remove_start_shortlist($user_id, $entry_58_id)
+{
+    global $wpdb;
+    $item_id = $wpdb->get_var("
+        SELECT answer_5261.item_id
+        FROM (
+            SELECT
+                item_id,
+                meta_value
+            FROM {$wpdb->prefix}frm_item_metas
+            WHERE field_id = 5261
+        ) answer_5261
+        LEFT JOIN (
+            SELECT
+                item_id,
+                meta_value
+            FROM {$wpdb->prefix}frm_item_metas
+            WHERE field_id = 5263
+        ) answer_5263 ON answer_5261.item_id = answer_5263.item_id
+        WHERE answer_5261.meta_value = {$user_id} AND answer_5263.meta_value = {$entry_58_id}
+    ");
+    if ($item_id) {
+        $wpdb->delete("{$wpdb->prefix}frm_items", ['id' => $item_id]);
+        $wpdb->delete("{$wpdb->prefix}frm_item_metas", ['item_id' => $item_id]);
     }
 }
 
@@ -278,5 +306,5 @@ function elda_update_answer($entry_id, $field_id, $answer)
 function elda_debug($keyword, $data)
 {
     global $wpdb;
-    $wpdb->insert('wp_options', ['option_name' => 'elda_' . rand(), 'option_value' => json_encode([$keyword => $data])]);
+    $wpdb->insert("{$wpdb->prefix}options", ['option_name' => 'elda_' . rand(), 'option_value' => json_encode([$keyword => $data])]);
 }
