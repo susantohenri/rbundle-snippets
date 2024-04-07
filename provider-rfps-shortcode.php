@@ -8,3 +8,16 @@ echo FrmViewsDisplaysController::get_shortcode([
     'order_by' => $order_field,
     'order' => $order_type
 ]);
+
+echo "
+<script type=\"text/javascript\">
+    (function (script) {
+        const view = jQuery(script).parent().find(`table`)
+        const headers = view.find(`thead tr th`)
+
+        setTimeout(() => {
+            headers.eq(8).click()
+        }, 500)
+    })(document.currentScript);
+</script>
+";
