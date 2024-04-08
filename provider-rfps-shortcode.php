@@ -17,7 +17,7 @@ if (isset($_GET['sorting_column'])) {
             break;
     }
 
-    if (isset($_GET['sorting_type'])) $order_type = 'tablesorter-headerDesc' == $_GET['sorting_type'] ? 'ASC' : 'DESC';
+    if (isset($_GET['sorting_type'])) $order_type = 'tablesorter-headerDesc' == $_GET['sorting_type'] ? 'DESC' : 'ASC';
 }
 
 echo FrmViewsDisplaysController::get_shortcode([
@@ -35,7 +35,7 @@ echo "
 
         let get = {
             sorting_column: 8,
-            sorting_type: `tablesorter-headerAsc`
+            sorting_type: `tablesorter-headerDesc`
         }
 
         for (let param of window.location.search.replace(`?`, ``).split(`&`)) {
@@ -58,12 +58,12 @@ echo "
                 let url = window.location.href.split(`?`)[0] + `?`
     
                 get.sorting_column = index
-                get.sorting_type = header.hasClass(`tablesorter-headerDesc`) ? `tablesorter-headerAsc` : `tablesorter-headerDesc`
+                get.sorting_type = header.hasClass(`tablesorter-headerAsc`) ? `tablesorter-headerDesc` : `tablesorter-headerAsc`
     
                 for (let param in get) url += param +`=`+ get[param] + `&`
                 header.click(e => { window.location = url })
             })
-        }, 500)
+        }, 1000)
     })(document.currentScript);
 </script>
 ";
