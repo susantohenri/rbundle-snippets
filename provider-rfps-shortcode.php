@@ -5,6 +5,9 @@ $order_type = 'DESC';
 if (isset($_GET['sorting_column'])) {
     $sorting_column = $_GET['sorting_column'];
     switch ($sorting_column) {
+        case 0:
+            $order_field = 'star_shortlist';
+            break;
         case 1:
             $order_field = 938;
             break;
@@ -60,6 +63,8 @@ echo "
                 get.sorting_column = index
                 get.sorting_type = header.hasClass(`tablesorter-headerAsc`) ? `tablesorter-headerDesc` : `tablesorter-headerAsc`
     
+                if (0 == index && header.hasClass(`tablesorter-headerUnSorted`)) get.sorting_type = `tablesorter-headerDesc`
+
                 for (let param in get) url += param +`=`+ get[param] + `&`
                 header.click(e => { window.location = url })
             })
