@@ -12,7 +12,7 @@ $answers = $wpdb->get_results("
         answer.field_id
         , answer.meta_value
     FROM {$wpdb->prefix}frm_item_metas answer
-    WHERE answer.item_id = {$rfp_id} AND answer.field_id IN (883, 903)
+    WHERE answer.item_id = {$rfp_id} AND answer.field_id IN (5368, 903)
 ");
 foreach ($answers as $answer) $rfp[$answer->field_id] = $answer->meta_value;
 
@@ -29,7 +29,7 @@ $html = '';
 if (is_null($proposal['id'])) {
     $html = do_shortcode("
         [frmmodal-content modal_title=\" \" modal_class=\"{$rfp['id']}\" size=\"large\" label=\"Click to Submit\"]
-            [formidable id=30 submit_type=\"link\" trans_param=\"{$rfp[903]}\" service_param=\"{$rfp[883]}\" eng_provider_param=\"{$provider['provider_name']}\"]
+            [formidable id=30 submit_type=\"link\" trans_param=\"{$rfp[903]}\" service_param=\"{$rfp[5368]}\" eng_provider_param=\"{$provider['provider_name']}\"]
         [/frmmodal-content]
     ");
     $html .= "
@@ -65,5 +65,5 @@ USAGE:
 [wpcode id="13741" rfp_id=[id]]
 
 PREVIOUSLY:
-<p>[frm-condition source=frm-field-value field_id=383 user_id=current equals="[903]"]<i class="fa fa-download" aria-hidden="true"></i>[/frm-condition][frm-condition source=frm-field-value field_id=383 user_id=current not_equals="[903]"][frmmodal-content modal_title=" " modal_class="[id]" size="large" label="Click to Submit"][formidable id=30 exclude_fields="2416" trans_param="[903]" service_param="[883]" eng_provider_param="[user_meta key="provider_name"]"][/frmmodal-content][/frm-condition]</p>
+<p>[frm-condition source=frm-field-value field_id=383 user_id=current equals="[903]"]<i class="fa fa-download" aria-hidden="true"></i>[/frm-condition][frm-condition source=frm-field-value field_id=383 user_id=current not_equals="[903]"][frmmodal-content modal_title=" " modal_class="[id]" size="large" label="Click to Submit"][formidable id=30 exclude_fields="2416" trans_param="[903]" service_param="[5368]" eng_provider_param="[user_meta key="provider_name"]"][/frmmodal-content][/frm-condition]</p>
 */
