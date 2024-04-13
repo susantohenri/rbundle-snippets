@@ -5,7 +5,14 @@
     const field_884 = form_58.find(`[name="item_meta[884][]"]`)
     const field_885 = form_58.find(`[name="item_meta[885]"]`)
     const field_2787 = form_58.find(`[name="item_meta[2787]"]`)
-    conditional_logic_5368()
+    const field_3713 = form_58.find(`[name="item_meta[3713]"]`)
+    const section_4556 = form_58.find(`#frm_field_4556_container > div`)
+    const field_896 = form_58.find(`[name="item_meta[896][]"]`)
+    const field_3712 = jQuery(`#frm_field_3712_container :radio`)
+    const field_3712_checked = jQuery(`#frm_field_3712_container :radio:checked`)
+    conditional_logic_884_885()
+    conditional_logic_3713()
+    conditional_logic_4556()
 
     if (0 > url.indexOf('wp-admin') && url.indexOf('frm_action=edit') > -1) {
         jQuery('[id^="frm_field_"][id*="_container"]').hide()
@@ -16,24 +23,88 @@
         }
     }
 
+    // conditional_logic_884_885
     field_5368.change(function () {
         field_2787.val(field_5368.val()).trigger(`change`)
-        conditional_logic_5368()
+        conditional_logic_884_885()
     })
-
-    function conditional_logic_5368() {
-        const value_5368 = field_5368.val()
-        if (-1 < value_5368.indexOf(`Legal`) || -1 < value_5368.indexOf(`IRS`)) {
-            field_884.attr(`aria-required`, `false`)
-            field_884.parent().hide()
-            field_885.attr(`aria-required`, `true`)
-            field_885.parent().show()
+    field_3712.click(conditional_logic_884_885)
+    function conditional_logic_884_885() {
+        if (`The selected Customer/Client` == field_3712_checked.val()) {
+            toggle(field_884, `hide`)
+            toggle(field_885, `hide`)
         } else {
-            field_884.attr(`aria-required`, `true`)
-            field_884.parent().show()
-            field_885.attr(`aria-required`, `false`)
-            field_885.parent().hide()
+            const value_5368 = field_5368.val()
+            if (-1 < value_5368.indexOf(`Legal`) || -1 < value_5368.indexOf(`IRS`)) {
+                toggle(field_884, `hide`)
+                toggle(field_885, `show`)
+            } else {
+                toggle(field_884, `show`)
+                toggle(field_885, `hide`)
+            }
         }
     }
 
+    // conditional_logic_3713
+    field_884.change(conditional_logic_3713)
+    field_885.change(conditional_logic_3713)
+    function conditional_logic_3713() {
+        const value_884 = field_884.val()
+        const value_885 = field_885.val()
+        if (`` != value_884 || `` != field_885) toggle(field_3713, `show`)
+        else toggle(field_3713, `hide`)
+    }
+
+    // conditional_logic_4556
+    field_5368.change(conditional_logic_4556)
+    field_884.change(conditional_logic_4556)
+    field_885.change(conditional_logic_4556)
+    field_3713.change(conditional_logic_4556)
+    function conditional_logic_4556() {
+        const values = {
+            5368: field_5368.val(),
+            884: field_884.val(),
+            885: field_885.val(),
+            3713: field_3713.val()
+        }
+        if (
+            `` != values[5368] &&
+            (`` != values[884] || `` != values[885]) &&
+            `` != values[3713]
+        ) toggle(section_4556, `show`)
+        else toggle(section_4556, `hide`)
+    }
+
+    // conditional_logic_896
+    field_5368.change(conditional_logic_896)
+    field_884.change(conditional_logic_896)
+    field_885.change(conditional_logic_896)
+    field_3713.change(conditional_logic_896)
+    function conditional_logic_896() {
+        const values = {
+            5368: field_5368.val(),
+            884: field_884.val(),
+            885: field_885.val(),
+            3713: field_3713.val()
+        }
+        if (
+            `` != values[5368] &&
+            (`` != values[884] || `` != values[885]) &&
+            `` != values[3713]
+        ) toggle(field_896, `show`)
+        else toggle(field_896, `hide`)
+    }
+
+    function toggle(field, visibility) {
+        switch (visibility) {
+            case `show`:
+                field.attr(`aria-required`, `true`)
+                field.parent().show()
+                    ; break
+            case `hide`:
+                field.attr(`aria-required`, `false`)
+                field.parent().hide()
+                    ; break
+        }
+    }
 })(document.currentScript);
