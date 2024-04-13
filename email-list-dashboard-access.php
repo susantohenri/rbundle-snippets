@@ -28,10 +28,10 @@ function elda_1($entry_id, $form_id)
         return elda_get_entry_by_id($entry_31_id);
     }, elda_get_entry_ids_by_form_id(31));
     $provider_service_subscribers = array_filter($entries_31, function ($entry_31) use ($entry_58) {
-        $is_5069_match_883 = elda_compare($entry_31, 5069, 'match', $entry_58, 883);
+        $is_5069_match_5368 = elda_compare($entry_31, 5069, 'match', $entry_58, 5368);
         $is_431_match_884 = elda_compare($entry_31, 431, 'match', $entry_58, 884);
         $is_728_match_885 = elda_compare($entry_31, 728, 'match', $entry_58, 885);
-        $filter_result = $is_5069_match_883 && ($is_431_match_884 || $is_728_match_885);
+        $filter_result = $is_5069_match_5368 && ($is_431_match_884 || $is_728_match_885);
         return $filter_result;
     });
 
@@ -77,10 +77,10 @@ function elda_2_collect_record_to_include($entry_31)
     }, elda_get_entry_ids_by_form_id(58));
     return array_filter($entries_58, function ($entry_58) use ($entry_31) {
         $is_1086_submitted = 'Submitted' == $entry_58[1086];
-        $is_883_match_5069 = elda_compare($entry_58, 883, 'match', $entry_31, 5069);
+        $is_5368_match_5069 = elda_compare($entry_58, 5368, 'match', $entry_31, 5069);
         $is_884_match_431 = elda_compare($entry_58, 884, 'match', $entry_31, 431);
         $is_885_match_728 = elda_compare($entry_58, 885, 'match', $entry_31, 728);
-        return $is_1086_submitted && $is_883_match_5069 && ($is_884_match_431 || $is_885_match_728);
+        return $is_1086_submitted && $is_5368_match_5069 && ($is_884_match_431 || $is_885_match_728);
     });
 }
 
@@ -93,8 +93,8 @@ function elda_2_collect_record_to_exclude($entry_31)
     $entries_58_2bi = array_filter($entries_58, function ($entry_58) use ($entry_31) {
         $is_submitted = 'Submitted' == $entry_58[1086];
         $is_1526_includes_729 = elda_compare($entry_58, 1526, 'includes', $entry_31, 729);
-        $is_883_match_5069 = elda_compare($entry_58, 883, 'match', $entry_31, 5069);
-        return $is_submitted && $is_1526_includes_729 && $is_883_match_5069;
+        $is_5368_match_5069 = elda_compare($entry_58, 5368, 'match', $entry_31, 5069);
+        return $is_submitted && $is_1526_includes_729 && $is_5368_match_5069;
     });
 
     // 2.b.ii
@@ -121,9 +121,9 @@ function elda_3($entry_id, $form_id)
         return elda_get_entry_by_id($entry_31_id);
     }, elda_get_entry_ids_by_form_id(31));
     $entries_31_3bi = array_filter($entries_31, function ($entry_31) use ($entry_58) {
-        $is_5069_match_883 = elda_compare($entry_31, 5069, 'match', $entry_58, 883);
+        $is_5069_match_5368 = elda_compare($entry_31, 5069, 'match', $entry_58, 5368);
         $is_729_included_1526 = elda_compare($entry_31, 729, 'included', $entry_58, 1526);
-        return $is_5069_match_883 && $is_729_included_1526;
+        return $is_5069_match_5368 && $is_729_included_1526;
     });
 
     // 3.b.ii
@@ -137,10 +137,10 @@ function elda_3($entry_id, $form_id)
 
     // 3.b.iii
     $entry_31_3biii = array_filter($entries_31, function ($entry_31) use ($entry_58) {
-        $is_5069_match_883 = elda_compare($entry_31, 5069, 'match', $entry_58, 883);
+        $is_5069_match_5368 = elda_compare($entry_31, 5069, 'match', $entry_58, 5368);
         $is_431_match_884 = elda_compare($entry_31, 431, 'match', $entry_58, 884);
         $is_728_match_885 = elda_compare($entry_31, 728, 'match', $entry_58, 885);
-        return $is_5069_match_883 && ($is_431_match_884 || $is_728_match_885);
+        return $is_5069_match_5368 && ($is_431_match_884 || $is_728_match_885);
     });
     $entry_58 = elda_get_entry_by_id($entry_id);
     foreach ($entry_31_3biii as $entry_31) elda_include_provider($entry_58, $entry_31[729]);
@@ -170,8 +170,8 @@ function elda_6($entry_id, $field_id)
     }, elda_get_entry_ids_by_form_id(31));
     $entries_31_62a = array_filter($entries_31, function ($entry_31) use ($entry_58) {
         $is_729_match_1526 = elda_compare($entry_31, 729, 'included', $entry_58, 1526);
-        $is_5069_match_883 = elda_compare($entry_31, 5069, 'match', $entry_58, 883);
-        return $is_729_match_1526 && $is_5069_match_883;
+        $is_5069_match_5368 = elda_compare($entry_31, 5069, 'match', $entry_58, 5368);
+        return $is_729_match_1526 && $is_5069_match_5368;
     });
 
     // fn Provider Email Notification.2.b
