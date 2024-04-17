@@ -5,11 +5,12 @@
     const fi_385 = fo_30.find(`[name="item_meta[385]"]`)
     const fi_387 = fo_30.find(`[name="item_meta[387][]"]`)
     const fi_388 = fo_30.find(`[name="item_meta[388"]`)
+    const fi_959 = fo_30.find(`[name="item_meta[959]"]`)
     const fi_961 = fo_30.find(`[name="item_meta[961]"]`)
     const fi_3897 = fo_30.find(`#frm_field_3897_container`)
     const fi_3899 = fo_30.find(`#frm_field_3899_container`)
     const fi_5146 = fo_30.find(`[name="item_meta[5146]"]`)
-    const fi_5147 = fo_30.find(`[name="item_meta[5147]"]`)
+    const fi_5147 = fo_30.find(`[name="item_meta[5147]"]:checked`)
     const fi_5148 = fo_30.find(`[name="item_meta[5148]"]`)
     const fi_5149 = fo_30.find(`[name="item_meta[5149]"]`)
     const fi_5250 = fo_30.find(`[name="item_meta[5250]"]`)
@@ -71,6 +72,12 @@
         toggle(fi_5149, `link` == fi_5147.val() ? `show` : `hide`)
     }
 
+    cond_logic_383()
+    fi_5147.change(cond_logic_383)
+    function cond_logic_383() {
+        toggle(fi_383, `blank` == fi_5147.val() ? `show` : `hide`)
+    }
+
     cond_logic_384()
     fi_5147.change(cond_logic_384)
     function cond_logic_384() {
@@ -117,7 +124,23 @@
     fi_5147.change(cond_logic_387)
     fi_5255.change(cond_logic_387)
     function cond_logic_387() {
-        toggle(fi_387, `link` == fi_5147.val() && `Show` == fi_5255.val() ? `show` : `hide`)
+        const container_387 = fo_30.find(`#frm_field_387_container`)
+        if (`link` == fi_5147.val() && `Show` == fi_5255.val()) container_387.show()
+        else container_387.hide()
+    }
+
+    cond_logic_961()
+    fi_384.change(cond_logic_961)
+    fi_959.change(cond_logic_961)
+    function cond_logic_961() {
+        fi_961.val(fi_384.val() == fi_959.val() ? `Match` : ``)
+    }
+
+    cond_logic_5264()
+    fi_384.change(cond_logic_5264)
+    fi_5250.change(cond_logic_5264)
+    function cond_logic_5264() {
+        fi_5264.val(fi_384.val() == fi_5250.val() ? `Match` : ``)
     }
 
     function toggle(field, visibility) {
