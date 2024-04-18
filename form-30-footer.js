@@ -7,6 +7,7 @@
     const fi_388 = fo_30.find(`[name="item_meta[388"]`)
     const fi_959 = fo_30.find(`[name="item_meta[959]"]`)
     const fi_961 = fo_30.find(`[name="item_meta[961]"]`)
+    const sec_2416 = fo_30.find(`#frm_field_2416_container > *`)
     const fi_3897 = fo_30.find(`#frm_field_3897_container`)
     const fi_3899 = fo_30.find(`#frm_field_3899_container`)
     const fi_5146 = fo_30.find(`[name="item_meta[5146]"]`)
@@ -141,6 +142,11 @@
     fi_5250.change(cond_logic_5264)
     function cond_logic_5264() {
         fi_5264.val(fi_384.val() == fi_5250.val() ? `Match` : ``)
+    }
+
+    cond_logic_2416()
+    function cond_logic_2416() {
+        toggle(sec_2416, -1 < window.location.href.indexOf(`business/rfps/entry`) ? `show` : `hide`)
     }
 
     function toggle(field, visibility) {
