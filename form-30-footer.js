@@ -18,7 +18,6 @@
     const fi_5255 = fo_30.find(`[name="item_meta[5255]"]`)
     const fi_5256 = fo_30.find(`[name="item_meta[5256]"]`)
     const fi_5264 = fo_30.find(`[name="item_meta[5264]"]`)
-    const submit = fo_30.find(`[type="submit"]`)
 
     cond_logic_5250()
     fi_384.change(cond_logic_5250)
@@ -59,9 +58,10 @@
         fi_5255.val(`Show` == fi_5148.val() && `Show` == fi_5256.val() ? `Show` : ``)
     }
 
-    cond_logic_submit()
+    jQuery(document).ready(cond_logic_submit)
     fi_387.click(cond_logic_submit)
     function cond_logic_submit() {
+        const submit = fo_30.find(`[type="submit"]`)
         if (fi_387.is(`:checked`)) submit.show()
         else submit.hide()
     }
@@ -84,10 +84,10 @@
         toggle(fi_384, `blank` == fi_5147.val() ? `show` : `hide`)
     }
 
-    cond_logic_388()
-    fi_5147.change(cond_logic_388)
-    function cond_logic_388() {
-        toggle(fi_388, `blank` == fi_5147.val() ? `show` : `hide`)
+    cond_logic_383()
+    fi_5147.change(cond_logic_383)
+    function cond_logic_383() {
+        toggle(fi_383, `blank` == fi_5147.val() ? `show` : `hide`)
     }
 
     cond_logic_3897()
@@ -110,14 +110,14 @@
     fi_5147.change(cond_logic_388)
     fi_5255.change(cond_logic_388)
     function cond_logic_388() {
-        toggle(fi_388, `link` == fi_5147.val() && `Show` == fi_5255.val() ? `show` : `hide`)
+        toggle(fi_388, `link` == fi_5147.val() || `Show` == fi_5255.val() ? `show` : `hide`)
     }
 
     cond_logic_385()
     fi_5147.change(cond_logic_385)
     fi_5255.change(cond_logic_385)
     function cond_logic_385() {
-        toggle(fi_385, `link` == fi_5147.val() && `Show` == fi_5255.val() ? `show` : `hide`)
+        toggle(fi_385, `link` == fi_5147.val() || `Show` == fi_5255.val() ? `show` : `hide`)
     }
 
     cond_logic_387()
@@ -125,7 +125,7 @@
     fi_5255.change(cond_logic_387)
     function cond_logic_387() {
         const container_387 = fo_30.find(`#frm_field_387_container`)
-        if (`link` == fi_5147.val() && `Show` == fi_5255.val()) container_387.show()
+        if (`link` == fi_5147.val() || `Show` == fi_5255.val()) container_387.show()
         else container_387.hide()
     }
 
