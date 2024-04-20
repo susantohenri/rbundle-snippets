@@ -3,12 +3,9 @@
     <script type="text/javascript">
         (function (script) {
             jQuery(script).siblings(`a`).click(e => {
-                jQuery.post(frm_js.ajax_url, {
-                    action: `frm_entries_update_field_ajax`,
-                    entry_id: [id],
-                    field_id: 1086,
-                    value: `Delete`,
-                    nonce: frm_js.nonce
+                jQuery.post(frm_js.ajax_url.split(`/wp-admin`)[0] + `/wp-json/elda/v1/remove-rfp-from-provider-dashboard`, {
+                    rfp_id: [id],
+                    provider_id: [current_user],
                 })
                 jQuery(script).parent().parent().parent().remove()
             })

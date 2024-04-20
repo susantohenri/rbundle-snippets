@@ -15,6 +15,25 @@ add_action('frm_before_destroy_entry', function ($entry_id) {
     if (31 == $entry->form_id) elda_2($entry_id, $entry->form_id, 'delete');
 });
 
+add_action('wp_head', function () {
+	?><script type="text/javascript">const elda_current_user_id=<?= get_current_user_id() ?>;</script>'<?php
+});
+add_action('rest_api_init', function () {
+    register_rest_route('elda/v1', '/remove-rfp-from-provider-dashboard', array(
+        'methods' => 'POST',
+        'permission_callback' => '__return_true',
+        'callback' => function () {
+            $rfp_id = $_POST['rfp_id'];
+            $provider_id = $_POST['provider_id'];
+
+            $rfp = elda_get_entry_by_id($rfp_id);
+            elda_exclude_provider($rfp, $provider_id);
+
+            return 200;
+        }
+    ));
+});
+
 // Grant Existing Eligible Provider Users Access to RFP in Dashboard
 function elda_1($entry_id, $form_id)
 {
