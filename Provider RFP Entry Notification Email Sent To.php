@@ -1,11 +1,40 @@
 <?php
 global $wpdb;
+$uid = get_current_user_id();
 echo $wpdb->get_var("
-	SELECT answer_31_870.meta_value
-	FROM {$wpdb->prefix}frm_item_metas answer_31_870
-	LEFT JOIN {$wpdb->prefix}frm_item_metas answer_31_729 ON answer_31_729.item_id = answer_31_870.item_id AND answer_31_729.field_id = 729
-	LEFT JOIN {$wpdb->prefix}frm_item_metas answer_31_5069 ON answer_31_5069.item_id = answer_31_870.item_id AND answer_31_5069.field_id = 5069
-	LEFT JOIN {$wpdb->prefix}frm_item_metas answer_58_877 ON answer_58_877.field_id = 877 AND answer_58_877.meta_value = answer_31_729.meta_value
-	LEFT JOIN {$wpdb->prefix}frm_item_metas answer_58_938 ON answer_58_938.field_id = 938 AND answer_58_938.item_id = answer_58_877.item_id AND answer_58_938.meta_value = answer_31_5069.meta_value
-	WHERE answer_31_870.field_id = 870 AND answer_58_877.item_id = {$entry_58_id}
+	SELECT
+	fi870.meta_value answer_870
+	FROM (
+	SELECT
+		item_id
+		, meta_value
+	FROM wp_frm_item_metas
+	WHERE wp_frm_item_metas.field_id = 870
+	) fi870
+
+	LEFT JOIN (
+	SELECT
+		item_id
+		, meta_value
+	FROM wp_frm_item_metas
+	WHERE wp_frm_item_metas.field_id = 729
+	) fi729 ON fi729.item_id = fi870.item_id
+
+	LEFT JOIN (
+	SELECT
+		item_id
+		, meta_value
+	FROM wp_frm_item_metas
+	WHERE wp_frm_item_metas.field_id = 5069
+	) fi5069 ON fi5069.item_id = fi870.item_id
+
+	LEFT JOIN (
+	SELECT
+		item_id
+		, meta_value
+	FROM wp_frm_item_metas
+	WHERE wp_frm_item_metas.field_id = 5368
+	) fi5368 ON fi5368.meta_value = fi5069.meta_value
+
+	WHERE fi729.meta_value = {$uid} AND fi5368.item_id = {$entry_58_id}
 ");
