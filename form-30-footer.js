@@ -4,7 +4,7 @@
     const fi_384 = fo_30.find(`[name="item_meta[384]"]`)
     const fi_385 = fo_30.find(`[name="item_meta[385]"]`)
     const fi_387 = fo_30.find(`[name="item_meta[387][]"]`)
-    const fi_388 = fo_30.find(`[name="item_meta[388"]`)
+    const fi_388 = fo_30.find(`#frm_field_388_container > *`)
     const fi_959 = fo_30.find(`[name="item_meta[959]"]`)
     const fi_961 = fo_30.find(`[name="item_meta[961]"]`)
     const sec_2416 = fo_30.find(`#frm_field_2416_container > *`)
@@ -35,28 +35,28 @@
         const val_383 = fi_383.val()
         const val_384 = fi_384.val()
         const val_961 = fi_961.val()
-        fi_5146.val(`` == val_961 && `` != val_384 && `` != val_383 ? `Show` : ``)
-        fi_5148.val(`` != val_961 && `` != val_384 && `` != val_383 ? `Show` : ``)
+        fi_5146.val(`` == val_961 && `` != val_384 && `` != val_383 ? `Show` : ``).trigger(`change`)
+        fi_5148.val(`` != val_961 && `` != val_384 && `` != val_383 ? `Show` : ``).trigger(`change`)
     }
 
     cond_logic_5251()
     fi_5264.change(cond_logic_5251)
     fi_5148.change(cond_logic_5251)
     function cond_logic_5251() {
-        fi_5251.val(`` == fi_5264.val() && `Show` == fi_5148.val() ? `Show` : ``)
+        fi_5251.val(`` == fi_5264.val() && `Show` == fi_5148.val() ? `Show` : ``).trigger(`change`)
     }
 
     cond_logic_5256()
     fi_5264.change(cond_logic_5256)
     function cond_logic_5256() {
-        fi_5256.val(`Match` == fi_5264.val() ? `Show` : ``)
+        fi_5256.val(`Match` == fi_5264.val() ? `Show` : ``).trigger(`change`)
     }
 
     cond_logic_5255()
     fi_5148.change(cond_logic_5255)
     fi_5256.change(cond_logic_5255)
     function cond_logic_5255() {
-        fi_5255.val(`Show` == fi_5148.val() && `Show` == fi_5256.val() ? `Show` : ``)
+        fi_5255.val(`Show` == fi_5148.val() && `Show` == fi_5256.val() ? `Show` : ``).trigger(`change`)
     }
 
     jQuery(document).ready(cond_logic_submit)
@@ -83,12 +83,6 @@
     fi_5147.change(cond_logic_384)
     function cond_logic_384() {
         toggle(fi_384, `blank` == fi_5147.val() ? `show` : `hide`)
-    }
-
-    cond_logic_383()
-    fi_5147.change(cond_logic_383)
-    function cond_logic_383() {
-        toggle(fi_383, `blank` == fi_5147.val() ? `show` : `hide`)
     }
 
     cond_logic_3897()
