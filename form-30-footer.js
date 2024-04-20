@@ -128,14 +128,14 @@
     fi_384.change(cond_logic_961)
     fi_959.change(cond_logic_961)
     function cond_logic_961() {
-        fi_961.val(fi_384.val() == fi_959.val() ? `Match` : ``)
+        fi_961.val(fi_384.val() == fi_959.val() ? `Match` : ``).trigger(`change`)
     }
 
     cond_logic_5264()
     fi_384.change(cond_logic_5264)
     fi_5250.change(cond_logic_5264)
     function cond_logic_5264() {
-        fi_5264.val(fi_384.val() == fi_5250.val() ? `Match` : ``)
+        fi_5264.val(fi_384.val() == fi_5250.val() ? `Match` : ``).trigger(`change`)
     }
 
     cond_logic_2416()
