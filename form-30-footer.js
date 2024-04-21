@@ -19,6 +19,12 @@
     const fi_5255 = fo_30.find(`[name="item_meta[5255]"]`)
     const fi_5256 = fo_30.find(`[name="item_meta[5256]"]`)
     const fi_5264 = fo_30.find(`[name="item_meta[5264]"]`)
+    const fi_Lookup_58_5368 = fo_30.find(`[name="item_meta[5424]"]`)
+    const fi_Lookup_58_903 = fo_30.find(`[name="item_meta[5423]"]`)
+
+    fi_383.blur(() => {
+        fi_383.val(fi_383.val().trim()).trigger(`change`)
+    })
 
     cond_logic_5250()
     fi_384.change(cond_logic_5250)
@@ -141,6 +147,19 @@
     cond_logic_2416()
     function cond_logic_2416() {
         toggle(sec_2416, -1 < window.location.href.indexOf(`business/rfps/entry`) ? `show` : `hide`)
+    }
+
+    cond_logic_959()
+    fi_383.change(cond_logic_959)
+    fi_384.change(cond_logic_959)
+    function cond_logic_959() {
+        const val_384 = fi_384.val()
+        const val_383 = fi_383.val()
+        fi_Lookup_58_5368.val(val_384).trigger(`change`)
+        setTimeout(() => {
+            fi_Lookup_58_903.val(val_383)
+            fi_959.val(fi_Lookup_58_903.val() == val_383 ? val_384 : ``).trigger(`change`)
+        }, 500)
     }
 
     function toggle(field, visibility) {
