@@ -19,11 +19,11 @@
     const fi_5255 = fo_30.find(`[name="item_meta[5255]"]`)
     const fi_5256 = fo_30.find(`[name="item_meta[5256]"]`)
     const fi_5264 = fo_30.find(`[name="item_meta[5264]"]`)
-    const fi_Lookup_58_5368 = fo_30.find(`[name="item_meta[5424]"]`)
+    const fi_Lookup_58_5368 = fo_30.find(`[name="item_meta[5422]"]`)
     const fi_Lookup_58_903 = fo_30.find(`[name="item_meta[5423]"]`)
 
-    fi_383.blur(() => {
-        fi_383.val(fi_383.val().trim()).trigger(`change`)
+    fi_383.keyup(() => {
+        fi_383.val(fi_383.val().trim())
     })
 
     cond_logic_5250()
@@ -159,7 +159,7 @@
         setTimeout(() => {
             fi_Lookup_58_903.val(val_383)
             fi_959.val(fi_Lookup_58_903.val() == val_383 ? val_384 : ``).trigger(`change`)
-        }, 500)
+        }, 1000)
     }
 
     function toggle(field, visibility) {
