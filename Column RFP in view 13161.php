@@ -4,7 +4,7 @@ $data = $wpdb->get_row("
     SELECT
         fo58fi3713.meta_value fo58fi3713_answer
         , fo58fi5057.meta_value fo58fi5057_answer
-        , fo58fi5060.meta_value fo58fi5060_answer
+        , fo58fi5340.meta_value fo58fi5340_answer
         , fo58fi5058.meta_value fo58fi5058_answer
         , fo58fi5059.meta_value fo58fi5059_answer
         , fo119fi4302.meta_value fo119fi4302_answer
@@ -55,8 +55,8 @@ $data = $wpdb->get_row("
             , answer.meta_value
         FROM {$wpdb->prefix}frm_items entry
         LEFT JOIN {$wpdb->prefix}frm_item_metas answer ON entry.id = answer.item_id
-        WHERE field_id = 5060
-    ) fo58fi5060 ON fo58fi877.item_id = fo58fi5060.item_id
+        WHERE field_id = 5340
+    ) fo58fi5340 ON fo58fi877.item_id = fo58fi5340.item_id
 
     LEFT JOIN (
         SELECT
@@ -89,7 +89,7 @@ $data = $wpdb->get_row("
 
 $detail_download = '';
 $detail_link = site_url() . "/provider/rfps/entry/{$entry_id}/";
-$user_ids = $data->fo58fi5060_answer;
+$user_ids = $data->fo58fi5340_answer;
 $user_id = get_current_user_id();
 $user_ids = '' == $user_ids ? $user_id : "{$user_ids},{$user_id}";
 $has_xls = !is_null($data->fo58fi3713_answer);
@@ -136,8 +136,8 @@ if (!$has_xls && 'view' == $display_type) {
                             </div>
                             <div class=\"modal-footer\">
                             <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Do not Proceed</button>
-                            <a class=\"btn btn-primary download-{$entry_id}\" href=\"{$xls_url}\" onclick=\"frmUpdateField({$entry_id},5060,'{$user_ids}','');jQuery('#confirmationModal{$entry_id}').modal('hide');return true;\" download>Proceed</a>
-                            <a class=\"btn btn-primary view-{$entry_id}\" href=\"https://view.officeapps.live.com/op/view.aspx?src={$xls_url}\" target=\"_blank\" onclick=\"frmUpdateField({$entry_id},5060,'{$user_ids}','');jQuery('#confirmationModal{$entry_id}').modal('hide');return true;\" >Proceed</a>
+                            <a class=\"btn btn-primary download-{$entry_id}\" href=\"{$xls_url}\" onclick=\"frmUpdateField({$entry_id},5340,'{$user_ids}','');jQuery('#confirmationModal{$entry_id}').modal('hide');return true;\" download>Proceed</a>
+                            <a class=\"btn btn-primary view-{$entry_id}\" href=\"https://view.officeapps.live.com/op/view.aspx?src={$xls_url}\" target=\"_blank\" onclick=\"frmUpdateField({$entry_id},5340,'{$user_ids}','');jQuery('#confirmationModal{$entry_id}').modal('hide');return true;\" >Proceed</a>
                             </div>
                         </div>
                     </div>
@@ -164,8 +164,8 @@ if (!$has_xls && 'view' == $display_type) {
                     </div>
                     <div class=\"modal-footer\">
                     <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Do not Proceed</button>
-                    <a class=\"btn btn-primary download-{$entry_id}\" href=\"{$xls_url}\" onclick=\"frmUpdateField({$entry_id},5060,'{$user_ids}','');jQuery('#confirmationModal{$entry_id}').modal('hide');return true;\" download>Proceed</a>
-                    <a class=\"btn btn-primary view-{$entry_id}\" href=\"https://view.officeapps.live.com/op/view.aspx?src={$xls_url}\" target=\"_blank\" onclick=\"frmUpdateField({$entry_id},5060,'{$user_ids}','');jQuery('#confirmationModal{$entry_id}').modal('hide');return true;\" >Proceed</a>
+                    <a class=\"btn btn-primary download-{$entry_id}\" href=\"{$xls_url}\" onclick=\"frmUpdateField({$entry_id},5340,'{$user_ids}','');jQuery('#confirmationModal{$entry_id}').modal('hide');return true;\" download>Proceed</a>
+                    <a class=\"btn btn-primary view-{$entry_id}\" href=\"https://view.officeapps.live.com/op/view.aspx?src={$xls_url}\" target=\"_blank\" onclick=\"frmUpdateField({$entry_id},5340,'{$user_ids}','');jQuery('#confirmationModal{$entry_id}').modal('hide');return true;\" >Proceed</a>
                     </div>
                 </div>
             </div>
