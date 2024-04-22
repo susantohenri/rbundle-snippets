@@ -4,6 +4,7 @@ $current_user_id = get_current_user_id();
 $lookup = $wpdb->get_row("
     SELECT
         fo31fi5069.entry_id  entry_id_31
+        , fo36fi500.answer  answer_500
         , fo31fi870.answer answer_870
         , fo31fi431.answer answer_431
         , fo31fi728.answer answer_728
@@ -16,6 +17,14 @@ $lookup = $wpdb->get_row("
         RIGHT JOIN {$wpdb->prefix}frm_items entry ON entry.id = meta.item_id
         WHERE meta.field_id = 898
         ) fo36fi898
+
+    LEFT JOIN (
+        SELECT
+            meta.item_id entry_id
+            , meta.meta_value answer
+        FROM {$wpdb->prefix}frm_item_metas meta
+        WHERE meta.field_id = 500
+    ) fo36fi500 ON fo36fi898.entry_id = fo36fi500.entry_id
 
     LEFT JOIN
         (SELECT
@@ -109,7 +118,8 @@ if (is_null($lookup)) {
 
     $result .= '<br><br>';
 
-    $edit_link = site_url() . "/provider/rfp-subscriptions/?frm_action=edit&entry={$lookup->entry_id_31}";
+    $sanitized_service_name = urlencode($lookup->answer_500);
+    $edit_link = site_url() . "/provider/rfp-subscriptions/?frm_action=edit&entry={$lookup->entry_id_31}&rfp_service={$sanitized_service_name}";
     $cancel_link = do_shortcode("[frm-entry-delete-link id=\"{$lookup->entry_id_31}\" label=\"Cancel\"]");
 
     $result .= "<a href=\"{$edit_link}\">Edit</a>";
