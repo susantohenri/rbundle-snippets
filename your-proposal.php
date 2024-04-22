@@ -32,15 +32,6 @@ if (is_null($proposal['id'])) {
             [formidable id=30 submit_type=\"link\" trans_param=\"{$rfp[903]}\" service_param=\"{$rfp[5368]}\" eng_provider_param=\"{$provider['provider_name']}\"]
         [/frmmodal-content]
     ");
-    $html .= "
-		<script type='text/javascript'>
-		jQuery(document).ready(() => {
-            setTimeout(() => {
-                jQuery(`.modal.{$rfp['id']} .dz-remove`).click()
-            }, 100)
-		})
-		</script>
-	";
 } else {
     $pdf = $wpdb->get_var("
         SELECT
