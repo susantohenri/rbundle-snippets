@@ -31,4 +31,5 @@ $company_names = array_map(function ($record) {
     return $record->meta_value;
 }, $company_names);
 
-echo implode(',', $company_names);
+$company_names = implode('</li><li>', $company_names);
+echo "<ul><li>{$company_names}</li></ul>";
