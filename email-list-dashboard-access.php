@@ -3,11 +3,15 @@
 add_action('frm_after_create_entry', function ($entry_id, $form_id) {
     elda_1($entry_id, $form_id);
     elda_2($entry_id, $form_id, 'create');
+    elda_58_894($entry_id, $form_id);
+    elda_58_2534($entry_id, $form_id);
 }, 30, 2);
 
 add_action('frm_after_update_entry', function ($entry_id, $form_id) {
     elda_2($entry_id, $form_id, 'update');
     elda_3($entry_id, $form_id);
+    elda_58_894($entry_id, $form_id);
+    elda_58_2534($entry_id, $form_id);
 }, 10, 2);
 
 add_action('frm_before_destroy_entry', function ($entry_id) {
@@ -205,6 +209,68 @@ function elda_6($entry_id, $field_id)
 
     $email_address_list = implode(';', $email_address_list);
     elda_update_answer($entry_58['id'], 1088, $email_address_list);
+}
+
+function elda_58_894($entry_id, $form_id)
+{
+    if (58 != $form_id) return false;
+    global $wpdb;
+    $answer_894 = $wpdb->get_var("SELECT meta_value FROM {$wpdb->prefix}frm_item_metas WHERE item_id = {$entry_id} AND field_id = 894");
+    $answer_894 = str_contains($answer_894, 'a:') ? unserialize($answer_894) : [$answer_894];
+    $answer_894 = implode("','", $answer_894);
+    $answer_894 = "'{$answer_894}'";
+
+    $user_ids = $wpdb->get_results("
+        SELECT fo38fi563.meta_value
+        FROM (
+            SELECT item_id, meta_value
+            FROM {$wpdb->prefix}frm_item_metas
+            WHERE field_id = 563
+        ) fo38fi563
+        LEFT JOIN (
+            SELECT item_id, meta_value
+            FROM {$wpdb->prefix}frm_item_metas
+            WHERE field_id = 782
+        ) fo38fi782 ON fo38fi782.item_id = fo38fi563.item_id
+        WHERE fo38fi782.meta_value IN ({$answer_894})
+    ");
+
+    $user_ids = implode(';', array_map(function ($row) {
+        return $row->meta_value;
+    }, $user_ids));
+
+    elda_update_answer($entry_id, 5416, $user_ids);
+}
+
+function elda_58_2534($entry_id, $form_id)
+{
+    if (58 != $form_id) return false;
+    global $wpdb;
+    $answer_2534 = $wpdb->get_var("SELECT meta_value FROM {$wpdb->prefix}frm_item_metas WHERE item_id = {$entry_id} AND field_id = 2534");
+    $answer_2534 = str_contains($answer_2534, 'a:') ? unserialize($answer_2534) : [$answer_2534];
+    $answer_2534 = implode("','", $answer_2534);
+    $answer_2534 = "'{$answer_2534}'";
+
+    $user_ids = $wpdb->get_results("
+        SELECT fo38fi563.meta_value
+        FROM (
+            SELECT item_id, meta_value
+            FROM {$wpdb->prefix}frm_item_metas
+            WHERE field_id = 563
+        ) fo38fi563
+        LEFT JOIN (
+            SELECT item_id, meta_value
+            FROM {$wpdb->prefix}frm_item_metas
+            WHERE field_id = 782
+        ) fo38fi782 ON fo38fi782.item_id = fo38fi563.item_id
+        WHERE fo38fi782.meta_value IN ({$answer_2534})
+    ");
+
+    $user_ids = implode(';', array_map(function ($row) {
+        return $row->meta_value;
+    }, $user_ids));
+
+    elda_update_answer($entry_id, 5417, $user_ids);
 }
 
 function elda_get_entry_ids_by_form_id($form_id)
