@@ -19,6 +19,7 @@
     const fi_1556 = fo_23.find(`#frm_field_1556_container > *`)
     const fi_1557 = fo_23.find(`#frm_field_1557_container > *`)
     const fi_1558 = fo_23.find(`[name="item_meta[1558]"]`)
+    const fi_1559 = fo_23.find(`#frm_field_1559_container > *`)
     const fi_2380 = fo_23.find(`#frm_field_2380_container > *`)
     const fi_2381 = fo_23.find(`#frm_field_2381_container > *`)
     const fi_2382 = fo_23.find(`#frm_field_2382_container > *`)
@@ -38,19 +39,30 @@
     const fi_5342 = fo_23.find(`[name="item_meta[5342]"]`)
     const fi_5343 = fo_23.find(`[name="item_meta[5343]"]`)
     const val_5345 = fo_23.find(`[name="item_meta[5345]"]`).val()
+    const fi_5429 = fo_23.find(`[name="item_meta[5429]"]`)
+    const fi_5432 = fo_23.find(`[name="item_meta[5432]"]`)
     const fi_5436 = fo_23.find(`[name="item_meta[5436]"]`)
     const fi_5437 = fo_23.find(`[name="item_meta[5437]"]`)
+    const fi_5438 = fo_23.find(`[name="item_meta[5438]"]`)
+    const val_5441 = get_checkbox_value(5441)
     const fi_5442 = fo_23.find(`[name="item_meta[5442]"]`)
-    const fi_Lookup_58_5368 = fo_23.find(`[name="item_meta[5457]"]`)
-    const fi_Lookup_58_903 = fo_23.find(`[name="item_meta[5458]"]`)
-    const fi_Lookup_38_782 = fo_23.find(`[name="item_meta[5459]"]`)
-    const fi_Lookup_38_784 = fo_23.find(`[name="item_meta[5460]"]`)
+    const fi_5443 = fo_23.find(`[name="item_meta[5443]"]`)
+    const fi_5459 = fo_23.find(`[name="item_meta[5459]"]`)
+    const fi_Lookup_58_5368 = fo_23.find(`[name="item_meta[5468]"]`)
+    const fi_Lookup_58_903 = fo_23.find(`[name="item_meta[5469]"]`)
+    const fi_Lookup_38_782 = fo_23.find(`[name="item_meta[5471]"]`)
+    const fi_Lookup_38_784 = fo_23.find(`[name="item_meta[5472]"]`)
 
-    toggle(fi_306, `Provider` == val_5345 ? `show` : `hide`)
-    toggle(fi_5307, `Provider` == val_5345 ? `show` : `hide`)
-    toggle(fi_5342, `Business` == val_5345 && `Pop` == val_5341 ? `show` : `hide`)
+    toggle(fi_306, `Provider` == val_5345 && `Pop` == val_5341 ? `show` : `hide`)
+    toggle(fi_5307, `Provider` == val_5345 && `Pop` == val_5341 ? `show` : `hide`)
+    toggle(fi_5342, `Business` == val_5345 ? `show` : `hide`)
     toggle(fi_5343, `Business` == val_5345 && `Pop` == val_5341 ? `show` : `hide`)
+    toggle(fi_5429, `Business` == val_5345 ? `show` : `hide`)
+    toggle(fi_5432, `Provider` == val_5345 && `Pop` != val_5341 ? `show` : `hide`)
     toggle(fi_5437, `Provider` == val_5345 && `Pop` != val_5341 ? `show` : `hide`)
+    toggle(fi_5443, `Business` == val_5345 && `Engage` == val_5441 ? `show` : `hide`)
+    toggle(fi_5438, `Engage` == val_5441 ? `show` : `hide`)
+    toggle(fi_822, `Business` == val_5345 ? `show` : `hide`)
     if (fo_23.parent().parent().parent().parent().parent().is(`.modal-body`)) {
         fi_306.attr(`disabled`, true)
         fi_5307.attr(`disabled`, true)
@@ -61,10 +73,27 @@
         })
     }
 
+    cond_logic_5459()
+    fi_5436.change(cond_logic_5459)
+    function cond_logic_5459() {
+        toggle(fi_5459,
+            `Business` == val_5345
+                || `Show` == fi_5436.val()
+                || `Pop` == val_5341
+                ? `show` : `hide`
+        )
+    }
+
     cond_logic_2380()
     fi_965.change(cond_logic_2380)
     function cond_logic_2380() {
         toggle(fi_2380, `Flat Fee` == fi_965.val() ? `show` : `hide`)
+    }
+
+    cond_logic_1553()
+    fi_965.change(cond_logic_1553)
+    function cond_logic_1553() {
+        toggle(fi_1553, `Flat Fee` == fi_965.val() ? `show` : `hide`)
     }
 
     cond_logic_2381()
@@ -101,6 +130,12 @@
     fi_822.change(cond_logic_2397)
     function cond_logic_2397() {
         toggle(fi_2397, `` != fi_822.val() ? `show` : `hide`)
+    }
+
+    cond_logic_1559()
+    fi_5459.change(cond_logic_1559)
+    function cond_logic_1559() {
+        toggle(fi_1559, `Show` == fi_5459.val() && `Engage` == val_5441 ? `show` : `hide`)
     }
 
     cond_logic_2401()
@@ -179,12 +214,13 @@
 
     cond_logic_1555()
     function cond_logic_1555() {
-        toggle(fi_1555, `` != fi_1553.val()
-            || `` != fi_1554.parent().find(`input`).val()
-            || `` != fi_2402.val()
-            || `` != fi_1558.val()
-            || `` != fi_1557.val()
-            ? `show` : `hide`)
+        toggle(fi_1555,
+            `` != fi_1553.val()
+                || `` != fi_1554.parent().find(`input`).val()
+                || `` != fi_2402.val()
+                || `` != fi_1558.val()
+                || `` != fi_1557.val()
+                ? `show` : `hide`)
     }
 
     cond_logic_1452()
@@ -221,7 +257,7 @@
     fi_1083.change(cond_logic_1474)
     function cond_logic_1474() {
         const val_1083 = fi_1083.val()
-        toggle(section_1474, `` == val_1083 && `` != val_1083 ? `show` : `hide`)
+        toggle(section_1474, `Close` == val_5441 ? `show` : `hide`)
     }
 
     cond_logic_1525()
