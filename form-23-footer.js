@@ -43,6 +43,8 @@
     const fi_5442 = fo_23.find(`[name="item_meta[5442]"]`)
     const fi_Lookup_58_5368 = fo_23.find(`[name="item_meta[5457]"]`)
     const fi_Lookup_58_903 = fo_23.find(`[name="item_meta[5458]"]`)
+    const fi_Lookup_38_782 = fo_23.find(`[name="item_meta[5459]"]`)
+    const fi_Lookup_38_784 = fo_23.find(`[name="item_meta[5460]"]`)
 
     toggle(fi_306, `Provider` == val_5345 ? `show` : `hide`)
     toggle(fi_5307, `Provider` == val_5345 ? `show` : `hide`)
@@ -164,14 +166,15 @@
     cond_logic_964()
     fi_822.change(cond_logic_964)
     function cond_logic_964() {
-        toggle(fi_964, `` != fi_822.val() ? `show` : `hide`)
-    }
-
-    format_964()
-    fi_964.change(format_964)
-    fi_964.keyup(format_964)
-    function format_964() {
-        fi_964.val(fi_964.val().replaceAll(`<br />`, `\n`))
+        const val_822 = fi_822.val()
+        if (`` == val_822) toggle(fi_964, `hide`)
+        else {
+            fi_Lookup_38_782.val(val_822)
+            setTimeout(() => {
+                fi_964.val(fi_Lookup_38_784.val().replaceAll(`<br />`, `\n`))
+                toggle(fi_964, `show`)
+            }, 1000)
+        }
     }
 
     cond_logic_1555()
