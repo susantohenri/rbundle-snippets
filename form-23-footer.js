@@ -63,6 +63,11 @@
     toggle(fi_5443, `Business` == val_5345 && `Engage` == val_5441 ? `show` : `hide`)
     toggle(fi_5438, `Engage` == val_5441 ? `show` : `hide`)
     toggle(fi_822, `Business` == val_5345 ? `show` : `hide`)
+
+    fi_5432.keyup(() => {
+        fi_5432.val(fi_5432.val().trim())
+    })
+
     if (fo_23.parent().parent().parent().parent().parent().is(`.modal-body`)) {
         fi_306.attr(`disabled`, true)
         fi_5307.attr(`disabled`, true)
@@ -87,37 +92,37 @@
     cond_logic_2380()
     fi_965.change(cond_logic_2380)
     function cond_logic_2380() {
-        toggle(fi_2380, `Flat Fee` == fi_965.val() ? `show` : `hide`)
+        toggle(fi_2380, `Flat Fee` == get_checkbox_value(965) ? `show` : `hide`)
     }
 
     cond_logic_1553()
     fi_965.change(cond_logic_1553)
     function cond_logic_1553() {
-        toggle(fi_1553, `Flat Fee` == fi_965.val() ? `show` : `hide`)
+        toggle(fi_1553, `Flat Fee` == get_checkbox_value(965) ? `show` : `hide`)
     }
 
     cond_logic_2381()
     fi_965.change(cond_logic_2381)
     function cond_logic_2381() {
-        toggle(fi_2381, `Flat Fee` == fi_965.val() ? `show` : `hide`)
+        toggle(fi_2381, `Flat Fee` == get_checkbox_value(965) ? `show` : `hide`)
     }
 
     cond_logic_2382()
     fi_965.change(cond_logic_2382)
     function cond_logic_2382() {
-        toggle(fi_2382, `Hourly Rate` == fi_965.val() ? `show` : `hide`)
+        toggle(fi_2382, `Hourly Rate` == get_checkbox_value(965) ? `show` : `hide`)
     }
 
     cond_logic_2383()
     fi_965.change(cond_logic_2383)
     function cond_logic_2383() {
-        toggle(fi_2383, `Hourly Rate` == fi_965.val() ? `show` : `hide`)
+        toggle(fi_2383, `Hourly Rate` == get_checkbox_value(965) ? `show` : `hide`)
     }
 
     cond_logic_1554()
     fi_965.change(cond_logic_1554)
     function cond_logic_1554() {
-        toggle(fi_1554, `Hourly Rate` == fi_965.val() ? `show` : `hide`)
+        toggle(fi_1554, `Hourly Rate` == get_checkbox_value(965) ? `show` : `hide`)
     }
 
     cond_logic_2396()
@@ -141,61 +146,61 @@
     cond_logic_2401()
     fi_965.change(cond_logic_2401)
     function cond_logic_2401() {
-        toggle(fi_2401, `Other` == fi_965.val() ? `show` : `hide`)
+        toggle(fi_2401, `Other` == get_checkbox_value(965) ? `show` : `hide`)
     }
 
     cond_logic_2402()
     fi_965.change(cond_logic_2402)
     function cond_logic_2402() {
-        toggle(fi_2402, `Other` == fi_965.val() ? `show` : `hide`)
+        toggle(fi_2402, `Other` == get_checkbox_value(965) ? `show` : `hide`)
     }
 
     cond_logic_2403()
     fi_965.change(cond_logic_2403)
     function cond_logic_2403() {
-        toggle(fi_2403, `Other` == fi_965.val() ? `show` : `hide`)
+        toggle(fi_2403, `Other` == get_checkbox_value(965) ? `show` : `hide`)
     }
 
     cond_logic_2384()
     fi_965.change(cond_logic_2384)
     function cond_logic_2384() {
-        toggle(fi_2384, `Other` == fi_965.val() ? `show` : `hide`)
+        toggle(fi_2384, `Other` == get_checkbox_value(965) ? `show` : `hide`)
     }
 
     cond_logic_1558()
     fi_965.change(cond_logic_1558)
     function cond_logic_1558() {
-        toggle(fi_1558, `Other` == fi_965.val() ? `show` : `hide`)
+        toggle(fi_1558, `Other` == get_checkbox_value(965) ? `show` : `hide`)
     }
 
     cond_logic_2385()
     fi_965.change(cond_logic_2385)
     function cond_logic_2385() {
-        toggle(fi_2385, `Other` == fi_965.val() ? `show` : `hide`)
+        toggle(fi_2385, `Other` == get_checkbox_value(965) ? `show` : `hide`)
     }
 
     cond_logic_2387()
     fi_965.change(cond_logic_2387)
     function cond_logic_2387() {
-        toggle(fi_2387, `Recurring Fee` == fi_965.val() ? `show` : `hide`)
+        toggle(fi_2387, `Recurring Fee` == get_checkbox_value(965) ? `show` : `hide`)
     }
 
     cond_logic_1556()
     fi_965.change(cond_logic_1556)
     function cond_logic_1556() {
-        toggle(fi_1556, `Recurring Fee` == fi_965.val() ? `show` : `hide`)
+        toggle(fi_1556, `Recurring Fee` == get_checkbox_value(965) ? `show` : `hide`)
     }
 
     cond_logic_1557()
     fi_965.change(cond_logic_1557)
     function cond_logic_1557() {
-        toggle(fi_1557, `Recurring Fee` == fi_965.val() ? `show` : `hide`)
+        toggle(fi_1557, `Recurring Fee` == get_checkbox_value(965) ? `show` : `hide`)
     }
 
     cond_logic_2388()
     fi_965.change(cond_logic_2388)
     function cond_logic_2388() {
-        toggle(fi_2388, `Recurring Fee` == fi_965.val() ? `show` : `hide`)
+        toggle(fi_2388, `Recurring Fee` == get_checkbox_value(965) ? `show` : `hide`)
     }
 
     cond_logic_964()
@@ -282,6 +287,14 @@
                 fi_5442.val(fi_Lookup_58_903.val() == val_5436 ? `Show` : `No Match`).trigger(`change`)
             }, 1000)
         }
+    }
+
+    jQuery(document).ready(cond_logic_submit)
+    fi_5442.change(cond_logic_submit)
+    function cond_logic_submit() {
+        const submit = fo_23.find(`[type="submit"]`)
+        if (`Business` == val_5345 || `Show` == fi_5442.val() || `Pop` == val_5341) submit.show()
+        else submit.hide()
     }
 
     function get_checkbox_value(id) {
