@@ -11,7 +11,7 @@
     const fi_1456 = fo_23.find(`[name="item_meta[1452][0][1456]"]`)
     const fi_1457 = fo_23.find(`[name="item_meta[1452][0][1457]"]`)
     const section_1474 = fo_23.find(`#frm_field_1474_container > *`)
-    const fi_1524 = fo_23.find(`[name="item_meta[1524]"]`)
+    const fi_1524 = fo_23.find(`[name="item_meta[1524][]"]`)
     const fi_1525 = fo_23.find(`[name="item_meta[1525]"]`)
     const fi_1553 = fo_23.find(`[name="item_meta[1553]"]`)
     const fi_1554 = fo_23.find(`#frm_field_1554_container > *`)
@@ -53,6 +53,27 @@
     const fi_Lookup_38_782 = fo_23.find(`[name="item_meta[5471]"]`)
     const fi_Lookup_38_784 = fo_23.find(`[name="item_meta[5472]"]`)
 
+    fo_23.parent().parent().parent().submit(() => {
+        const hidden_list_field_name = `skip_hidden_fields_required_validation`
+        let hidden_fields = []
+        fo_23.find(`
+            input[name^="item_meta"],
+            select[name^="item_meta"],
+            :radio[name^="item_meta"],
+            :checkbox[name^="item_meta"],
+            textarea[name^="item_meta"]
+        `).not(`:visible`).each(function () {
+            const field = jQuery(this)
+            const field_id = field.attr(`name`).split(`[`)[1].split(`]`)[0]
+            const parent = field.is(`:checkbox`) || field.is(`:radio`) ? field.parent().parent().parent().parent() : field.parent()
+            if (!parent.is(`:visible`)) hidden_fields.push(field_id)
+        })
+        hidden_fields = hidden_fields.join(`,`)
+        fo_23.append(`<input type="hidden" name="${hidden_list_field_name}" value="${hidden_fields}">`)
+
+        return true
+    })
+
     toggle(fi_306, `Provider` == val_5345 && `Pop` == val_5341 ? `show` : `hide`)
     toggle(fi_5307, `Provider` == val_5345 && `Pop` == val_5341 ? `show` : `hide`)
     toggle(fi_5342, `Business` == val_5345 ? `show` : `hide`)
@@ -74,6 +95,7 @@
         fo_23.parent().parent().parent().submit(() => {
             fi_306.removeAttr(`disabled`)
             fi_5307.removeAttr(`disabled`)
+
             return true
         })
     }
@@ -213,7 +235,7 @@
             setTimeout(() => {
                 fi_964.val(fi_Lookup_38_784.val().replaceAll(`<br />`, `\n`))
                 toggle(fi_964, `show`)
-            }, 1000)
+            }, 2000)
         }
     }
 
@@ -302,14 +324,15 @@
     }
 
     function toggle(field, visibility) {
+        const parent = !field.is(`:checkbox`) ? field.parent() : field.parent().parent().parent().parent()
         switch (visibility) {
             case `show`:
                 field.attr(`aria-required`, `true`)
-                field.parent().show()
+                parent.show()
                     ; break
             case `hide`:
                 field.attr(`aria-required`, `false`)
-                field.parent().hide()
+                parent.hide()
                     ; break
         }
     }
