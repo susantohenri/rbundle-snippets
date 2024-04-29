@@ -1,19 +1,18 @@
 <?php
 add_action('frm_after_create_entry', 'rbundle_update_trx_status_on_engagement_submission', 30, 2);
-add_action('frm_after_update_entry', 'rbundle_update_trx_status_on_engagement_submission', 10, 2);
 function rbundle_update_trx_status_on_engagement_submission($entry_id, $form_id)
 {
+    if (23 != $form_id) return true;
     global $wpdb;
     $entry_23 = [];
     foreach ($wpdb->get_results("
         SELECT field_id, meta_value
         FROM {$wpdb->prefix}frm_item_metas
-        WHERE item_id = 8087 AND field_id IN (5441, 306, 5432, 5324)
+        WHERE item_id = {$entry_id} AND field_id IN (5441, 306, 5432, 5324)
     ") as $answer) {
         if (5441 == $answer->field_id) $entry_23[5441] = $answer->meta_value;
         else $entry_23['rfp_code'] = $answer->meta_value;
     }
-
 
     if ('Close' != $entry_23[5441]) {
         $entry_58 = $wpdb->get_row("
