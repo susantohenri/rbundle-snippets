@@ -48,8 +48,6 @@
     const fi_5442 = fo_23.find(`[name="item_meta[5442]"]`)
     const fi_5443 = fo_23.find(`[name="item_meta[5443]"]`)
     const fi_5459 = fo_23.find(`[name="item_meta[5459]"]`)
-    const fi_Lookup_58_5368 = fo_23.find(`[name="item_meta[5520]"]`)
-    const fi_Lookup_58_903 = fo_23.find(`[name="item_meta[5521]"]`)
     const fi_Lookup_38_782 = fo_23.find(`[name="item_meta[5522]"]`)
     const fi_Lookup_38_784 = fo_23.find(`[name="item_meta[5523]"]`)
 
@@ -288,19 +286,13 @@
     }
 
     cond_logic_5442()
-    fi_5436.change(cond_logic_5442)
     fi_5437.change(cond_logic_5442)
+    fi_5432.change(cond_logic_5442)
     function cond_logic_5442() {
-        const val_5436 = fi_5436.val()
-        const val_5437 = fi_5437.val()
-        if (`` == val_5436 || `` == val_5437) fi_5442.val(``)
+        if (`` == fi_5437.val() || `` == fi_5432.val()) fi_5442.val(``).trigger(`change`)
         else {
-            const val_5437 = fi_5437.val()
-            const val_5436 = fi_5436.val()
-            fi_Lookup_58_5368.val(val_5437).trigger(`change`)
             setTimeout(() => {
-                fi_Lookup_58_903.val(val_5436).trigger(`change`)
-                fi_5442.val(fi_Lookup_58_903.val() == val_5436 ? `Show` : `No Match`).trigger(`change`)
+                fi_5442.val(fi_5437.val() == fi_5436.val() ? `Show` : `No Match`).trigger(`change`)
             }, 1000)
         }
     }
