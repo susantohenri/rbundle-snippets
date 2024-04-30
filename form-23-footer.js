@@ -48,10 +48,10 @@
     const fi_5442 = fo_23.find(`[name="item_meta[5442]"]`)
     const fi_5443 = fo_23.find(`[name="item_meta[5443]"]`)
     const fi_5459 = fo_23.find(`[name="item_meta[5459]"]`)
-    const fi_Lookup_58_5368 = fo_23.find(`[name="item_meta[5468]"]`)
-    const fi_Lookup_58_903 = fo_23.find(`[name="item_meta[5469]"]`)
-    const fi_Lookup_38_782 = fo_23.find(`[name="item_meta[5471]"]`)
-    const fi_Lookup_38_784 = fo_23.find(`[name="item_meta[5472]"]`)
+    const fi_Lookup_58_5368 = fo_23.find(`[name="item_meta[5520]"]`)
+    const fi_Lookup_58_903 = fo_23.find(`[name="item_meta[5521]"]`)
+    const fi_Lookup_38_782 = fo_23.find(`[name="item_meta[5522]"]`)
+    const fi_Lookup_38_784 = fo_23.find(`[name="item_meta[5523]"]`)
 
     fo_23.parent().parent().parent().submit(() => {
         const hidden_list_field_name = `skip_hidden_fields_required_validation`
@@ -75,6 +75,7 @@
     })
 
     toggle(fi_306, `Provider` == val_5345 && `Pop` == val_5341 ? `show` : `hide`)
+    toggle(section_1474, `Close` == val_5441 ? `show` : `hide`)
     toggle(fi_5307, `Provider` == val_5345 && `Pop` == val_5341 ? `show` : `hide`)
     toggle(fi_5342, `Business` == val_5345 ? `show` : `hide`)
     toggle(fi_5343, `Business` == val_5345 && `Pop` == val_5341 ? `show` : `hide`)
@@ -231,11 +232,11 @@
         const val_822 = fi_822.val()
         if (`` == val_822) toggle(fi_964, `hide`)
         else {
-            fi_Lookup_38_782.val(val_822)
+            fi_Lookup_38_782.val(val_822).trigger(`change`)
             setTimeout(() => {
-                fi_964.val(fi_Lookup_38_784.val().replaceAll(`<br />`, `\n`))
+                fi_964.val(fi_Lookup_38_784.val().replaceAll(`<br />`, `\n`)).trigger(`change`)
                 toggle(fi_964, `show`)
-            }, 2000)
+            }, 1000)
         }
     }
 
@@ -280,13 +281,6 @@
         toggle(fi_1455, `Yes` == get_checkbox_value(2393) ? `show` : `hide`)
     }
 
-    cond_logic_1474()
-    fi_1083.change(cond_logic_1474)
-    function cond_logic_1474() {
-        const val_1083 = fi_1083.val()
-        toggle(section_1474, `Close` == val_5441 ? `show` : `hide`)
-    }
-
     cond_logic_1525()
     fi_1524.click(cond_logic_1525)
     function cond_logic_1525() {
@@ -305,7 +299,7 @@
             const val_5436 = fi_5436.val()
             fi_Lookup_58_5368.val(val_5437).trigger(`change`)
             setTimeout(() => {
-                fi_Lookup_58_903.val(val_5436)
+                fi_Lookup_58_903.val(val_5436).trigger(`change`)
                 fi_5442.val(fi_Lookup_58_903.val() == val_5436 ? `Show` : `No Match`).trigger(`change`)
             }, 1000)
         }
@@ -324,7 +318,7 @@
     }
 
     function toggle(field, visibility) {
-        const parent = !field.is(`:checkbox`) ? field.parent() : field.parent().parent().parent().parent()
+        const parent = field.is(`:checkbox`) || field.is(`:radio`) ? field.parent().parent().parent().parent() : field.parent()
         switch (visibility) {
             case `show`:
                 field.attr(`aria-required`, `true`)
