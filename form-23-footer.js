@@ -234,6 +234,11 @@
     }
 
     cond_logic_1555()
+    fi_1553.change(cond_logic_1555)
+    fi_1554.change(cond_logic_1555)
+    fi_2402.change(cond_logic_1555)
+    fi_1558.change(cond_logic_1555)
+    fi_1557.change(cond_logic_1555)
     function cond_logic_1555() {
         toggle(fi_1555,
             `` != fi_1553.val()
