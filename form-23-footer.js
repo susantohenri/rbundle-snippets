@@ -156,7 +156,7 @@
     cond_logic_1559()
     fi_5459.change(cond_logic_1559)
     function cond_logic_1559() {
-        toggle(fi_1559, `Show` == fi_5459.val() && `Engage` == val_5441 ? `show` : `hide`)
+        toggle(fi_1559, (`Show` == fi_5459.val() && `Engage` == val_5441) || (`Pop` == val_5341 && `Provider` == val_5345) ? `show` : `hide`)
     }
 
     cond_logic_2401()
