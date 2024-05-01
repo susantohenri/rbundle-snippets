@@ -76,9 +76,11 @@ $lookup = $wpdb->get_row("
 ");
 
 $result = '';
+$sanitized_service_name = urlencode($lookup->answer_500);
+
 if (is_null($lookup)) {
 } else if (is_null($lookup->entry_id_31)) {
-    $subscription_link = site_url() . "/provider/rfp-subscriptions/?entry_36={$service_information_id}";
+    $subscription_link = site_url() . "/provider/rfp-subscriptions/?entry_36={$service_information_id}&rfp_service={$sanitized_service_name}";
     $result = "<a href=\"{$subscription_link}\">Subscribe Now</a>";
 } else {
     $result .= 'Subscription to <br>';
@@ -118,7 +120,6 @@ if (is_null($lookup)) {
 
     $result .= '<br><br>';
 
-    $sanitized_service_name = urlencode($lookup->answer_500);
     $edit_link = site_url() . "/provider/rfp-subscriptions/?frm_action=edit&entry={$lookup->entry_id_31}&rfp_service={$sanitized_service_name}";
     $cancel_link = do_shortcode("[frm-entry-delete-link id=\"{$lookup->entry_id_31}\" label=\"Cancel\"]");
 
