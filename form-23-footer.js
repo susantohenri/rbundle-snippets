@@ -46,7 +46,7 @@
     const fi_5438 = fo_23.find(`[name="item_meta[5438]"]`)
     const val_5441 = get_checkbox_value(5441)
     const fi_5442 = fo_23.find(`[name="item_meta[5442]"]`)
-    const fi_5443 = fo_23.find(`[name="item_meta[5443]"]`)
+    const section_5443 = fo_23.find(`#frm_field_5443_container > *`)
     const fi_5459 = fo_23.find(`[name="item_meta[5459]"]`)
     const fi_Lookup_38_782 = fo_23.find(`[name="item_meta[5522]"]`)
     const fi_Lookup_38_784 = fo_23.find(`[name="item_meta[5523]"]`)
@@ -80,7 +80,7 @@
     toggle(fi_5429, `Business` == val_5345 ? `show` : `hide`)
     toggle(fi_5432, `Provider` == val_5345 && `Pop` != val_5341 ? `show` : `hide`)
     toggle(fi_5437, `Provider` == val_5345 && `Pop` != val_5341 ? `show` : `hide`)
-    toggle(fi_5443, `Business` == val_5345 && `Engage` == val_5441 ? `show` : `hide`)
+    toggle(section_5443, `Business` == val_5345 && `Engage` == val_5441 ? `show` : `hide`)
     toggle(fi_5438, `Engage` == val_5441 ? `show` : `hide`)
     toggle(fi_822, `Business` == val_5345 ? `show` : `hide`)
 
@@ -100,14 +100,9 @@
     }
 
     cond_logic_5459()
-    fi_5436.change(cond_logic_5459)
+    fi_5442.change(cond_logic_5459)
     function cond_logic_5459() {
-        toggle(fi_5459,
-            `Business` == val_5345
-                || `Show` == fi_5436.val()
-                || `Pop` == val_5341
-                ? `show` : `hide`
-        )
+        fi_5459.val(`Show` == fi_5442.val() ? `Show` : ``).trigger(`change`)
     }
 
     cond_logic_2380()
