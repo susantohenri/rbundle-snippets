@@ -244,34 +244,20 @@
                 ? `show` : `hide`)
     }
 
-    cond_logic_1452()
-    fi_2393.click(fi_1452)
-    function cond_logic_1452() {
-        toggle(fi_1452, `Yes` == get_checkbox_value(2393) ? `show` : `hide`)
-    }
-
-    cond_logic_1456()
-    fi_2393.click(fi_1456)
-    function cond_logic_1456() {
-        toggle(fi_1456, `Yes` == get_checkbox_value(2393) ? `show` : `hide`)
+    cond_logic_trigger_2393()
+    fi_2393.click(cond_logic_trigger_2393)
+    function cond_logic_trigger_2393() {
+        const val_2393 = get_checkbox_value(2393)
+        toggle(fi_1452, `Yes` == val_2393 ? `show` : `hide`)
+        toggle(fi_1454, `Yes` == val_2393 ? `show` : `hide`)
+        toggle(fi_1455, `Yes` == val_2393 ? `show` : `hide`)
+        toggle(fi_1456, `Yes` == val_2393 ? `show` : `hide`)
     }
 
     cond_logic_1457()
     fi_1456.change(cond_logic_1457)
     function cond_logic_1457() {
         toggle(fi_1457, -1 < [`Payment Period`, `Service Benefit Receipt`].indexOf(fi_1456.val()) ? `show` : `hide`)
-    }
-
-    cond_logic_1454()
-    fi_2393.click(fi_1454)
-    function cond_logic_1454() {
-        toggle(fi_1454, `Yes` == get_checkbox_value(2393) ? `show` : `hide`)
-    }
-
-    cond_logic_1455()
-    fi_2393.click(fi_1455)
-    function cond_logic_1455() {
-        toggle(fi_1455, `Yes` == get_checkbox_value(2393) ? `show` : `hide`)
     }
 
     cond_logic_1525()
