@@ -35,7 +35,7 @@
     const fi_2402 = fo_23.find(`[name="item_meta[2402]"]`)
     const fi_2403 = fo_23.find(`#frm_field_2403_container > *`)
     const fi_5307 = fo_23.find(`[name="item_meta[5307]"]`)
-    const val_5341 = fo_23.find(`[name="item_meta[5341]"]`).val()
+    const val_5341 = get_checkbox_value(5341)
     const fi_5342 = fo_23.find(`[name="item_meta[5342]"]`)
     const fi_5343 = fo_23.find(`[name="item_meta[5343]"]`)
     const val_5345 = fo_23.find(`[name="item_meta[5345]"]`).val()
