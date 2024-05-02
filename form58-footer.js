@@ -24,6 +24,27 @@
         }
     }
 
+    form_58.parent().parent().parent().submit(() => {
+        const hidden_list_field_name = `skip_hidden_fields_required_validation`
+        let hidden_fields = []
+        form_58.find(`
+            input[name^="item_meta"],
+            select[name^="item_meta"],
+            :radio[name^="item_meta"],
+            :checkbox[name^="item_meta"],
+            textarea[name^="item_meta"]
+        `).not(`:visible`).each(function () {
+            const field = jQuery(this)
+            const field_id = field.attr(`name`).split(`[`)[1].split(`]`)[0]
+            const parent = field.is(`:checkbox`) || field.is(`:radio`) ? field.parent().parent().parent().parent() : field.parent()
+            if (!parent.is(`:visible`)) hidden_fields.push(field_id)
+        })
+        hidden_fields = hidden_fields.join(`,`)
+        form_58.append(`<input type="hidden" name="${hidden_list_field_name}" value="${hidden_fields}">`)
+
+        return true
+    })
+
     // conditional_logic_884_885
     field_5368.change(function () {
         field_2787.val(field_5368.val()).trigger(`change`)
