@@ -8,7 +8,7 @@ function rbundle_update_trx_status_on_engagement_submission($entry_id, $form_id)
     foreach ($wpdb->get_results("
         SELECT field_id, meta_value
         FROM {$wpdb->prefix}frm_item_metas
-        WHERE item_id = {$entry_id} AND field_id IN (5441, 306, 5432, 5324)
+        WHERE item_id = {$entry_id} AND field_id IN (5441, 306, 5432, 5324) AND meta_value <> 'T-'
     ") as $answer) {
         if (5441 == $answer->field_id) $entry_23[5441] = $answer->meta_value;
         else $entry_23['rfp_code'] = $answer->meta_value;
