@@ -15,7 +15,6 @@
     const fi_1525 = fo_23.find(`[name="item_meta[1525]"]`)
     const fi_1553 = fo_23.find(`[name="item_meta[1553]"]`)
     const fi_1554 = fo_23.find(`#frm_field_1554_container > *`)
-    const fi_1555 = fo_23.find(`[name="item_meta[1555]"]`)
     const fi_1556 = fo_23.find(`#frm_field_1556_container > *`)
     const fi_1557 = fo_23.find(`#frm_field_1557_container > *`)
     const fi_1558 = fo_23.find(`[name="item_meta[1558]"]`)
@@ -231,22 +230,6 @@
                 toggle(fi_964, `show`)
             }, 1000)
         }
-    }
-
-    cond_logic_1555()
-    fi_1553.change(cond_logic_1555)
-    fi_1554.change(cond_logic_1555)
-    fi_2402.change(cond_logic_1555)
-    fi_1558.change(cond_logic_1555)
-    fi_1557.change(cond_logic_1555)
-    function cond_logic_1555() {
-        toggle(fi_1555,
-            `` != fi_1553.val()
-                || `` != fi_1554.parent().find(`input`).val()
-                || `` != fi_2402.val()
-                || `` != fi_1558.val()
-                || `` != fi_1557.val()
-                ? `show` : `hide`)
     }
 
     cond_logic_trigger_2393()
