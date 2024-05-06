@@ -9,7 +9,10 @@
     const field_3713 = form_58.find(`[name="item_meta[3713]"]`)
     const section_4556 = form_58.find(`#frm_field_4556_container > div`)
     const field_5368 = form_58.find(`[name="item_meta[5368]"]`)
+    const bundled_service = form_58.find(`#frm_field_5412_container`)
+    const single_service = form_58.find(`#frm_field_881_container`)
 
+    init_bundled_service()
     form_58.parent().parent().parent().submit(() => {
         const hidden_list_field_name = `skip_hidden_fields_required_validation`
         let hidden_fields = []
@@ -104,6 +107,79 @@
                 field.attr(`aria-required`, `false`)
                 field.parent().hide()
                     ; break
+        }
+    }
+
+    function init_bundled_service() {
+        const bundled_service_htmls = {
+            bundled_parents: `<div class="bundled_parents"></div>`,
+            bundled_parent: `
+                <div class="bundled_parent">
+                    <div class="frm_form_field form-field  form-group frm_top_container">
+                        <label class="frm_primary_label col-form-label form-label">
+                            Business Name
+                            <span class="frm_required" aria-hidden="true"></span>
+                        </label>
+                        <div class="frm_input_group input-group frm_with_box frm_with_pre">
+                            <span class="frm_inline_box input-group-text input-group-addon">Business 1</span>
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            `,
+            bundled_unders: `<div class="bundled_unders"></div>`,
+            bundled_under: `<div class="bundled_under">${single_service.html()}</div>`,
+            frm_add_form_row: `
+                <br>
+                <div class="frm_form_field frm_hidden_container frm_repeat_buttons ">
+                    <a href="#" class="frm_add_form_row frm_button" data-parent="" aria-label="Add">
+                        <svg viewBox="0 0 20 20" width="1em" height="1em" class="frmsvg frm-svg-icon">
+                        <title>plus1</title>
+                        <path d="M11 5H9v4H5v2h4v4h2v-4h4V9h-4V5zm-1-5a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z"></path>
+                    </svg> Add</a>
+                </div>
+            `,
+            remove_form_row: `
+                <div class="frm_form_field frm_hidden_container frm_repeat_buttons ">
+                    <a href="#" class="remove_form_row frm_button" data-key="0" aria-label="Remove">
+                        <svg viewBox="0 0 20 20" width="1em" height="1em" class="frmsvg frm-svg-icon">
+                            <title>minus1</title>
+                            <path d="M5 9v2h10V9H5zm5-9a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z"></path>
+                        </svg> Remove
+                    </a>
+                </div>
+            `
+        }
+
+        bundled_service.append(bundled_service_htmls.bundled_parents)
+        bundled_service.append(bundled_service_htmls.bundled_unders)
+
+        const bundled_parents = bundled_service.find(`.bundled_parents`)
+        const bundled_unders = bundled_service.find(`.bundled_unders`)
+
+        bundled_parents.html(bundled_service_htmls.bundled_parent)
+        bundled_parents.append(bundled_service_htmls.frm_add_form_row)
+        bundled_unders.html(bundled_service_htmls.bundled_under)
+        bundled_unders.append(bundled_service_htmls.frm_add_form_row)
+
+        bundled_parents.find(`.frm_add_form_row`).click(function () {
+            const template = jQuery(bundled_service_htmls.bundled_parent)
+            const latest = jQuery(`.bundled_parent`).last()
+            template
+                .append(bundled_service_htmls.remove_form_row)
+                .insertAfter(latest)
+                .find(`.remove_form_row`).click(function () {
+                    jQuery(this).parent().parent().remove()
+                    business_label()
+                })
+            business_label()
+        })
+        function business_label() {
+            jQuery(`.bundled_parent`).each(function () {
+                jQuery(this)
+                    .find(`.frm_inline_box.input-group-text.input-group-addon`)
+                    .html(`Business ${jQuery(this).index() + 1}`)
+            })
         }
     }
 })(document.currentScript);
