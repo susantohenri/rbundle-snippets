@@ -195,12 +195,28 @@
                 const created_bu = template
                     .append(bundled_service_htmls.remove_form_row)
                     .insertBefore(jQuery(this).parent())
-                const bu_5368 = created_bu.find(`[name="bundled_under[5368][]"]`)
+                const bu_5368_selector = `[name="bundled_under[5368][]"]`
+                const bu_5368 = created_bu.find(bu_5368_selector)
                 const bu_884 = created_bu.find(`[name="bundled_under[884][][]"]`)
                 const bu_885 = created_bu.find(`[name="bundled_under[885][]"]`)
 
                 created_bu.find(`.remove_form_row`).click(function () {
                     jQuery(this).parent().parent().remove()
+                })
+
+                bu_5368.click(function () {
+                    let available_services = []
+                    template.find(bu_5368_selector).find(`option`).each(function () {
+                        available_services.push(jQuery(this).attr(`value`))
+                    })
+                    bundled_service.find(`.bundled_unders select[name="bundled_under[5368][]"]`).not(jQuery(this)).each(function () {
+                        available_services = available_services.filter(opt => {
+                            return jQuery(this).val() != opt
+                        })
+                    })
+                    jQuery(this).html(available_services.map(service => {
+                        return `<option value="${service}">${service}</option>`
+                    }))
                 })
 
                 bu_cond_logic_884()
