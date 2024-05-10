@@ -12,7 +12,7 @@
     const bundled_service = form_58.find(`#frm_field_5412_container`)
     const single_service = form_58.find(`#frm_field_881_container`)
 
-    setTimeout(init_bundled_service, 1000)
+    setTimeout(bundled_service_init, 1000)
 
     form_58.parent().parent().parent().submit(() => {
         const hidden_list_field_name = `skip_hidden_fields_required_validation`
@@ -40,7 +40,7 @@
     field_3712.change(cond_logic_884)
     function cond_logic_884() {
         const value_5368 = field_5368.val()
-        if (`The selected Customer/Client` == field_3712.val() || `` == value_5368) toggle(field_884, `hide`)
+        if (`The selected Customer/Client` == field_3712.val() || `` == value_5368 || null == value_5368) toggle(field_884, `hide`)
         else if (-1 < value_5368.indexOf(`Legal`) || -1 < value_5368.indexOf(`IRS`)) toggle(field_884, `hide`)
         else toggle(field_884, `show`)
     }
@@ -50,7 +50,7 @@
     field_3712.change(cond_logic_885)
     function cond_logic_885() {
         const value_5368 = field_5368.val()
-        if (`The selected Customer/Client` == field_3712.val() || `` == value_5368) toggle(field_885, `show`)
+        if (`The selected Customer/Client` == field_3712.val() || `` == value_5368 || null == value_5368) toggle(field_885, `show`)
         else if (-1 < value_5368.indexOf(`Legal`) || -1 < value_5368.indexOf(`IRS`)) toggle(field_885, `show`)
         else toggle(field_885, `hide`)
     }
@@ -111,13 +111,13 @@
         }
     }
 
-    function init_bundled_service() {
-        let bundled_under = single_service.clone()
-        bundled_under.find(`select`).each(function () {
+    function bundled_service_init() {
+        let single_service_clone = single_service.clone()
+        single_service_clone.find(`select,[type="text"]`).each(function () {
             const select = jQuery(this)
             select.attr(`name`, select.attr(`name`).replace(`item_meta`, `bundled_under`) + `[]`)
         })
-        bundled_under = bundled_under.html()
+        single_service_clone = single_service_clone.html()
 
         const bundled_service_htmls = {
             bundled_parents: `<div class="bundled_parents"><h3 class="text-center frm_pos_top frm_section_spacing">Repeater</h3></div>`,
@@ -136,7 +136,7 @@
                 </div>
             `,
             bundled_unders: `<div class="bundled_unders"><h3 class="text-center frm_pos_top frm_section_spacing">Nested Repeater</h3></div>`,
-            bundled_under: `<div class="bundled_under">${bundled_under}</div>`,
+            bundled_under: `<div class="bundled_under">${single_service_clone}</div>`,
             frm_add_form_row: `
                 <br>
                 <div class="frm_form_field frm_hidden_container frm_repeat_buttons ">
@@ -171,19 +171,11 @@
                     .insertBefore(jQuery(this).parent())
                     .find(`.remove_form_row`).click(function () {
                         jQuery(this).parent().parent().remove()
-                        business_label()
+                        bundled_service_parent_business_number()
                     })
-                business_label()
+                bundled_service_parent_business_number()
             })
             .click()
-
-        function business_label() {
-            jQuery(`.bundled_parent`).each(function () {
-                jQuery(this)
-                    .find(`.frm_inline_box.input-group-text.input-group-addon`)
-                    .html(`Business ${jQuery(this).index() - 1}`)
-            })
-        }
 
         bundled_service
             .append(bundled_service_htmls.bundled_unders)
@@ -199,9 +191,12 @@
                 const bu_5368 = created_bu.find(bu_5368_selector)
                 const bu_884 = created_bu.find(`[name="bundled_under[884][][]"]`)
                 const bu_885 = created_bu.find(`[name="bundled_under[885][]"]`)
+                const bu_938 = created_bu.find(`[name="bundled_under[938][]"]`)
+                const bu_5057 = created_bu.find(`[name="bundled_under[5057][]"]`)
 
                 created_bu.find(`.remove_form_row`).click(function () {
                     jQuery(this).parent().parent().remove()
+                    bundled_service_under_list_down_selected_service_name()
                 })
 
                 bu_5368.click(function () {
@@ -209,7 +204,7 @@
                     template.find(bu_5368_selector).find(`option`).each(function () {
                         available_services.push(jQuery(this).attr(`value`))
                     })
-                    bundled_service.find(`.bundled_unders select[name="bundled_under[5368][]"]`).not(jQuery(this)).each(function () {
+                    jQuery(bu_5368_selector).not(jQuery(this)).each(function () {
                         available_services = available_services.filter(opt => {
                             return jQuery(this).val() != opt
                         })
@@ -238,7 +233,49 @@
                     else if (-1 < val_bu_5368.indexOf(`Legal`) || -1 < val_bu_5368.indexOf(`IRS`)) toggle(bu_885, `show`)
                     else toggle(bu_885, `hide`)
                 }
+
+                bu_5368.change(e => {
+                    jQuery.post(frm_js.ajax_url, {
+                        action: `frm_get_lookup_text_value`,
+                        parent_fields: [5368],
+                        parent_vals: [bu_5368.val()],
+                        field_id: 938,
+                        nonce: frm_js.nonce
+                    }, service_name => {
+                        bu_938.val(service_name)
+                        bundled_service_under_list_down_selected_service_name()
+                    })
+                    jQuery.post(frm_js.ajax_url, {
+                        action: `frm_get_lookup_text_value`,
+                        parent_fields: [5368],
+                        parent_vals: [bu_5368.val()],
+                        field_id: 5057,
+                        nonce: frm_js.nonce
+                    }, service_cat => {
+                        bu_5057.val(service_cat)
+                    })
+                })
             })
             .click()
+    }
+
+    function bundled_service_parent_business_number() {
+        jQuery(`.bundled_parent`).each(function () {
+            jQuery(this)
+                .find(`.frm_inline_box.input-group-text.input-group-addon`)
+                .html(`Business ${jQuery(this).index() - 1}`)
+        })
+    }
+
+    function bundled_service_under_list_down_selected_service_name() {
+        let selected_service_names = []
+        bundled_service
+            .find(`.bundled_unders`)
+            .find(`[name="bundled_under[938][]"]`)
+            .each(function () {
+                const service_name = jQuery(this).val()
+                if (`` != service_name) selected_service_names.push(service_name)
+            })
+        jQuery(`[name="item_meta[5365]"]`).val(selected_service_names.join(`,`))
     }
 })(document.currentScript);
