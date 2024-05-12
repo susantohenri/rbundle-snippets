@@ -141,8 +141,8 @@
                 </div>
             `
         }
-        buttons.add_bundle = buttons.add.replace(`#PART#`, `Bundle`)
-        buttons.remove_bundle = buttons.remove.replace(`#PART#`, `Bundle`)
+        buttons.add_bundle = buttons.add.replace(`#PART#`, `Business`)
+        buttons.remove_bundle = buttons.remove.replace(`#PART#`, `Business`)
         buttons.add_service = buttons.add.replace(`#PART#`, `Service`)
         buttons.remove_service = buttons.remove.replace(`#PART#`, `Service`)
 
@@ -229,6 +229,7 @@
                                     available_services.push(jQuery(this).attr(`value`))
                                 })
 
+                            available_services.shift()// remove empty option
                             bundled_service
                                 .find(bu_5368_selector)
                                 .not(jQuery(this))
@@ -238,7 +239,6 @@
                                     })
                                 })
 
-                            available_services = 0 > available_services.indexOf(``) ? [``, ...available_services] : available_services
                             jQuery(this)
                                 .html(available_services.map(service => {
                                     return `<option value="${service}">${service}</option>`
@@ -319,38 +319,46 @@
             }
         }
 
-        let list = []
+        let list = ``
+        let bus_num = 0
         bundled_services
             .find(`.bundled_service`)
             .each(function () {
-                let answers = []
+                bus_num++
+                let serv_num = 0
+                list += `Business ${bus_num}\n`
+
                 jQuery(this).find(selectors[service_attribute].lookup_field).each(function () {
-                    answers.push(jQuery(this).val())
+                    serv_num++
+                    list += `${serv_num}. ${jQuery(this).val()}\n`
                 })
-                list.push(answers)
             })
-        jQuery(selectors[service_attribute].textarea_field).html(JSON.stringify(list))
+        jQuery(selectors[service_attribute].textarea_field).html(list)
     }
 
     function bundled_service_children_list_down_selected_locations() {
-        let list = []
+        let list = ``
+        let bus_num = 0
         bundled_services
             .find(`.bundled_service`)
             .each(function () {
-                const bundle = jQuery(this)
-                let answers = []
+                bus_num++
+                let serv_num = 0
+                list += `Business ${bus_num}\n`
 
-                bundle.find(`.bundled_children`).each(function () {
+                jQuery(this).find(`.bundled_children`).each(function () {
+                    serv_num++
                     const children = jQuery(this)
                     let field = children.find(`[name="bundled_children[884][][]"]:visible`)
                     field = 0 < field.length ? field : children.find(`[name="bundled_children[885][]"]:visible`)
-                    if (0 < field.length) answers.push(field.val())
-                    else answers.push(``)
+                    if (0 < field.length) {
+                        let locations = field.val()
+                        locations = Array.isArray(locations) ? locations.join(`,`) : locations
+                        list += `${serv_num}. ${locations}\n`
+                    } else list += `${serv_num}.\n`
                 })
-
-                list.push(answers)
             })
-        jQuery(`[name="item_meta[5363]"]`).html(JSON.stringify(list))
+        jQuery(`[name="item_meta[5363]"]`).html(list)
     }
 
 })(document.currentScript);
