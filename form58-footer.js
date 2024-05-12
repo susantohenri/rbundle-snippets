@@ -191,7 +191,9 @@
                     .find(`>.frm_repeat_buttons .remove_form_row`)
                     .click(function () { // remove bundle
                         jQuery(this).parent().parent().remove()
-                        bundled_service_children_list_down_selected_service_name()
+                        bundled_service_children_list_down_selected_service(`service_name`)
+                        bundled_service_children_list_down_selected_service(`service_category`)
+                        bundled_service_children_list_down_selected_locations()
                         bundled_service_bundle_business_number()
                     })
 
@@ -213,10 +215,12 @@
                         bundled_children.find(`.remove_form_row`)
                             .click(function () { // remove service
                                 jQuery(this).parent().parent().remove()
-                                bundled_service_children_list_down_selected_service_name()
+                                bundled_service_children_list_down_selected_service(`service_name`)
+                                bundled_service_children_list_down_selected_service(`service_category`)
+                                bundled_service_children_list_down_selected_locations()
                             })
 
-                        bu_5368.click(function () {
+                        bu_5368.click(function () {// unique service
                             let available_services = []
                             jQuery(templates.children)
                                 .find(bu_5368_selector)
@@ -225,13 +229,16 @@
                                     available_services.push(jQuery(this).attr(`value`))
                                 })
 
-                            jQuery(bu_5368_selector)
+                            bundled_service
+                                .find(bu_5368_selector)
                                 .not(jQuery(this))
                                 .each(function () {
                                     available_services = available_services.filter(opt => {
                                         return jQuery(this).val() != opt
                                     })
                                 })
+
+                            available_services = 0 > available_services.indexOf(``) ? [``, ...available_services] : available_services
                             jQuery(this)
                                 .html(available_services.map(service => {
                                     return `<option value="${service}">${service}</option>`
@@ -267,7 +274,7 @@
                                 nonce: frm_js.nonce
                             }, service_name => {
                                 bu_938.val((new DOMParser().parseFromString(service_name, `text/html`)).documentElement.textContent)
-                                bundled_service_children_list_down_selected_service_name()
+                                bundled_service_children_list_down_selected_service(`service_name`)
                             })
                             jQuery.post(frm_js.ajax_url, {
                                 action: `frm_get_lookup_text_value`,
@@ -277,8 +284,12 @@
                                 nonce: frm_js.nonce
                             }, service_cat => {
                                 bu_5057.val((new DOMParser().parseFromString(service_cat, `text/html`)).documentElement.textContent)
+                                bundled_service_children_list_down_selected_service(`service_category`)
                             })
                         })
+
+                        bu_884.change(bundled_service_children_list_down_selected_locations)
+                        bu_885.change(bundled_service_children_list_down_selected_locations)
 
                     })
                     .click()
@@ -296,23 +307,50 @@
         })
     }
 
-    function bundled_service_children_list_down_selected_service_name() {
-        let bundled_services_data = []
+    function bundled_service_children_list_down_selected_service(service_attribute) {
+        const selectors = {
+            service_name: {
+                textarea_field: `[name="item_meta[5365]"]`,
+                lookup_field: `[name="bundled_children[938][]"]`
+            },
+            service_category: {
+                textarea_field: `[name="item_meta[5366]"]`,
+                lookup_field: `[name="bundled_children[5057][]"]`
+            }
+        }
+
+        let list = []
         bundled_services
             .find(`.bundled_service`)
             .each(function () {
-                const bundled_service = jQuery(this)
-                let list = { business_name: ``, service_names: [] }
-                list.business_name = bundled_service
-                    .find(`[name="business_name[]"]`)
-                    .val()
-                bundled_service
-                    .find(`[name="bundled_children[938][]"]`)
-                    .each(function () {
-                        list.service_names.push(jQuery(this).val())
-                    })
-                bundled_services_data.push(list)
+                let answers = []
+                jQuery(this).find(selectors[service_attribute].lookup_field).each(function () {
+                    answers.push(jQuery(this).val())
+                })
+                list.push(answers)
             })
-        jQuery(`[name="item_meta[5365]"]`).html(JSON.stringify(bundled_services_data))
+        jQuery(selectors[service_attribute].textarea_field).html(JSON.stringify(list))
     }
+
+    function bundled_service_children_list_down_selected_locations() {
+        let list = []
+        bundled_services
+            .find(`.bundled_service`)
+            .each(function () {
+                const bundle = jQuery(this)
+                let answers = []
+
+                bundle.find(`.bundled_children`).each(function () {
+                    const children = jQuery(this)
+                    let field = children.find(`[name="bundled_children[884][][]"]:visible`)
+                    field = 0 < field.length ? field : children.find(`[name="bundled_children[885][]"]:visible`)
+                    if (0 < field.length) answers.push(field.val())
+                    else answers.push(``)
+                })
+
+                list.push(answers)
+            })
+        jQuery(`[name="item_meta[5363]"]`).html(JSON.stringify(list))
+    }
+
 })(document.currentScript);
