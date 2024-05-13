@@ -191,8 +191,10 @@
                     .find(`>.frm_repeat_buttons .remove_form_row`)
                     .click(function () { // remove bundle
                         jQuery(this).parent().parent().remove()
-                        bundled_service_children_list_down_selected_service(`service_name`)
-                        bundled_service_children_list_down_selected_service(`service_category`)
+                        bundled_service_children_list_down_selected_service(5365, 938)
+                        bundled_service_children_list_down_selected_service(5356, 938)
+                        bundled_service_children_list_down_selected_service(5366, 5057)
+                        bundled_service_children_list_down_selected_service(5364, 5057)
                         bundled_service_children_list_down_selected_locations()
                         bundled_service_bundle_business_number()
                     })
@@ -215,8 +217,10 @@
                         bundled_children.find(`.remove_form_row`)
                             .click(function () { // remove service
                                 jQuery(this).parent().parent().remove()
-                                bundled_service_children_list_down_selected_service(`service_name`)
-                                bundled_service_children_list_down_selected_service(`service_category`)
+                                bundled_service_children_list_down_selected_service(5365, 938)
+                                bundled_service_children_list_down_selected_service(5356, 938)
+                                bundled_service_children_list_down_selected_service(5366, 5057)
+                                bundled_service_children_list_down_selected_service(5364, 5057)
                                 bundled_service_children_list_down_selected_locations()
                             })
 
@@ -274,7 +278,8 @@
                                 nonce: frm_js.nonce
                             }, service_name => {
                                 bu_938.val((new DOMParser().parseFromString(service_name, `text/html`)).documentElement.textContent)
-                                bundled_service_children_list_down_selected_service(`service_name`)
+                                bundled_service_children_list_down_selected_service(5365, 938)
+                                bundled_service_children_list_down_selected_service(5356, 938)
                             })
                             jQuery.post(frm_js.ajax_url, {
                                 action: `frm_get_lookup_text_value`,
@@ -284,7 +289,8 @@
                                 nonce: frm_js.nonce
                             }, service_cat => {
                                 bu_5057.val((new DOMParser().parseFromString(service_cat, `text/html`)).documentElement.textContent)
-                                bundled_service_children_list_down_selected_service(`service_category`)
+                                bundled_service_children_list_down_selected_service(5366, 5057)
+                                bundled_service_children_list_down_selected_service(5364, 5057)
                             })
                         })
 
@@ -307,17 +313,11 @@
         })
     }
 
-    function bundled_service_children_list_down_selected_service(service_attribute) {
-        const selectors = {
-            service_name: {
-                textarea_field: `[name="item_meta[5365]"]`,
-                lookup_field: `[name="bundled_children[938][]"]`
-            },
-            service_category: {
-                textarea_field: `[name="item_meta[5366]"]`,
-                lookup_field: `[name="bundled_children[5057][]"]`
-            }
-        }
+    function bundled_service_children_list_down_selected_service(Fo58Fi, bundledFi) {
+        Fo58Fi = `[name="item_meta[${Fo58Fi}]"]`
+        bundledFi = `[name="bundled_children[${bundledFi}][]"]`
+
+        const is_paragraph = jQuery(Fo58Fi).is(`textarea`)
 
         let list = ``
         let bus_num = 0
@@ -326,14 +326,16 @@
             .each(function () {
                 bus_num++
                 let serv_num = 0
-                list += `Business ${bus_num}\n`
+                if (is_paragraph) list += `Business ${bus_num}\n`
 
-                jQuery(this).find(selectors[service_attribute].lookup_field).each(function () {
+                jQuery(this).find(bundledFi).each(function () {
                     serv_num++
-                    list += `${serv_num}. ${jQuery(this).val()}\n`
+                    list += is_paragraph ? `${serv_num}. ` : ``
+                    list += jQuery(this).val()
+                    list += is_paragraph ? `\n` : `,`
                 })
             })
-        jQuery(selectors[service_attribute].textarea_field).html(list)
+        jQuery(Fo58Fi).val(list)
     }
 
     function bundled_service_children_list_down_selected_locations() {
