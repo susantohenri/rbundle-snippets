@@ -191,10 +191,11 @@
                     .find(`>.frm_repeat_buttons .remove_form_row`)
                     .click(function () { // remove bundle
                         jQuery(this).parent().parent().remove()
+                        bundled_service_children_list_down_selected_service(5364, 5368)
+                        bundled_service_children_list_down_selected_service(5366, 5368)
                         bundled_service_children_list_down_selected_service(5365, 938)
                         bundled_service_children_list_down_selected_service(5356, 938)
-                        bundled_service_children_list_down_selected_service(5366, 5057)
-                        bundled_service_children_list_down_selected_service(5364, 5057)
+                        bundled_service_children_list_down_selected_service(5357, 5057)
                         bundled_service_children_list_down_selected_locations()
                         bundled_service_bundle_business_number()
                     })
@@ -217,10 +218,11 @@
                         bundled_children.find(`.remove_form_row`)
                             .click(function () { // remove service
                                 jQuery(this).parent().parent().remove()
+                                bundled_service_children_list_down_selected_service(5364, 5368)
+                                bundled_service_children_list_down_selected_service(5366, 5368)
                                 bundled_service_children_list_down_selected_service(5365, 938)
                                 bundled_service_children_list_down_selected_service(5356, 938)
-                                bundled_service_children_list_down_selected_service(5366, 5057)
-                                bundled_service_children_list_down_selected_service(5364, 5057)
+                                bundled_service_children_list_down_selected_service(5357, 5057)
                                 bundled_service_children_list_down_selected_locations()
                             })
 
@@ -270,6 +272,8 @@
                         }
 
                         bu_5368.change(e => {
+                            bundled_service_children_list_down_selected_service(5364, 5368)
+                            bundled_service_children_list_down_selected_service(5366, 5368)
                             jQuery.post(frm_js.ajax_url, {
                                 action: `frm_get_lookup_text_value`,
                                 parent_fields: [5368],
@@ -289,8 +293,7 @@
                                 nonce: frm_js.nonce
                             }, service_cat => {
                                 bu_5057.val((new DOMParser().parseFromString(service_cat, `text/html`)).documentElement.textContent)
-                                bundled_service_children_list_down_selected_service(5366, 5057)
-                                bundled_service_children_list_down_selected_service(5364, 5057)
+                                bundled_service_children_list_down_selected_service(5357, 5057)
                             })
                         })
 
