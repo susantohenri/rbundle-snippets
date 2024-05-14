@@ -196,7 +196,7 @@
                         bundled_service_children_list_down_selected_service(5365, 938)
                         bundled_service_children_list_down_selected_service(5356, 938)
                         bundled_service_children_list_down_selected_service(5357, 5057)
-                        bundled_service_children_list_down_selected_locations()
+                        bundled_service_children_list_down_selected_areas()
                         bundled_service_bundle_business_number()
                     })
 
@@ -223,7 +223,7 @@
                                 bundled_service_children_list_down_selected_service(5365, 938)
                                 bundled_service_children_list_down_selected_service(5356, 938)
                                 bundled_service_children_list_down_selected_service(5357, 5057)
-                                bundled_service_children_list_down_selected_locations()
+                                bundled_service_children_list_down_selected_areas()
                             })
 
                         bu_5368.click(function () {// unique service
@@ -297,8 +297,8 @@
                             })
                         })
 
-                        bu_884.change(bundled_service_children_list_down_selected_locations)
-                        bu_885.change(bundled_service_children_list_down_selected_locations)
+                        bu_884.change(bundled_service_children_list_down_selected_areas)
+                        bu_885.change(bundled_service_children_list_down_selected_areas)
 
                     })
                     .click()
@@ -339,9 +339,10 @@
                 })
             })
         jQuery(Fo58Fi).val(list)
+        bundled_service_children_list_down_request_details()
     }
 
-    function bundled_service_children_list_down_selected_locations() {
+    function bundled_service_children_list_down_selected_areas() {
         let list = ``
         let bus_num = 0
         bundled_services
@@ -357,13 +358,41 @@
                     let field = children.find(`[name="bundled_children[884][][]"]:visible`)
                     field = 0 < field.length ? field : children.find(`[name="bundled_children[885][]"]:visible`)
                     if (0 < field.length) {
-                        let locations = field.val()
-                        locations = Array.isArray(locations) ? locations.join(`,`) : locations
-                        list += `${serv_num}. ${locations}\n`
+                        let areas = field.val()
+                        areas = Array.isArray(areas) ? areas.join(`,`) : areas
+                        list += `${serv_num}. ${areas}\n`
                     } else list += `${serv_num}.\n`
                 })
             })
         jQuery(`[name="item_meta[5363]"]`).html(list)
+        bundled_service_children_list_down_request_details()
+    }
+
+    function bundled_service_children_list_down_request_details() {
+        let details = ``
+        const services = jQuery(`[name="item_meta[5366]"]`).val().split(`\n`)
+        const areas = jQuery(`[name="item_meta[5363]"]`).val().split(`\n`)
+        const has_more_lines = services.length > areas.length ? services : areas
+
+        for (let row_num in has_more_lines) {
+            let service = services[row_num]
+            let area = areas[row_num]
+
+            service = `undefined` == typeof service ? `` : service
+            area = `undefined` == typeof area ? `` : area
+
+            if (0 == `${service}${area}`.indexOf(`Business `)) {
+                if (`` != service) details += service
+                else if (`` != area) details += area
+                details += `\n`
+            } else {
+                if (`` != service) details += `${service.slice(3)}: `
+                if (`` != area) details += area.slice(3)
+                details += `\n`
+            }
+        }
+
+        jQuery(`[name="item_meta[5367]"]`).html(details)
     }
 
 })(document.currentScript);
