@@ -32,7 +32,7 @@
         form_58.append(`<input type="hidden" name="${hidden_list_field_name}" value="${hidden_fields}">`)
 
         bundled_service_list_down_answers()
-        return false // true
+        return true
     })
 
     cond_logic_884()
@@ -310,19 +310,25 @@
         const single_lines = [5356, 5364, 5357]
         const textareas = [5365, 5366, 5363, 5367]
         let bus_num = 0
+        let is_multi_bus = false
+        let is_multi_srv = false
 
         bundled_services
             .find(`.bundled_service`)
             .each(function () {
-                bus_num++
                 const business = jQuery(this)
                 let srv_num = 0
+
+                bus_num++
+                if (1 < bus_num) is_multi_bus = true
 
                 for (let field_id of textareas) list_down[field_id].push(`Business ${bus_num}`)
 
                 business.find(`.bundled_children`).each(function () {
                     const service = jQuery(this)
+
                     srv_num++
+                    if (1 < srv_num) is_multi_srv = true
 
                     const name_only = service.find(`[name="bundled_children[938][]"]`).val()
                     const taxonomy = service.find(`[name="bundled_children[5368][]"]`).val()
@@ -353,6 +359,10 @@
 
             jQuery(`[name="item_meta[${field_id}]"]`).val(list_down[field_id])
         }
+
+        jQuery(`:checkbox[value="Multiple Businesses"]`).attr(`checked`, is_multi_bus)
+        jQuery(`:checkbox[value="Multiple Services"]`).attr(`checked`, is_multi_srv)
+
     }
 
 })(document.currentScript);
