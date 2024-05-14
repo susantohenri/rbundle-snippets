@@ -31,7 +31,8 @@
         hidden_fields = hidden_fields.join(`,`)
         form_58.append(`<input type="hidden" name="${hidden_list_field_name}" value="${hidden_fields}">`)
 
-        return true
+        bundled_service_list_down_answers()
+        return false // true
     })
 
     cond_logic_884()
@@ -191,12 +192,6 @@
                     .find(`>.frm_repeat_buttons .remove_form_row`)
                     .click(function () { // remove bundle
                         jQuery(this).parent().parent().remove()
-                        bundled_service_children_list_down_selected_service(5364, 5368)
-                        bundled_service_children_list_down_selected_service(5366, 5368)
-                        bundled_service_children_list_down_selected_service(5365, 938)
-                        bundled_service_children_list_down_selected_service(5356, 938)
-                        bundled_service_children_list_down_selected_service(5357, 5057)
-                        bundled_service_children_list_down_selected_areas()
                         bundled_service_bundle_business_number()
                     })
 
@@ -218,12 +213,6 @@
                         bundled_children.find(`.remove_form_row`)
                             .click(function () { // remove service
                                 jQuery(this).parent().parent().remove()
-                                bundled_service_children_list_down_selected_service(5364, 5368)
-                                bundled_service_children_list_down_selected_service(5366, 5368)
-                                bundled_service_children_list_down_selected_service(5365, 938)
-                                bundled_service_children_list_down_selected_service(5356, 938)
-                                bundled_service_children_list_down_selected_service(5357, 5057)
-                                bundled_service_children_list_down_selected_areas()
                             })
 
                         bu_5368.click(function () {// unique service
@@ -272,8 +261,6 @@
                         }
 
                         bu_5368.change(e => {
-                            bundled_service_children_list_down_selected_service(5364, 5368)
-                            bundled_service_children_list_down_selected_service(5366, 5368)
                             jQuery.post(frm_js.ajax_url, {
                                 action: `frm_get_lookup_text_value`,
                                 parent_fields: [5368],
@@ -282,8 +269,6 @@
                                 nonce: frm_js.nonce
                             }, service_name => {
                                 bu_938.val((new DOMParser().parseFromString(service_name, `text/html`)).documentElement.textContent)
-                                bundled_service_children_list_down_selected_service(5365, 938)
-                                bundled_service_children_list_down_selected_service(5356, 938)
                             })
                             jQuery.post(frm_js.ajax_url, {
                                 action: `frm_get_lookup_text_value`,
@@ -293,12 +278,8 @@
                                 nonce: frm_js.nonce
                             }, service_cat => {
                                 bu_5057.val((new DOMParser().parseFromString(service_cat, `text/html`)).documentElement.textContent)
-                                bundled_service_children_list_down_selected_service(5357, 5057)
                             })
                         })
-
-                        bu_884.change(bundled_service_children_list_down_selected_areas)
-                        bu_885.change(bundled_service_children_list_down_selected_areas)
 
                     })
                     .click()
@@ -316,83 +297,62 @@
         })
     }
 
-    function bundled_service_children_list_down_selected_service(Fo58Fi, bundledFi) {
-        Fo58Fi = `[name="item_meta[${Fo58Fi}]"]`
-        bundledFi = `[name="bundled_children[${bundledFi}][]"]`
-
-        const is_paragraph = jQuery(Fo58Fi).is(`textarea`)
-
-        let list = ``
-        let bus_num = 0
-        bundled_services
-            .find(`.bundled_service`)
-            .each(function () {
-                bus_num++
-                let serv_num = 0
-                if (is_paragraph) list += `Business ${bus_num}\n`
-
-                jQuery(this).find(bundledFi).each(function () {
-                    serv_num++
-                    list += is_paragraph ? `${serv_num}. ` : ``
-                    list += jQuery(this).val()
-                    list += is_paragraph ? `\n` : `,`
-                })
-            })
-        jQuery(Fo58Fi).val(list)
-        bundled_service_children_list_down_request_details()
-    }
-
-    function bundled_service_children_list_down_selected_areas() {
-        let list = ``
-        let bus_num = 0
-        bundled_services
-            .find(`.bundled_service`)
-            .each(function () {
-                bus_num++
-                let serv_num = 0
-                list += `Business ${bus_num}\n`
-
-                jQuery(this).find(`.bundled_children`).each(function () {
-                    serv_num++
-                    const children = jQuery(this)
-                    let field = children.find(`[name="bundled_children[884][][]"]:visible`)
-                    field = 0 < field.length ? field : children.find(`[name="bundled_children[885][]"]:visible`)
-                    if (0 < field.length) {
-                        let areas = field.val()
-                        areas = Array.isArray(areas) ? areas.join(`,`) : areas
-                        list += `${serv_num}. ${areas}\n`
-                    } else list += `${serv_num}.\n`
-                })
-            })
-        jQuery(`[name="item_meta[5363]"]`).html(list)
-        bundled_service_children_list_down_request_details()
-    }
-
-    function bundled_service_children_list_down_request_details() {
-        let details = ``
-        const services = jQuery(`[name="item_meta[5366]"]`).val().split(`\n`)
-        const areas = jQuery(`[name="item_meta[5363]"]`).val().split(`\n`)
-        const has_more_lines = services.length > areas.length ? services : areas
-
-        for (let row_num in has_more_lines) {
-            let service = services[row_num]
-            let area = areas[row_num]
-
-            service = `undefined` == typeof service ? `` : service
-            area = `undefined` == typeof area ? `` : area
-
-            if (0 == `${service}${area}`.indexOf(`Business `)) {
-                if (`` != service) details += service
-                else if (`` != area) details += area
-                details += `\n`
-            } else {
-                if (`` != service) details += `${service.slice(3)}: `
-                if (`` != area) details += area.slice(3)
-                details += `\n`
-            }
+    function bundled_service_list_down_answers() {
+        let list_down = {
+            5356: [],
+            5365: [],
+            5364: [],
+            5366: [],
+            5357: [],
+            5363: [],
+            5367: [],
         }
+        const single_lines = [5356, 5364, 5357]
+        const textareas = [5365, 5366, 5363, 5367]
+        let bus_num = 0
 
-        jQuery(`[name="item_meta[5367]"]`).html(details)
+        bundled_services
+            .find(`.bundled_service`)
+            .each(function () {
+                bus_num++
+                const business = jQuery(this)
+                let srv_num = 0
+
+                for (let field_id of textareas) list_down[field_id].push(`Business ${bus_num}`)
+
+                business.find(`.bundled_children`).each(function () {
+                    const service = jQuery(this)
+                    srv_num++
+
+                    const name_only = service.find(`[name="bundled_children[938][]"]`).val()
+                    const taxonomy = service.find(`[name="bundled_children[5368][]"]`).val()
+                    const category = service.find(`[name="bundled_children[5057][]"]`).val()
+
+                    let area = service.find(`[name="bundled_children[884][][]"]:visible`)
+                    area = 0 < area.length ? area : service.find(`[name="bundled_children[885][]"]:visible`)
+                    if (0 < area.length) {
+                        area = area.val()
+                        area = Array.isArray(area) ? area.join(`, `) : area
+                    } else area = ``
+
+                    list_down[5356].push(name_only)
+                    list_down[5365].push(`${srv_num}. ${name_only}`)
+                    list_down[5364].push(taxonomy)
+                    list_down[5366].push(`${srv_num}. ${taxonomy}`)
+                    list_down[5357].push(category)
+                    list_down[5363].push(`${srv_num}. ${area}`)
+                    list_down[5367].push(`${srv_num}. ${taxonomy}: ${area}`)
+                })
+            })
+
+        for (let field_id of Object.keys(list_down)) {
+            list_down[field_id] = list_down[field_id].filter(srv => { return `` != srv })
+
+            if (-1 < single_lines.indexOf(field_id)) list_down[field_id] = list_down[field_id].join(`, `)
+            else if (-1 < textareas.indexOf(field_id)) list_down[field_id] = list_down[field_id].join(`\n`)
+
+            jQuery(`[name="item_meta[${field_id}]"]`).val(list_down[field_id])
+        }
     }
 
 })(document.currentScript);
