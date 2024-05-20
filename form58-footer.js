@@ -3,13 +3,13 @@
     const field_884 = form_58.find(`[name="item_meta[884][]"]`)
     const field_885 = form_58.find(`[name="item_meta[885]"]`)
     const field_896 = form_58.find(`#frm_field_896_container > *`)
-    const field_2787 = form_58.find(`[name="item_meta[2787]"]`)
     const field_3712 = jQuery(`#frm_field_3712_container :radio`)
     const field_3713 = form_58.find(`[name="item_meta[3713]"]`)
     const section_4556 = form_58.find(`#frm_field_4556_container > div`)
     const field_5368 = form_58.find(`[name="item_meta[5368]"]`)
     const bundled_services = form_58.find(`#frm_field_5412_container`)
     const single_service = form_58.find(`#frm_field_881_container`)
+    const bundled_file_field_id = 5361
 
     setTimeout(bundled_service_init, 1000)
 
@@ -113,7 +113,7 @@
 
     function bundled_service_init() {
         let single_service_clone = single_service.clone()
-        single_service_clone.find(`select,[type="text"]`).each(function () {
+        single_service_clone.find(`select,[type="text"],[type="hidden"]`).each(function () {
             const select = jQuery(this)
             select.attr(`name`, select.attr(`name`).replace(`item_meta`, `bundled_children`) + `[]`)
         })
@@ -278,6 +278,32 @@
                                 nonce: frm_js.nonce
                             }, service_cat => {
                                 bu_5057.val((new DOMParser().parseFromString(service_cat, `text/html`)).documentElement.textContent)
+                            })
+                        })
+
+                        bundled_children.find(`.frm_dropzone`).click(e => {
+                            const file_input = jQuery(`<input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">`)
+                                .appendTo(bundled_children)
+                                .hide()
+                                .click()
+
+                            file_input.change(e => {
+                                let formData = new FormData()
+                                formData.append(`action`, 'rbundle_custom_submit_dropzone')
+                                formData.append(`field_id`, bundled_file_field_id)
+                                formData.append(`form_id`, 58)
+                                formData.append(`nonce`, frm_js.nonce)
+                                formData.append(`antispam_token`, jQuery(`[data-token]`).attr(`data-token`))
+                                formData.append(`file${bundled_file_field_id}`, file_input[0].files[0])
+
+                                xhr = new XMLHttpRequest()
+                                xhr.open(`POST`, frm_js.ajax_url, true)
+                                xhr.onreadystatechange = function (media_id) {
+                                    console.log(Math.random(), media_id)
+                                }
+                                xhr.send(formData)
+
+                                file_input.remove()
                             })
                         })
 
