@@ -281,31 +281,75 @@
                             })
                         })
 
-                        bundled_children.find(`.frm_dropzone`).click(e => {
-                            const file_input = jQuery(`<input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">`)
-                                .appendTo(bundled_children)
-                                .hide()
-                                .click()
-
-                            file_input.change(e => {
-                                let formData = new FormData()
-                                formData.append(`action`, 'rbundle_custom_submit_dropzone')
-                                formData.append(`field_id`, bundled_file_field_id)
-                                formData.append(`form_id`, 58)
-                                formData.append(`nonce`, frm_js.nonce)
-                                formData.append(`antispam_token`, jQuery(`[data-token]`).attr(`data-token`))
-                                formData.append(`file${bundled_file_field_id}`, file_input[0].files[0])
-
-                                xhr = new XMLHttpRequest()
-                                xhr.open(`POST`, frm_js.ajax_url, true)
-                                xhr.onreadystatechange = function (media_id) {
-                                    console.log(Math.random(), media_id)
+                        bundled_children
+                            .find(`.frm_dropzone`)
+                            .each(function () {
+                                const dz = {
+                                    element: jQuery(this)
                                 }
-                                xhr.send(formData)
+                                dz.icon = jQuery(this).find(`.dz-message`)
+                                dz.hidden_input = jQuery(this).siblings(`[name="bundled_children[3713][]"]`)
+                                dz.preview_html = `
+                                    <div class="dz-preview dz-file-preview frm_clearfix dz-processing dz-success dz-complete">
+                                        <div class="dz-image"><img data-dz-thumbnail="" src="${window.location.origin}/wp-content/plugins/formidable-pro/images/doc.svg">
+                                        </div>
+                                        <div class="dz-column">
+                                            <div class="dz-details">
+                                                <div class="dz-filename"><span data-dz-name=""></span></div>
+                                                <div class="dz-size"></div>
+                                                <a class="dz-remove frm_remove_link" href="javascript:;" data-dz-remove="" title="Remove file">
+                                                    <svg width="20" height="20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M10 0a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm3.6-13L10 8.6 6.4 5 5 6.4 8.6 10 5 13.6 6.4 15l3.6-3.6 3.6 3.6 1.4-1.4-3.6-3.6L15 6.4z">
+                                                        </path>
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `
 
-                                file_input.remove()
+                                dz.icon
+                                    .click(e => {
+                                        dz.element.find(`[type="file"]`).remove()
+                                        const file_input = jQuery(`<input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">`)
+                                            .insertBefore(dz.icon)
+                                            .hide()
+                                            .click()
+
+                                        file_input.change(e => {
+                                            let formData = new FormData()
+                                            formData.append(`action`, 'rbundle_custom_submit_dropzone')
+                                            formData.append(`field_id`, bundled_file_field_id)
+                                            formData.append(`form_id`, 58)
+                                            formData.append(`nonce`, frm_js.nonce)
+                                            formData.append(`antispam_token`, jQuery(`[data-token]`).attr(`data-token`))
+                                            formData.append(`file${bundled_file_field_id}`, file_input[0].files[0])
+
+                                            xhr = new XMLHttpRequest()
+                                            xhr.open(`POST`, frm_js.ajax_url, true)
+                                            xhr.onreadystatechange = function () {
+                                                if (xhr.readyState == XMLHttpRequest.DONE) {
+                                                    let resp = xhr.responseText
+                                                    resp = JSON.parse(resp)
+                                                    resp = resp[0]
+
+                                                    dz.icon.hide()
+                                                    dz.hidden_input.val(resp)
+                                                    dz.element.find(`.dz-preview`).remove()
+                                                    dz.element.append(dz.preview_html)
+                                                    dz.element.find(`[data-dz-name]`).html(file_input[0].files[0].name)
+                                                    dz.element.find(`[data-dz-remove]`).click(e => {
+                                                        dz.icon.show()
+                                                    })
+                                                }
+                                            }
+                                            xhr.send(formData)
+
+                                            file_input.remove()
+                                        })
+                                    })
                             })
-                        })
 
                     })
                     .click()
