@@ -14,6 +14,7 @@
     setTimeout(bundled_service_init, 1000)
 
     form_58.parent().parent().parent().submit(() => {
+        let is_valid = true
         const hidden_list_field_name = `skip_hidden_fields_required_validation`
         let hidden_fields = []
         form_58.find(`
@@ -32,7 +33,7 @@
         form_58.append(`<input type="hidden" name="${hidden_list_field_name}" value="${hidden_fields}">`)
 
         bundled_service_list_down_answers()
-        return true
+        return is_valid && bundled_service_validation()
     })
 
     cond_logic_884()
@@ -335,7 +336,7 @@
                                                     resp = resp[0]
 
                                                     dz.icon.hide()
-                                                    dz.hidden_input.val(resp)
+                                                    dz.hidden_input.val(resp).change()
                                                     dz.element.find(`.dz-preview`).remove()
                                                     dz.element.append(dz.preview_html)
                                                     dz.element.find(`[data-dz-name]`).html(file_input[0].files[0].name)
@@ -365,6 +366,57 @@
                 .html(`Business ${bus_num}`)
             bus_num++
         })
+    }
+
+    function bundled_service_validation() {
+        let is_valid = true
+        jQuery(`.bundled_children:visible`).each(function () {
+            const child = jQuery(this)
+            const srv = child.find(`[name="bundled_children[5368][]"]`)
+            const file = child.find(`[name="bundled_children[3713][]"]`)
+
+            if (`` == srv.val()) {
+                is_valid = false
+                let error_message = srv.attr(`data-reqmsg`)
+                error_message = `<div class="frm_error" role="alert" id="frm_error_field_xepcm">${error_message}</div>`
+                srv.siblings(`.frm_error`).remove()
+                jQuery(error_message).insertAfter(srv)
+                srv.get(0).scrollIntoView({ behavior: 'smooth' })
+                srv.focus(e => {
+                    srv.siblings(`.frm_error`).remove()
+                })
+            }
+
+            let area = child.find(`[name="bundled_children[884][][]"]:visible`)
+            area = 0 < area.length ? area : child.find(`[name="bundled_children[885][]"]:visible`)
+            if (0 < area.length) {
+                if (`` == area.val()) {
+                    is_valid = false
+                    let error_message = area.attr(`data-reqmsg`)
+                    error_message = `<div class="frm_error" role="alert" id="frm_error_field_xepcm">${error_message}</div>`
+                    area.siblings(`.frm_error`).remove()
+                    jQuery(error_message).insertAfter(area)
+                    area.get(0).scrollIntoView({ behavior: 'smooth' })
+                    area.focus(e => {
+                        area.siblings(`.frm_error`).remove()
+                    })
+                }
+            }
+
+            if (`` == file.val()) {
+                is_valid = false
+                let error_message = file.attr(`data-reqmsg`)
+                error_message = `<div class="frm_error" role="alert" id="frm_error_field_xepcm">${error_message}</div>`
+                file.siblings(`.frm_error`).remove()
+                jQuery(error_message).appendTo(file.parent())
+                file.get(0).scrollIntoView({ behavior: 'smooth' })
+                file.change(e => {
+                    file.siblings(`.frm_error`).remove()
+                })
+            }
+
+        })
+        return is_valid
     }
 
     function bundled_service_list_down_answers() {
