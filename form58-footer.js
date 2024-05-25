@@ -1,23 +1,52 @@
 (function (script) {
-    const form_58 = jQuery(script).parent()
-    const field_884 = form_58.find(`[name="item_meta[884][]"]`)
-    const field_885 = form_58.find(`[name="item_meta[885]"]`)
-    const field_896 = form_58.find(`#frm_field_896_container > *`)
-    const field_3712 = jQuery(`#frm_field_3712_container :radio`)
-    const field_3713 = form_58.find(`[name="item_meta[3713]"]`)
-    const section_4556 = form_58.find(`#frm_field_4556_container > div`)
-    const field_5368 = form_58.find(`[name="item_meta[5368]"]`)
-    const bundled_services = form_58.find(`#frm_field_5412_container`)
-    const single_service = form_58.find(`#frm_field_881_container`)
+    const fo_58 = jQuery(script).parent()
+    const fi_878 = fo_58.find(`[name="item_meta[878]"]`)
+    const fi_880 = fo_58.find(`[name="item_meta[880]"]`)
+    const section_881 = fo_58.find(`#frm_field_881_container > div`)
+    const fi_884 = fo_58.find(`[name="item_meta[884][]"]`)
+    const fi_885 = fo_58.find(`[name="item_meta[885]"]`)
+    const fi_893_container = fo_58.find(`#frm_field_893_container > *`)
+    const fi_893 = fo_58.find(`[name="item_meta[893][]"]`)
+    const fi_894 = fo_58.find(`[name="item_meta[894][]"]`)
+    const fi_895 = fo_58.find(`[name="item_meta[895]"]`)
+    const fi_896 = fo_58.find(`#frm_field_896_container > *`)
+    const section_1089 = fo_58.find(`#frm_field_1089_container > div`)
+    const fi_2534 = fo_58.find(`[name="item_meta[2534][]"]`)
+    const section_2574 = fo_58.find(`#frm_field_2574_container > div`)
+    const fi_2999_container = fo_58.find(`#frm_field_2999_container > *`)
+    const fi_2999 = fo_58.find(`[name="item_meta[2999][]"]`)
+    const fi_3000_container = fo_58.find(`#frm_field_3000_container > *`)
+    const fi_3000 = fo_58.find(`[name="item_meta[3000][]"]`)
+    const fi_3001 = fo_58.find(`[name="item_meta[3001]"]`)
+    const fi_3430 = fo_58.find(`[name="item_meta[3430]"]`)
+    const fi_3711 = fo_58.find(`[name="item_meta[3711]"]`)
+    const fi_3712 = fo_58.find(`[name="item_meta[3712]"]`)
+    const fi_3713 = fo_58.find(`[name="item_meta[3713]"]`)
+    const section_4556 = fo_58.find(`#frm_field_4556_container > div`)
+    const fi_4654 = fo_58.find(`[name="item_meta[4654]"]`)
+    const fi_3456 = fo_58.find(`[name="item_meta[3456][]"]`)
+    const fi_3459_container = fo_58.find(`#frm_field_3459_container > *`)
+    const val_3458 = fo_58.find(`[name="item_meta[3458]"]`).val()
+    const fi_5131 = fo_58.find(`[name="item_meta[5131]"]`)
+    const fi_5141 = fo_58.find(`[name="item_meta[5141]"]`)
+    const fi_5142 = fo_58.find(`[name="item_meta[5142]"]`)
+    const section_5413 = fo_58.find(`#frm_field_5413_container > div`)
+    const fi_5338 = fo_58.find(`[name="item_meta[5338]"]`)
+    const fi_5339 = fo_58.find(`[name="item_meta[5339]"]`)
+    const fi_5453 = fo_58.find(`[name="item_meta[5453]"]`)
+    const fi_5368 = fo_58.find(`[name="item_meta[5368]"]`)
+    const fi_5415 = fo_58.find(`[name="item_meta[5415]"]`)
+    const bundled_services = fo_58.find(`#frm_field_5412_container`)
+    const single_service = fo_58.find(`#frm_field_881_container`)
     const bundled_file_field_id = 5361
 
     setTimeout(bundled_service_init, 1000)
 
-    form_58.parent().parent().parent().submit(() => {
+    fo_58.parent().parent().parent().submit(() => {
         let is_valid = true
         const hidden_list_field_name = `skip_hidden_fields_required_validation`
         let hidden_fields = []
-        form_58.find(`
+        fo_58.find(`
             input[name^="item_meta"],
             select[name^="item_meta"],
             :radio[name^="item_meta"],
@@ -30,73 +59,210 @@
             if (!parent.is(`:visible`)) hidden_fields.push(field_id)
         })
         hidden_fields = hidden_fields.join(`,`)
-        form_58.append(`<input type="hidden" name="${hidden_list_field_name}" value="${hidden_fields}">`)
+        fo_58.append(`<input type="hidden" name="${hidden_list_field_name}" value="${hidden_fields}">`)
 
         bundled_service_list_down_answers()
         return is_valid && bundled_service_validation()
     })
 
     cond_logic_884()
-    field_5368.change(cond_logic_884)
-    field_3712.change(cond_logic_884)
+    fi_5368.change(cond_logic_884)
+    fi_3712.click(cond_logic_884)
     function cond_logic_884() {
-        const value_5368 = field_5368.val()
-        if (`The selected Customer/Client` == field_3712.val() || `` == value_5368 || null == value_5368) toggle(field_884, `hide`)
-        else if (-1 < value_5368.indexOf(`Legal`) || -1 < value_5368.indexOf(`IRS`)) toggle(field_884, `hide`)
-        else toggle(field_884, `show`)
+        const value_5368 = fi_5368.val()
+        if (`The selected Customer/Client` == get_checkbox_value(3712) || `` == value_5368 || null == value_5368) toggle(fi_884, `hide`)
+        else if (-1 < value_5368.indexOf(`Legal`) || -1 < value_5368.indexOf(`IRS`)) toggle(fi_884, `hide`)
+        else toggle(fi_884, `show`)
     }
 
     cond_logic_885()
-    field_5368.change(cond_logic_885)
-    field_3712.change(cond_logic_885)
+    fi_5368.change(cond_logic_885)
+    fi_3712.click(cond_logic_885)
     function cond_logic_885() {
-        const value_5368 = field_5368.val()
-        if (`The selected Customer/Client` == field_3712.val() || `` == value_5368 || null == value_5368) toggle(field_885, `show`)
-        else if (-1 < value_5368.indexOf(`Legal`) || -1 < value_5368.indexOf(`IRS`)) toggle(field_885, `show`)
-        else toggle(field_885, `hide`)
+        const value_5368 = fi_5368.val()
+        if (`The selected Customer/Client` == get_checkbox_value(3712) || `` == value_5368 || null == value_5368) toggle(fi_885, `show`)
+        else if (-1 < value_5368.indexOf(`Legal`) || -1 < value_5368.indexOf(`IRS`)) toggle(fi_885, `show`)
+        else toggle(fi_885, `hide`)
     }
 
     cond_logic_3713()
-    field_884.change(cond_logic_3713)
-    field_885.change(cond_logic_3713)
+    fi_3712.change(cond_logic_3713)
     function cond_logic_3713() {
-        toggle(field_3713, `` != field_884.val() || `` != field_885.val() ? `show` : `hide`)
+        toggle(fi_3713, `The selected Customer/Client` == fi_3712.val() ? `show` : `hide`)
     }
 
     cond_logic_4556()
-    field_5368.change(cond_logic_4556)
-    field_884.change(cond_logic_4556)
-    field_885.change(cond_logic_4556)
-    field_3713.change(cond_logic_4556)
+    fi_5338.change(cond_logic_4556)
+    fi_5339.change(cond_logic_4556)
     function cond_logic_4556() {
-        toggle(section_4556,
-            `` != field_5368.val() &&
-                (`` != field_884.val() || `` != field_885.val()) &&
-                `` != field_3713.val()
-                ? `show` : `hide`)
+        toggle(section_4556, `Show` == fi_5338.val() && `Show` == fi_5339.val() ? `show` : `hide`)
     }
 
     cond_logic_896()
-    field_5368.change(cond_logic_896)
-    field_884.change(cond_logic_896)
-    field_885.change(cond_logic_896)
-    field_3713.change(cond_logic_896)
+    fi_878.change(cond_logic_896)
+    fi_3001.change(cond_logic_896)
     function cond_logic_896() {
-        toggle(field_896,
-            `` != field_5368.val() &&
-                (`` != field_884.val() || `` != field_885.val()) &&
-                `` != field_3713.val()
-                ? `show` : `hide`)
+        toggle(fi_896, `` != fi_878.val() && `` != get_checkbox_value(3001) ? `show` : `hide`)
+    }
+
+    cond_logic_4654()
+    fi_5453.change(cond_logic_4654)
+    function cond_logic_4654() {
+        fi_4654.val(`Business` == val_3458 || `` != get_checkbox_value(5453) ? `Show` : ``)
+    }
+
+    cond_logic_5141()
+    fi_3711.change(cond_logic_5141)
+    function cond_logic_5141() {
+        fi_5141.val(-1 < [`Marketplace`, `Both`].indexOf(get_checkbox_value(3711)) ? `Show` : ``)
+    }
+
+    cond_logic_5142()
+    fi_880.change(cond_logic_5142)
+    function cond_logic_5142() {
+        fi_5142.val(`Bundled Services` == get_checkbox_value(880) ? `Show` : ``)
+    }
+
+    cond_logic_2574()
+    function cond_logic_2574() {
+        toggle(section_2574, `Provider` == val_3458 ? `show` : `hide`)
+    }
+
+    cond_logic_5131()
+    function cond_logic_5131() {
+        toggle(fi_5131, `Provider` == val_3458 ? `show` : `hide`)
+    }
+
+    cond_logic_3430()
+    fi_5131.change(cond_logic_3430)
+    function cond_logic_3430() {
+        toggle(fi_3430, `Yes` == fi_5131.val() ? `show` : `hide`)
+    }
+
+    cond_logic_3711()
+    fi_3430.change(cond_logic_3711)
+    function cond_logic_3711() {
+        toggle(fi_3711, `Provider` == val_3458 && `` != fi_3430.val() ? `show` : `hide`)
+    }
+
+    cond_logic_3456()
+    fi_3711.change(cond_logic_3456)
+    function cond_logic_3456() {
+        const val_3711 = fi_3711.val()
+        toggle(fi_3456, `Provider` == val_3458 && `Marketplace` != val_3711 && `` != val_3711 ? `show` : `hide`)
+    }
+
+    cond_logic_3712()
+    fi_3430.change(cond_logic_3712)
+    function cond_logic_3712() {
+        toggle(fi_3712, `Provider` == val_3458 && `` != fi_3430.val() ? `show` : `hide`)
+    }
+
+    cond_logic_5453()
+    function cond_logic_5453() {
+        toggle(fi_5453, `Provider` == val_3458 && `` != get_checkbox_value(3712) ? `show` : `hide`)
+    }
+
+    cond_logic_880()
+    function cond_logic_880() {
+        toggle(fi_880, `` != fi_4654.val() ? `show` : `hide`)
+    }
+
+    cond_logic_5415()
+    function cond_logic_5415() {
+        fi_5415.val(`The selected Customer/Client` == fi_3712.val() && `` != fi_5368.val() ? `Show` : ``)
+    }
+
+    cond_logic_881()
+    fi_880.change(cond_logic_881)
+    function cond_logic_881() {
+        toggle(section_881, `Single Services` == get_checkbox_value(880) ? `show` : `hide`)
+    }
+
+    cond_logic_5413()
+    fi_880.change(cond_logic_5413)
+    function cond_logic_5413() {
+        toggle(section_5413, `Bundled Services` == get_checkbox_value(880) ? `show` : `hide`)
+    }
+
+    cond_logic_5338()
+    fi_884.change(cond_logic_5338)
+    fi_885.change(cond_logic_5338)
+    function cond_logic_5338() {
+        fi_5338.val(`` != fi_884.val() || `` != fi_885.val() ? `Show` : ``)
+    }
+
+    cond_logic_895()
+    function cond_logic_895() {
+        toggle(fi_895, `Provider` != val_3458 ? `show` : `hide`)
+    }
+
+    cond_logic_878()
+    fi_5131.change(cond_logic_878)
+    function cond_logic_878() {
+        toggle(fi_878, `Yes` = fi_5131.val() ? `show` : `hide`)
+    }
+
+    cond_logic_3001()
+    fi_3711.change(fi_3001)
+    function cond_logic_3001() {
+        toggle(fi_3001, -1 < `My Referrals`.indexOf(get_checkbox_value(3711)) ? `show` : `hide`)
+    }
+
+    cond_logic_893()
+    fi_3001.change(cond_logic_893)
+    function cond_logic_893() {
+        toggle(fi_893_container, `Yes` == get_checkbox_value(3001) ? `show` : `hide`)
+    }
+
+    cond_logic_1089()
+    fi_893.change(cond_logic_1089)
+    function cond_logic_1089() {
+        toggle(section_1089, `Invite a Provider to Rbundle` == get_checkbox_value(893) ? `show` : `hide`)
+    }
+
+    cond_logic_2999()
+    fi_3001.change(cond_logic_2999)
+    function cond_logic_2999() {
+        toggle(fi_2999_container, `Yes` == get_checkbox_value(3001) ? `show` : `hide`)
+    }
+
+    cond_logic_894()
+    fi_2999.change(cond_logic_894)
+    function cond_logic_894() {
+        toggle(fi_894, `Request specific Rbundle Provider(s)` == fo_58.find(`[name="item_meta[2999][]"]:checked`).val() ? `show` : `hide`)
+    }
+
+    cond_logic_3000()
+    fi_3001.change(cond_logic_3000)
+    function cond_logic_3000() {
+        toggle(fi_3000_container, `Yes` == get_checkbox_value(3001) ? `show` : `hide`)
+    }
+
+    cond_logic_2534()
+    fi_3000.change(cond_logic_2534)
+    function cond_logic_2534() {
+        toggle(fi_2534, `Do not send to selected Rbundle Provider(s)` == fo_58.find(`[name="item_meta[3000][]"]:checked`).val() ? `show` : `hide`)
+    }
+
+    cond_logic_3459()
+    fi_3001.change(cond_logic_3459)
+    function cond_logic_3459() {
+        toggle(fi_3459_container, `Yes` == get_checkbox_value(3001) ? `show` : `hide`)
     }
 
     let val_3713 = ``
     detect_3713_change()
     function detect_3713_change() {
-        if (val_3713 != field_3713.val()) {
-            val_3713 = field_3713.val()
-            field_3713.trigger(`change`)
+        if (val_3713 != fi_3713.val()) {
+            val_3713 = fi_3713.val()
+            fi_3713.trigger(`change`)
         }
         setTimeout(detect_3713_change, 1000)
+    }
+
+    function get_checkbox_value(id) {
+        return fo_58.find(`[name="item_meta[${id}]"]:checked`).val()
     }
 
     function toggle(field, visibility) {
@@ -242,24 +408,26 @@
                         })
 
                         bu_cond_logic_884()
-                        field_3712.change(bu_cond_logic_884)
+                        fi_3712.change(bu_cond_logic_884)
                         bu_5368.change(bu_cond_logic_884)
                         function bu_cond_logic_884() {
                             const val_bu_5368 = bu_5368.val()
-                            if (`The selected Customer/Client` == field_3712.val() || `` == val_bu_5368) toggle(bu_884, `hide`)
+                            if (`The selected Customer/Client` == fi_3712.val() || `` == val_bu_5368) toggle(bu_884, `hide`)
                             else if (-1 < val_bu_5368.indexOf(`Legal`) || -1 < val_bu_5368.indexOf(`IRS`)) toggle(bu_884, `hide`)
                             else toggle(bu_884, `show`)
                         }
 
                         bu_cond_logic_885()
-                        field_3712.change(bu_cond_logic_885)
+                        fi_3712.change(bu_cond_logic_885)
                         bu_5368.change(bu_cond_logic_885)
                         function bu_cond_logic_885() {
                             const val_bu_5368 = bu_5368.val()
-                            if (`The selected Customer/Client` == field_3712.val() || `` == val_bu_5368) toggle(bu_885, `show`)
+                            if (`The selected Customer/Client` == fi_3712.val() || `` == val_bu_5368) toggle(bu_885, `show`)
                             else if (-1 < val_bu_5368.indexOf(`Legal`) || -1 < val_bu_5368.indexOf(`IRS`)) toggle(bu_885, `show`)
                             else toggle(bu_885, `hide`)
                         }
+
+                        // henrisusanto: add-more-conditional-logics for parent form (Fo58)
 
                         bu_5368.change(e => {
                             jQuery.post(frm_js.ajax_url, {
