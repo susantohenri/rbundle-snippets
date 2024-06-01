@@ -216,7 +216,7 @@ function elda_58_894($entry_id, $form_id)
     if (58 != $form_id) return false;
     global $wpdb;
     $answer_894 = $wpdb->get_var("SELECT meta_value FROM {$wpdb->prefix}frm_item_metas WHERE item_id = {$entry_id} AND field_id = 894");
-    $answer_894 = str_contains($answer_894, 'a:') ? unserialize($answer_894) : [$answer_894];
+    $answer_894 = null != $answer_894 && str_contains($answer_894, 'a:') ? unserialize($answer_894) : [$answer_894];
     $answer_894 = implode("','", $answer_894);
     $answer_894 = "'{$answer_894}'";
 
@@ -247,7 +247,7 @@ function elda_58_2534($entry_id, $form_id)
     if (58 != $form_id) return false;
     global $wpdb;
     $answer_2534 = $wpdb->get_var("SELECT meta_value FROM {$wpdb->prefix}frm_item_metas WHERE item_id = {$entry_id} AND field_id = 2534");
-    $answer_2534 = str_contains($answer_2534, 'a:') ? unserialize($answer_2534) : [$answer_2534];
+    $answer_2534 = null !== $answer_2534 && str_contains($answer_2534, 'a:') ? unserialize($answer_2534) : [$answer_2534];
     $answer_2534 = implode("','", $answer_2534);
     $answer_2534 = "'{$answer_2534}'";
 

@@ -23,7 +23,7 @@ add_filter('frm_setup_edit_fields_vars', function ($values, $field, $entry_31_id
 			WHERE fo31fi5069.item_id = {$entry_31_id}
 		");
 		if ($fo36options) {
-			if (str_contains($fo36options, 'a:')) $fo36options = unserialize($fo36options);
+			if (null != $fo36options && str_contains($fo36options, 'a:')) $fo36options = unserialize($fo36options);
 			$values['options'] = array_filter($values['options'], function ($option) use ($fo36options) {
 				return is_array($fo36options) ? in_array($option, $fo36options) : $option == $fo36options;
 			});
@@ -42,7 +42,7 @@ add_filter('frm_setup_new_fields_vars', function ($values, $field) {
 			WHERE field_id = {$fo36fi_id} AND item_id = {$_GET['entry_36']}
 		");
 		if ($fo36options) {
-			if (str_contains($fo36options, 'a:')) $fo36options = unserialize($fo36options);
+			if (null != $fo36options && str_contains($fo36options, 'a:')) $fo36options = unserialize($fo36options);
 			$values['options'] = array_filter($values['options'], function ($option) use ($fo36options) {
 				return is_array($fo36options) ? in_array($option, $fo36options) : $option == $fo36options;
 			});
