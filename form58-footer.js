@@ -685,6 +685,7 @@
                     if (is_multi_bus) sheet_name = `${bus_no} - ${service_name}`
                     else sheet_name = service_name
 
+                    sheet_name = sheet_name.substring(0, 31)
                     media_input.val(`${media_id}|${sheet_name}`)
                 }
 
