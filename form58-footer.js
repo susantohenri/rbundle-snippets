@@ -69,6 +69,7 @@
         fo_58.append(`<input type="hidden" name="${hidden_list_field_name}" value="${hidden_fields}">`)
 
         bundled_service_list_down_answers()
+        bundled_service_naming_file()
         return is_valid && bundled_service_validation()
     })
 
@@ -665,6 +666,30 @@
         jQuery(`:checkbox[value="Multiple Businesses"]`).attr(`checked`, is_multi_bus)
         jQuery(`:checkbox[value="Multiple Services"]`).attr(`checked`, is_multi_srv)
 
+    }
+
+    function bundled_service_naming_file() {
+        const is_multi_bus = 1 < fo_58.find(`.bundled_service`).length
+        fo_58.find(`.bundled_service`).each(function () {
+            const business = jQuery(this)
+            let bus_no = business.find(`.frm_inline_box.input-group-text.input-group-addon`).html()
+            bus_no = bus_no.replace(`Business`, `Bus`)
+            business.find(`.bundled_children`).each(function () {
+                const service = jQuery(this)
+                const service_name = service.find(`[name="bundled_children[5368][]"]`).val()
+                const media_input = service.find(`[name="bundled_children[3713][]"]`)
+                const media_id = media_input.val()
+
+                if (`` != service_name && `` != media_id) {
+                    let sheet_name = ``
+                    if (is_multi_bus) sheet_name = `${bus_no} - ${service_name}`
+                    else sheet_name = service_name
+
+                    media_input.val(`${media_id}|${sheet_name}`)
+                }
+
+            })
+        })
     }
 
 })(document.currentScript);
