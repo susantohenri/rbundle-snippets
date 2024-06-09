@@ -39,6 +39,7 @@
     const section_5413 = fo_58.find(`#frm_field_5413_container > div`)
     const fi_5338 = fo_58.find(`[name="item_meta[5338]"]`)
     const fi_5339 = fo_58.find(`[name="item_meta[5339]"]`)
+    const fi_5349 = fo_58.find(`[name="item_meta[5349]"]`)
     const fi_5453 = fo_58.find(`[name="item_meta[5453]"]`)
     const fi_5453_container = fo_58.find(`#frm_field_5453_container > *`)
     const fi_5368 = fo_58.find(`[name="item_meta[5368]"]`)
@@ -663,9 +664,8 @@
             jQuery(`[name="item_meta[${field_id}]"]`).val(list_down[field_id])
         }
 
-        jQuery(`:checkbox[value="Multiple Businesses"]`).attr(`checked`, is_multi_bus)
-        jQuery(`:checkbox[value="Multiple Services"]`).attr(`checked`, is_multi_srv)
-
+        if (is_multi_srv) fi_5349.val(`Multiple Services`)
+        if (is_multi_bus) fi_5349.val(`Multiple Businesses`)
     }
 
     function bundled_service_naming_file() {
