@@ -663,8 +663,10 @@
             jQuery(`[name="item_meta[${field_id}]"]`).val(list_down[field_id])
         }
 
-        if (is_multi_srv) fi_5349.val(`Multiple Services`)
-        if (is_multi_bus) fi_5349.val(`Multiple Businesses`)
+        let answer_5349 = []
+        if (is_multi_srv) answer_5349.push(`Multiple Services`)
+        if (is_multi_bus) answer_5349.push(`Multiple Businesses`)
+        fi_5349.val(JSON.stringify(answer_5349))
     }
 
     function bundled_service_naming_file() {
