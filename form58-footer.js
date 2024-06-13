@@ -405,7 +405,6 @@
                                     available_services.push(jQuery(this).attr(`value`))
                                 })
 
-                            available_services.shift()// remove empty option
                             bundled_service
                                 .find(bu_5368_selector)
                                 .not(jQuery(this))
