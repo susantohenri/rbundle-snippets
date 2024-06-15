@@ -644,11 +644,11 @@
                         area = Array.isArray(area) ? area.join(`, `) : area
                     } else area = ``
 
-                    list_down[5356].push(name_only)
+                    if (0 > list_down[5356].indexOf(name_only)) list_down[5356].push(name_only)
                     list_down[5365].push(`${srv_num}. ${name_only}`)
-                    list_down[5364].push(taxonomy)
+                    if (0 > list_down[5364].indexOf(taxonomy)) list_down[5364].push(taxonomy)
                     list_down[5366].push(`${srv_num}. ${taxonomy}`)
-                    list_down[5357].push(category)
+                    if (0 > list_down[5357].indexOf(category)) list_down[5357].push(category)
                     list_down[5363].push(`${srv_num}. ${area}`)
                     list_down[5367].push(`${srv_num}. ${taxonomy}: ${area}`)
                 })
