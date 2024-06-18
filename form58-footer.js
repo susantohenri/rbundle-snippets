@@ -414,6 +414,7 @@
                                     })
                                 })
 
+                            available_services = available_services.slice().unshift(``)
                             jQuery(this)
                                 .html(available_services.map(service => {
                                     return `<option value="${service}">${service}</option>`
