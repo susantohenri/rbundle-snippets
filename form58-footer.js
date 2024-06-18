@@ -674,7 +674,7 @@
             bus_no = bus_no.replace(`Business`, `Bus`)
             business.find(`.bundled_children`).each(function () {
                 const service = jQuery(this)
-                const service_name = service.find(`[name="bundled_children[5368][]"]`).val()
+                const service_name = service.find(`[name="bundled_children[938][]"]`).val()
                 const media_input = service.find(`[name="bundled_children[3713][]"]`)
                 const media_id = media_input.val()
 
