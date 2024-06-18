@@ -396,31 +396,6 @@
                                 jQuery(this).parent().parent().remove()
                             })
 
-                        bu_5368.click(function () {// unique service
-                            let available_services = []
-                            jQuery(templates.children)
-                                .find(bu_5368_selector)
-                                .find(`option`)
-                                .each(function () {
-                                    available_services.push(jQuery(this).attr(`value`))
-                                })
-
-                            bundled_service
-                                .find(bu_5368_selector)
-                                .not(jQuery(this))
-                                .each(function () {
-                                    available_services = available_services.filter(opt => {
-                                        return jQuery(this).val() != opt
-                                    })
-                                })
-
-                            available_services = available_services.slice().unshift(``)
-                            jQuery(this)
-                                .html(available_services.map(service => {
-                                    return `<option value="${service}">${service}</option>`
-                                }))
-                        })
-
                         bu_cond_logic_884()
                         fi_3712.change(bu_cond_logic_884)
                         bu_5368.change(bu_cond_logic_884)
@@ -552,7 +527,7 @@
 
     function bundled_service_validation() {
         let is_valid = true
-        jQuery(`.bundled_children:visible`).each(function () {
+        fo_58.find(`.bundled_children:visible`).each(function () {
             const child = jQuery(this)
             const srv = child.find(`[name="bundled_children[5368][]"]`)
             const file = child.find(`[name="bundled_children[3713][]"]`)
@@ -598,6 +573,27 @@
             }
 
         })
+
+        fo_58.find(`.bundled_service`).each(function () {
+            const business = jQuery(this)
+            let selected_services = []
+            business.find(`[name="bundled_children[5368][]"]`).each(function () {
+                const srv = jQuery(this)
+                if (-1 < selected_services.indexOf(srv.val())) {
+                    is_valid = false
+                    let error_message = `Service already selected`
+                    error_message = `<div class="frm_error" role="alert" id="frm_error_field_xepcm">${error_message}</div>`
+                    srv.siblings(`.frm_error`).remove()
+                    jQuery(error_message).insertAfter(srv)
+                    srv.get(0).scrollIntoView({ behavior: 'smooth' })
+                    srv.focus(e => {
+                        srv.siblings(`.frm_error`).remove()
+                    })
+                } else selected_services.push(srv.val())
+            })
+
+        })
+
         return is_valid
     }
 
