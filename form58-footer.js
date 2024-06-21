@@ -657,7 +657,7 @@
             if (-1 < single_lines.indexOf(field_id)) list_down[field_id] = list_down[field_id].join(`, `)
             else if (-1 < textareas.indexOf(field_id)) list_down[field_id] = list_down[field_id].join(`\n`)
 
-            jQuery(`[name="item_meta[${field_id}]"]`).val(list_down[field_id])
+            fo_58.find(`[name="item_meta[${field_id}]"]`).val(list_down[field_id])
         }
 
         let answer_5349 = []
