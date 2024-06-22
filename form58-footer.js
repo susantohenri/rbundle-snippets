@@ -212,7 +212,7 @@
     cond_logic_5453()
     fi_3712.click(cond_logic_5453)
     function cond_logic_5453() {
-        toggle(fi_5453_container, `The selected Customer/Client` != get_checkbox_value(3712) ? `show` : `hide`)
+        toggle(fi_5453_container, `The selected Customer/Client` == get_checkbox_value(3712) ? `show` : `hide`)
     }
 
     cond_logic_880()
@@ -328,6 +328,12 @@
         toggle(fi_5420_container, `` != get_checkbox_value(896) ? `show` : `hide`)
     }
 
+    fi_3712.click(e => {
+        if (`The selected Customer/Client` == get_checkbox_value(3712)) {
+            fo_58.find(`[name="item_meta[880]"][value="Single Service"]`).click()
+        }
+    })
+
     detect_3713_change()
     function detect_3713_change() {
         if (val_3713 != fi_3713.val()) {
@@ -338,7 +344,7 @@
     }
 
     function get_checkbox_value(id) {
-        return fo_58.find(`[name="item_meta[${id}]"]:checked`).val()
+        return fo_58.find(`[name="item_meta[${id}]"]:checked`).val() || ``
     }
 
     function toggle(field, visibility) {
@@ -459,7 +465,7 @@
                             })
 
                         bu_cond_logic_884()
-                        fi_3712.change(bu_cond_logic_884)
+                        fi_3712.click(bu_cond_logic_884)
                         bu_5368.change(bu_cond_logic_884)
                         function bu_cond_logic_884() {
                             const val_bu_5368 = bu_5368.val()
@@ -469,7 +475,7 @@
                         }
 
                         bu_cond_logic_885()
-                        fi_3712.change(bu_cond_logic_885)
+                        fi_3712.click(bu_cond_logic_885)
                         bu_5368.change(bu_cond_logic_885)
                         function bu_cond_logic_885() {
                             const val_bu_5368 = bu_5368.val()
