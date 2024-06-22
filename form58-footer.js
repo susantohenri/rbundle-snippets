@@ -48,6 +48,7 @@
     const fi_5453_container = fo_58.find(`#frm_field_5453_container > *`)
     const fi_5368 = fo_58.find(`[name="item_meta[5368]"]`)
     const fi_5415 = fo_58.find(`[name="item_meta[5415]"]`)
+    const fi_5420_container = fo_58.find(`#frm_field_5420_container > *`)
     const bundled_services = fo_58.find(`#frm_field_5412_container`)
     const single_service = fo_58.find(`#frm_field_881_container`)
     const bundled_file_field_id = 5361
@@ -99,9 +100,9 @@
     }
 
     cond_logic_3713()
-    fi_3712.change(cond_logic_3713)
+    fi_3712.click(cond_logic_3713)
     function cond_logic_3713() {
-        toggle(fi_3713, `The selected Customer/Client` == fi_3712.val() ? `hide` : `show`)
+        toggle(fi_3713, `The selected Customer/Client` == get_checkbox_value(3712) ? `hide` : `show`)
     }
 
     cond_logic_4556()
@@ -112,6 +113,7 @@
     fi_884.change(cond_logic_4556)
     fi_885.change(cond_logic_4556)
     fi_3713.change(cond_logic_4556)
+    fi_3712.click(cond_logic_4556)
     function cond_logic_4556() {
         let decission = `hide`
         const not_empty_5356 = `` != fi_5356.val()
@@ -126,11 +128,11 @@
                 || (not_empty_5368 && not_empty_884_885 && not_empty_3713)
                 ? `show` : `hide`
         } else if (`Provider` == val_3458) {
-            if (`This user` == fi_3712.val()) {
+            if (`This user` == get_checkbox_value(3712)) {
                 decission = (not_empty_5356 && not_empty_5363 && not_empty_5361)
                     || (not_empty_5368 && not_empty_884_885 && not_empty_3713)
                     ? `show` : `hide`
-            } else if (`The selected Customer/Client` == fi_3712.val()) {
+            } else if (`The selected Customer/Client` == get_checkbox_value(3712)) {
                 decission = not_empty_5368 ? `show` : `hide`
             }
         }
@@ -140,19 +142,28 @@
 
     cond_logic_896()
     fi_878.change(cond_logic_896)
-    fi_3001.change(cond_logic_896)
+    fi_3001.click(cond_logic_896)
+    fi_5356.change(cond_logic_896)
+    fi_5363.change(cond_logic_896)
+    fi_5361.change(cond_logic_896)
     function cond_logic_896() {
-        toggle(fi_896, `` != fi_878.val() && `` != get_checkbox_value(3001) ? `show` : `hide`)
+        let decission = `hide`
+        if (`Business` == val_3458) {
+            decission = `` == fi_878.val() && `` != get_checkbox_value(3001) ? `show` : `hide`
+        } else if (`Provider` == val_3458) {
+            decission = `` != fi_5356.val() && `` != fi_5363.val() && `` != fi_5361.val() ? `show` : `hide`
+        }
+        toggle(fi_896, decission)
     }
 
     cond_logic_4654()
-    fi_5453.change(cond_logic_4654)
+    fi_5453.click(cond_logic_4654)
     function cond_logic_4654() {
         fi_4654.val(`Business` == val_3458 || `` != get_checkbox_value(5453) ? `Show` : ``)
     }
 
     cond_logic_5141()
-    fi_3711.change(cond_logic_5141)
+    fi_3711.click(cond_logic_5141)
     function cond_logic_5141() {
         fi_5141.val(-1 < [`Marketplace`, `Both`].indexOf(get_checkbox_value(3711)) ? `Show` : ``)
     }
@@ -182,35 +193,44 @@
     cond_logic_3711()
     fi_3430.change(cond_logic_3711)
     function cond_logic_3711() {
-        toggle(fi_3711_container, `Provider` == val_3458 && `` != fi_3430.val() ? `show` : `hide`)
+        toggle(fi_3711_container, `` != fi_3430.val() ? `show` : `hide`)
     }
 
     cond_logic_3456()
-    fi_3711.change(cond_logic_3456)
+    fi_3711.click(cond_logic_3456)
     function cond_logic_3456() {
-        const val_3711 = fi_3711.val()
-        toggle(fi_3456, `Provider` == val_3458 && `Marketplace` != val_3711 && `` != val_3711 ? `show` : `hide`)
+        const val_3711 = get_checkbox_value(3711)
+        toggle(fi_3456, (undefined != val_3711 && -1 < val_3711.indexOf(`My Referrals`)) || `Both` == val_3711 ? `show` : `hide`)
     }
 
     cond_logic_3712()
-    fi_3430.change(cond_logic_3712)
+    fi_3711.click(cond_logic_3712)
     function cond_logic_3712() {
-        toggle(fi_3712_container, `Provider` == val_3458 && `` != fi_3430.val() ? `show` : `hide`)
+        toggle(fi_3712_container, `` != get_checkbox_value(3711) ? `show` : `hide`)
     }
 
     cond_logic_5453()
+    fi_3712.click(cond_logic_5453)
     function cond_logic_5453() {
-        toggle(fi_5453_container, `Provider` == val_3458 && `` != get_checkbox_value(3712) ? `show` : `hide`)
+        toggle(fi_5453_container, `The selected Customer/Client` != get_checkbox_value(3712) ? `show` : `hide`)
     }
 
     cond_logic_880()
+    fi_3712.click(cond_logic_880)
+    fi_5453.click(cond_logic_880)
     function cond_logic_880() {
-        toggle(fi_880_container, `` != fi_4654.val() ? `show` : `hide`)
+        toggle(fi_880_container,
+            `Business` == val_3458
+                || (
+                    `This user` == get_checkbox_value(3712) ||
+                    `` != get_checkbox_value(5453)
+                )
+                ? `show` : `hide`)
     }
 
     cond_logic_5415()
     function cond_logic_5415() {
-        fi_5415.val(`The selected Customer/Client` == fi_3712.val() && `` != fi_5368.val() ? `Show` : ``)
+        fi_5415.val(`The selected Customer/Client` == get_checkbox_value(3712) && `` != fi_5368.val() ? `Show` : ``)
     }
 
     cond_logic_881()
@@ -244,25 +264,25 @@
     }
 
     cond_logic_3001()
-    fi_3711.change(fi_3001)
+    fi_3711.click(fi_3001)
     function cond_logic_3001() {
         toggle(fi_3001_container, -1 < `My Referrals`.indexOf(get_checkbox_value(3711)) ? `hide` : `show`)
     }
 
     cond_logic_893()
-    fi_3001.change(cond_logic_893)
+    fi_3001.click(cond_logic_893)
     function cond_logic_893() {
         toggle(fi_893_container, `Yes` == get_checkbox_value(3001) ? `show` : `hide`)
     }
 
     cond_logic_1089()
-    fi_893.change(cond_logic_1089)
+    fi_893.click(cond_logic_1089)
     function cond_logic_1089() {
-        toggle(section_1089, `Invite a Provider to Rbundle` == get_checkbox_value(893) ? `show` : `hide`)
+        toggle(section_1089, `` != get_checkbox_value(893) ? `show` : `hide`)
     }
 
     cond_logic_2999()
-    fi_3001.change(cond_logic_2999)
+    fi_3001.click(cond_logic_2999)
     function cond_logic_2999() {
         toggle(fi_2999_container, `Yes` == get_checkbox_value(3001) ? `show` : `hide`)
     }
@@ -274,7 +294,7 @@
     }
 
     cond_logic_3000()
-    fi_3001.change(cond_logic_3000)
+    fi_3001.click(cond_logic_3000)
     function cond_logic_3000() {
         toggle(fi_3000_container, `Yes` == get_checkbox_value(3001) ? `show` : `hide`)
     }
@@ -286,7 +306,7 @@
     }
 
     cond_logic_3459()
-    fi_3001.change(cond_logic_3459)
+    fi_3001.click(cond_logic_3459)
     function cond_logic_3459() {
         toggle(fi_3459_container, `Yes` == get_checkbox_value(3001) ? `show` : `hide`)
     }
@@ -294,6 +314,18 @@
     cond_logic_4555()
     function cond_logic_4555() {
         toggle(fi_4555_container, `` == fi_877.val() && `` !== fi_877.val() ? `show` : `hide`)
+    }
+
+    cond_logic_5368()
+    fi_5453.click(cond_logic_5368)
+    function cond_logic_5368() {
+        toggle(fi_5368, `` != get_checkbox_value(5453) ? `show` : `hide`)
+    }
+
+    cond_logic_5420()
+    fi_896.click(cond_logic_5420)
+    function cond_logic_5420() {
+        toggle(fi_5420_container, `` != get_checkbox_value(896) ? `show` : `hide`)
     }
 
     detect_3713_change()
@@ -431,7 +463,7 @@
                         bu_5368.change(bu_cond_logic_884)
                         function bu_cond_logic_884() {
                             const val_bu_5368 = bu_5368.val()
-                            if (`The selected Customer/Client` == fi_3712.val() || `` == val_bu_5368) toggle(bu_884, `hide`)
+                            if (`The selected Customer/Client` == get_checkbox_value(3712) || `` == val_bu_5368) toggle(bu_884, `hide`)
                             else if (-1 < val_bu_5368.indexOf(`Legal`) || -1 < val_bu_5368.indexOf(`IRS`)) toggle(bu_884, `hide`)
                             else toggle(bu_884, `show`)
                         }
@@ -441,7 +473,7 @@
                         bu_5368.change(bu_cond_logic_885)
                         function bu_cond_logic_885() {
                             const val_bu_5368 = bu_5368.val()
-                            if (`The selected Customer/Client` == fi_3712.val() || `` == val_bu_5368) toggle(bu_885, `show`)
+                            if (`The selected Customer/Client` == get_checkbox_value(3712) || `` == val_bu_5368) toggle(bu_885, `show`)
                             else if (-1 < val_bu_5368.indexOf(`Legal`) || -1 < val_bu_5368.indexOf(`IRS`)) toggle(bu_885, `show`)
                             else toggle(bu_885, `hide`)
                         }
