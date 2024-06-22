@@ -27,6 +27,7 @@
     const fi_3712 = fo_58.find(`[name="item_meta[3712]"]`)
     const fi_3712_container = fo_58.find(`#frm_field_3712_container > *`)
     const fi_3713 = fo_58.find(`[name="item_meta[3713]"]`)
+    let val_3713 = ``
     const fi_3456 = fo_58.find(`[name="item_meta[3456][]"]`)
     const fi_3459_container = fo_58.find(`#frm_field_3459_container > *`)
     const val_3458 = fo_58.find(`[name="item_meta[3458]"]`).val()
@@ -40,6 +41,9 @@
     const fi_5338 = fo_58.find(`[name="item_meta[5338]"]`)
     const fi_5339 = fo_58.find(`[name="item_meta[5339]"]`)
     const fi_5349 = fo_58.find(`[name="item_meta[5349]"]`)
+    const fi_5356 = fo_58.find(`[name="item_meta[5356]"]`)
+    const fi_5361 = fo_58.find(`[name="item_meta[5361][]"]`)
+    const fi_5363 = fo_58.find(`[name="item_meta[5363]"]`)
     const fi_5453 = fo_58.find(`[name="item_meta[5453]"]`)
     const fi_5453_container = fo_58.find(`#frm_field_5453_container > *`)
     const fi_5368 = fo_58.find(`[name="item_meta[5368]"]`)
@@ -101,10 +105,37 @@
     }
 
     cond_logic_4556()
-    fi_5338.change(cond_logic_4556)
-    fi_5339.change(cond_logic_4556)
+    fi_5356.change(cond_logic_4556)
+    fi_5363.change(cond_logic_4556)
+    fi_5361.change(cond_logic_4556)
+    fi_5368.change(cond_logic_4556)
+    fi_884.change(cond_logic_4556)
+    fi_885.change(cond_logic_4556)
+    fi_3713.change(cond_logic_4556)
     function cond_logic_4556() {
-        toggle(section_4556, `Show` == fi_5338.val() && `Show` == fi_5339.val() ? `show` : `hide`)
+        let decission = `hide`
+        const not_empty_5356 = `` != fi_5356.val()
+        const not_empty_5363 = `` != fi_5363.val()
+        const not_empty_5361 = `` != fi_5361.val()
+        const not_empty_5368 = `` != fi_5368.val()
+        const not_empty_884_885 = `` != fi_884.val() || `` != fi_885.val()
+        const not_empty_3713 = `` != val_3713
+
+        if (`Business` == val_3458) {
+            decission = (not_empty_5356 && not_empty_5363 && not_empty_5361)
+                || (not_empty_5368 && not_empty_884_885 && not_empty_3713)
+                ? `show` : `hide`
+        } else if (`Provider` == val_3458) {
+            if (`This user` == fi_3712.val()) {
+                decission = (not_empty_5356 && not_empty_5363 && not_empty_5361)
+                    || (not_empty_5368 && not_empty_884_885 && not_empty_3713)
+                    ? `show` : `hide`
+            } else if (`The selected Customer/Client` == fi_3712.val()) {
+                decission = not_empty_5368 ? `show` : `hide`
+            }
+        }
+
+        toggle(section_4556, decission)
     }
 
     cond_logic_896()
@@ -265,7 +296,6 @@
         toggle(fi_4555_container, `` == fi_877.val() && `` !== fi_877.val() ? `show` : `hide`)
     }
 
-    let val_3713 = ``
     detect_3713_change()
     function detect_3713_change() {
         if (val_3713 != fi_3713.val()) {
