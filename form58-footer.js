@@ -149,7 +149,7 @@
     function cond_logic_896() {
         let decission = `hide`
         if (`Business` == val_3458) {
-            decission = `` == fi_878.val() && `` != get_checkbox_value(3001) ? `show` : `hide`
+            decission = `` != fi_878.val() && `` != get_checkbox_value(3001) ? `show` : `hide`
         } else if (`Provider` == val_3458) {
             decission = `` != fi_5356.val() && `` != fi_5363.val() && `` != fi_5361.val() ? `show` : `hide`
         }
@@ -316,16 +316,11 @@
         toggle(fi_4555_container, `` == fi_877.val() && `` !== fi_877.val() ? `show` : `hide`)
     }
 
-    cond_logic_5368()
-    fi_5453.click(cond_logic_5368)
-    function cond_logic_5368() {
-        toggle(fi_5368, `` != get_checkbox_value(5453) ? `show` : `hide`)
-    }
-
     cond_logic_5420()
     fi_896.click(cond_logic_5420)
     function cond_logic_5420() {
-        toggle(fi_5420_container, `` != get_checkbox_value(896) ? `show` : `hide`)
+        const val_896 = fo_58.find(`[name="item_meta[896][]"]:checked`).val() || ``
+        toggle(fi_5420_container, `` != val_896 ? `show` : `hide`)
     }
 
     fi_3712.click(e => {
