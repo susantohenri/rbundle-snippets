@@ -43,6 +43,7 @@
     const fi_5349 = fo_58.find(`[name="item_meta[5349]"]`)
     const fi_5356 = fo_58.find(`[name="item_meta[5356]"]`)
     const fi_5361 = fo_58.find(`[name="item_meta[5361][]"]`)
+    let val_5361 = ``
     const fi_5363 = fo_58.find(`[name="item_meta[5363]"]`)
     const fi_5453 = fo_58.find(`[name="item_meta[5453]"]`)
     const fi_5453_container = fo_58.find(`#frm_field_5453_container > *`)
@@ -118,7 +119,7 @@
         let decission = `hide`
         const not_empty_5356 = `` != fi_5356.val()
         const not_empty_5363 = `` != fi_5363.val()
-        const not_empty_5361 = `` != fi_5361.val()
+        const not_empty_5361 = `` != val_5361
         const not_empty_5368 = `` != fi_5368.val()
         const not_empty_884_885 = `` != fi_884.val() || `` != fi_885.val()
         const not_empty_3713 = `` != val_3713
@@ -151,7 +152,12 @@
         if (`Business` == val_3458) {
             decission = `` != fi_878.val() && `` != get_checkbox_value(3001) ? `show` : `hide`
         } else if (`Provider` == val_3458) {
-            decission = `` != fi_5356.val() && `` != fi_5363.val() && `` != fi_5361.val() ? `show` : `hide`
+            console.log(Math.random(), `cond_logic_896`, `` != fi_5356.val() && `` != fi_5363.val() && `` != val_5361 ? `show` : `hide`
+                , fi_5356.val()
+                , fi_5363.val()
+                , val_5361
+            )
+            decission = `` != fi_5356.val() && `` != fi_5363.val() && `` != val_5361 ? `show` : `hide`
         }
         toggle(fi_896, decission)
     }
@@ -336,6 +342,16 @@
             fi_3713.trigger(`change`)
         }
         setTimeout(detect_3713_change, 1000)
+    }
+
+    detect_5361_change()
+    function detect_5361_change() {
+        console.log(Math.random(), val_5361 != fi_5361.val(), val_5361, fi_5361.val())
+        if (val_5361 != fi_5361.val()) {
+            val_5361 = fi_5361.val()
+            fi_5361.trigger(`change`)
+        }
+        setTimeout(detect_5361_change, 1000)
     }
 
     function get_checkbox_value(id) {
