@@ -94,15 +94,17 @@
     fi_3712.click(cond_logic_885)
     function cond_logic_885() {
         const value_5368 = fi_5368.val()
-        if (`The selected Customer/Client` == get_checkbox_value(3712) || `` == value_5368 || null == value_5368) toggle(fi_885, `show`)
+        if (`The selected Customer/Client` == get_checkbox_value(3712) || `` == value_5368 || null == value_5368) toggle(fi_885, `hide`)
         else if (-1 < value_5368.indexOf(`Legal`) || -1 < value_5368.indexOf(`IRS`)) toggle(fi_885, `show`)
         else toggle(fi_885, `hide`)
     }
 
     cond_logic_3713()
+    fi_5368.change(cond_logic_3713)
     fi_3712.click(cond_logic_3713)
     function cond_logic_3713() {
-        toggle(fi_3713, `The selected Customer/Client` == get_checkbox_value(3712) ? `hide` : `show`)
+        const value_5368 = fi_5368.val()
+        toggle(fi_3713, `The selected Customer/Client` == get_checkbox_value(3712) || `` == value_5368 || null == value_5368 ? `hide` : `show`)
     }
 
     cond_logic_4556()
@@ -138,18 +140,19 @@
         }
 
         toggle(section_4556, decission)
+        if (`show` == decission) fi_878.change()
     }
 
     cond_logic_896()
     fi_878.change(cond_logic_896)
-    fi_3001.click(cond_logic_896)
+    fi_3713.change(cond_logic_896)
     fi_5356.change(cond_logic_896)
     fi_5363.change(cond_logic_896)
     fi_5361.change(cond_logic_896)
     function cond_logic_896() {
         let decission = `hide`
         if (`Business` == val_3458) {
-            decission = `` != fi_878.val() && `` != get_checkbox_value(3001) ? `show` : `hide`
+            decission = `` != fi_878.val() && `` != val_3713 ? `show` : `hide`
         } else if (`Provider` == val_3458) {
             decission = `` != fi_5356.val() && `` != fi_5363.val() && `` != fi_5361.val() ? `show` : `hide`
         }
@@ -237,6 +240,7 @@
     fi_880.change(cond_logic_881)
     function cond_logic_881() {
         toggle(section_881, `Single Service` == get_checkbox_value(880) ? `show` : `hide`)
+        fi_5368.change()
     }
 
     cond_logic_5413()
@@ -254,7 +258,7 @@
 
     cond_logic_895()
     function cond_logic_895() {
-        toggle(fi_895, `Provider` != val_3458 ? `show` : `hide`)
+        toggle(fi_895, `hide`)
     }
 
     cond_logic_878()
@@ -453,6 +457,7 @@
                         const bu_885 = bundled_children.find(`[name="bundled_children[885][]"]`)
                         const bu_938 = bundled_children.find(`[name="bundled_children[938][]"]`)
                         const bu_5057 = bundled_children.find(`[name="bundled_children[5057][]"]`)
+                        const bu_3713 = bundled_children.find(`[name="bundled_children[3713][]"]`)
 
                         bundled_children.find(`.remove_form_row`)
                             .click(function () { // remove service
@@ -474,12 +479,17 @@
                         bu_5368.change(bu_cond_logic_885)
                         function bu_cond_logic_885() {
                             const val_bu_5368 = bu_5368.val()
-                            if (`The selected Customer/Client` == get_checkbox_value(3712) || `` == val_bu_5368) toggle(bu_885, `show`)
+                            if (`The selected Customer/Client` == get_checkbox_value(3712) || `` == val_bu_5368) toggle(bu_885, `hide`)
                             else if (-1 < val_bu_5368.indexOf(`Legal`) || -1 < val_bu_5368.indexOf(`IRS`)) toggle(bu_885, `show`)
                             else toggle(bu_885, `hide`)
                         }
 
-                        // henrisusanto: add-more-conditional-logics for parent form (Fo58)
+                        bu_cond_logic_3713()
+                        bu_5368.change(bu_cond_logic_3713)
+                        function bu_cond_logic_3713() {
+                            console.log(Math.random(), `bu_cond_logic_3713`, `` == bu_5368.val() ? `hide` : `show`, `` == bu_5368.val(), bu_3713.length, bu_3713.parent())
+                            toggle(bu_3713, `` == bu_5368.val() ? `hide` : `show`)
+                        }
 
                         bu_5368.change(e => {
                             jQuery.post(frm_js.ajax_url, {
