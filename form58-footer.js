@@ -149,10 +149,10 @@
     fi_5356.change(cond_logic_896)
     fi_5363.change(cond_logic_896)
     fi_5361.change(cond_logic_896)
-    function cond_logic_896() {
+    function cond_logic_896(force) {
         let decission = `hide`
         if (`Business` == val_3458) {
-            decission = `` != fi_878.val() && `` != val_3713 ? `show` : `hide`
+            decission = `` != fi_878.val() && (`` != val_3713 || force) ? `show` : `hide`
         } else if (`Provider` == val_3458) {
             decission = `` != fi_5356.val() && `` != fi_5363.val() && `` != fi_5361.val() ? `show` : `hide`
         }
@@ -487,7 +487,6 @@
                         bu_cond_logic_3713()
                         bu_5368.change(bu_cond_logic_3713)
                         function bu_cond_logic_3713() {
-                            console.log(Math.random(), `bu_cond_logic_3713`, `` == bu_5368.val() ? `hide` : `show`, `` == bu_5368.val(), bu_3713.length, bu_3713.parent())
                             toggle(bu_3713, `` == bu_5368.val() ? `hide` : `show`)
                         }
 
@@ -573,6 +572,7 @@
                                                     dz.element.find(`[data-dz-remove]`).click(e => {
                                                         dz.icon.show()
                                                     })
+                                                    cond_logic_896(true)
                                                 }
                                             }
                                             xhr.send(formData)
