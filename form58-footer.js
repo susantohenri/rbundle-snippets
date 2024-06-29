@@ -39,7 +39,6 @@
     const fi_5142 = fo_58.find(`[name="item_meta[5142]"]`)
     const section_5413 = fo_58.find(`#frm_field_5413_container > div`)
     const fi_5338 = fo_58.find(`[name="item_meta[5338]"]`)
-    const fi_5339 = fo_58.find(`[name="item_meta[5339]"]`)
     const fi_5349 = fo_58.find(`[name="item_meta[5349]"]`)
     const fi_5356 = fo_58.find(`[name="item_meta[5356]"]`)
     const fi_5361 = fo_58.find(`[name="item_meta[5361][]"]`)
@@ -52,6 +51,7 @@
     const bundled_services = fo_58.find(`#frm_field_5412_container`)
     const single_service = fo_58.find(`#frm_field_881_container`)
     const bundled_file_field_id = 5361
+    let user_uploaded_bundled_rfp = false
 
     setTimeout(bundled_service_init, 1000)
 
@@ -120,7 +120,7 @@
         let decission = `hide`
         const not_empty_5356 = `` != fi_5356.val()
         const not_empty_5363 = `` != fi_5363.val()
-        const not_empty_5361 = `` != fi_5361.val()
+        const not_empty_5361 = user_uploaded_bundled_rfp//`` != fi_5361.val()
         const not_empty_5368 = `` != fi_5368.val()
         const not_empty_884_885 = `` != fi_884.val() || `` != fi_885.val()
         const not_empty_3713 = `` != val_3713
@@ -151,10 +151,11 @@
     fi_5361.change(cond_logic_896)
     function cond_logic_896(force) {
         let decission = `hide`
+        const not_empty_5361 = user_uploaded_bundled_rfp//`` != fi_5361.val()
         if (`Business` == val_3458) {
             decission = `` != fi_878.val() && (`` != val_3713 || force) ? `show` : `hide`
         } else if (`Provider` == val_3458) {
-            decission = `` != fi_5356.val() && `` != fi_5363.val() && `` != fi_5361.val() ? `show` : `hide`
+            decission = (`` != fi_5356.val() && `` != fi_5363.val() && not_empty_5361) || force ? `show` : `hide`
         }
         toggle(fi_896, decission)
     }
@@ -226,7 +227,7 @@
             `Business` == val_3458
                 || (
                     `This user` == get_checkbox_value(3712) ||
-                    `` != get_checkbox_value(5453)
+                    `` == get_checkbox_value(5453)
                 )
                 ? `show` : `hide`)
     }
@@ -262,9 +263,25 @@
     }
 
     cond_logic_878()
-    fi_5131.change(cond_logic_878)
+    fi_5356.change(cond_logic_878)
+    fi_5363.change(cond_logic_878)
+    fi_5361.change(cond_logic_878)
+    fi_5368.change(cond_logic_878)
+    fi_884.change(cond_logic_878)
+    fi_885.change(cond_logic_878)
+    fi_3713.change(cond_logic_878)
     function cond_logic_878() {
-        toggle(fi_878, `Yes` == fi_5131.val() ? `hide` : `show`)
+        const not_empty_5361 = user_uploaded_bundled_rfp//`` != fi_5361.val()
+        toggle(fi_878, (
+            `` != fi_5356.val() &&
+            `` != fi_5363.val() &&
+            not_empty_5361
+        ) || (
+                `` != fi_5368.val() &&
+                (`` != fi_884.val() || `` != fi_885.val()) &&
+                `` != val_3713
+            )
+            ? `show` : `hide`)
     }
 
     cond_logic_3001()
@@ -459,6 +476,11 @@
                         const bu_5057 = bundled_children.find(`[name="bundled_children[5057][]"]`)
                         const bu_3713 = bundled_children.find(`[name="bundled_children[3713][]"]`)
 
+                        bu_5368.change(bundled_service_list_down_answers)
+                        bu_884.change(bundled_service_list_down_answers)
+                        bu_885.change(bundled_service_list_down_answers)
+                        bu_3713.change(bundled_service_list_down_answers)
+
                         bundled_children.find(`.remove_form_row`)
                             .click(function () { // remove service
                                 jQuery(this).parent().parent().remove()
@@ -572,6 +594,8 @@
                                                     dz.element.find(`[data-dz-remove]`).click(e => {
                                                         dz.icon.show()
                                                     })
+                                                    user_uploaded_bundled_rfp = true
+                                                    fi_5361.change()
                                                     cond_logic_896(true)
                                                 }
                                             }
@@ -730,13 +754,13 @@
             if (-1 < single_lines.indexOf(field_id)) list_down[field_id] = list_down[field_id].join(`, `)
             else if (-1 < textareas.indexOf(field_id)) list_down[field_id] = list_down[field_id].join(`\n`)
 
-            fo_58.find(`[name="item_meta[${field_id}]"]`).val(list_down[field_id])
+            fo_58.find(`[name="item_meta[${field_id}]"]`).val(list_down[field_id]).change()
         }
 
         let answer_5349 = []
         if (is_multi_srv) answer_5349.push(`Multiple Services`)
         if (is_multi_bus) answer_5349.push(`Multiple Businesses`)
-        fi_5349.val(JSON.stringify(answer_5349))
+        fi_5349.val(JSON.stringify(answer_5349)).change()
     }
 
     function bundled_service_naming_file() {
