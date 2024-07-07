@@ -231,13 +231,12 @@
     fi_3712.click(cond_logic_880)
     fi_5453.click(cond_logic_880)
     function cond_logic_880() {
-        toggle(fi_880_container,
-            `Business` == val_3458
-                || (
-                    `This user` == get_checkbox_value(3712) ||
-                    (fi_5453.is(`:visible`) && `` == get_checkbox_value(5453))
-                )
-                ? `show` : `hide`)
+        let decission = `Business` == val_3458
+        if (!decission) {
+            decission = `` != get_checkbox_value(5453)
+            decission = `This user` == get_checkbox_value(3712)
+        }
+        toggle(fi_880_container, decission ? `show` : `hide`)
     }
 
     cond_logic_5415()
