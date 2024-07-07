@@ -235,7 +235,7 @@
             `Business` == val_3458
                 || (
                     `This user` == get_checkbox_value(3712) ||
-                    `` == get_checkbox_value(5453)
+                    (fi_5453.is(`:visible`) && `` == get_checkbox_value(5453))
                 )
                 ? `show` : `hide`)
     }
