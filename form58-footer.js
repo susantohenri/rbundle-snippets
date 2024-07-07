@@ -397,7 +397,7 @@
                 </div>
             `,
             remove: `
-                <div class="frm_form_field frm_hidden_container frm_repeat_buttons">
+                <div class="frm_form_field frm_hidden_container frm_repeat_buttons remove-#PART#">
                     <a href="javascript:;" class="remove_form_row frm_button" data-key="0" aria-label="Remove">
                         <svg viewBox="0 0 20 20" width="1em" height="1em" class="frmsvg frm-svg-icon">
                             <title>minus1</title>
@@ -407,10 +407,10 @@
                 </div>
             `
         }
-        buttons.add_bundle = buttons.add.replace(`#PART#`, `Business`)
-        buttons.remove_bundle = buttons.remove.replace(`#PART#`, `Business`)
-        buttons.add_service = buttons.add.replace(`#PART#`, `Service`)
-        buttons.remove_service = buttons.remove.replace(`#PART#`, `Service`)
+        buttons.add_bundle = buttons.add.replaceAll(`#PART#`, `Business`)
+        buttons.remove_bundle = buttons.remove.replaceAll(`#PART#`, `Business`)
+        buttons.add_service = buttons.add.replaceAll(`#PART#`, `Service`)
+        buttons.remove_service = buttons.remove.replaceAll(`#PART#`, `Service`)
 
         let templates = {
             children: `
@@ -456,8 +456,12 @@
                 bundled_service
                     .find(`>.frm_repeat_buttons .remove_form_row`)
                     .click(function () { // remove bundle
-                        jQuery(this).parent().parent().remove()
+                        const bundle = jQuery(this).parent().parent()
+                        bundle.prev(`br`).remove()
+                        bundle.remove()
+
                         bundled_service_bundle_business_number()
+                        bundled_service_limit_add_buttons()
                     })
 
                 const btn_add_service_container = bundled_service
@@ -483,7 +487,10 @@
 
                         bundled_children.find(`.remove_form_row`)
                             .click(function () { // remove service
-                                jQuery(this).parent().parent().remove()
+                                const service = jQuery(this).parent().parent()
+                                service.prev(`br`).remove()
+                                service.remove()
+                                bundled_service_limit_add_buttons()
                             })
 
                         bu_cond_logic_884()
@@ -606,10 +613,27 @@
                                     })
                             })
 
+                        bundled_service_limit_add_buttons()
                     })
                     .click()
+                bundled_service_limit_add_buttons()
             })
             .click()
+    }
+
+    function bundled_service_limit_add_buttons() {
+        const businesses = fo_58.find(`.bundled_service`)
+        const first_add_bundle_btn = businesses.eq(0).find(`.remove-Business`)
+        if (2 > businesses.length) first_add_bundle_btn.hide()
+        else first_add_bundle_btn.show()
+
+        businesses.each(function () {
+            const business = jQuery(this)
+            const services = business.find(`.bundled_children`)
+            const first_add_service_btn = services.eq(0).find(`.remove-Service`)
+            if (2 > services.length) first_add_service_btn.hide()
+            else first_add_service_btn.show()
+        })
     }
 
     function bundled_service_bundle_business_number() {
