@@ -145,19 +145,27 @@
 
     cond_logic_896()
     fi_878.change(cond_logic_896)
-    fi_3713.change(cond_logic_896)
     fi_5356.change(cond_logic_896)
     fi_5363.change(cond_logic_896)
     fi_5361.change(cond_logic_896)
-    function cond_logic_896(force) {
-        let decission = `hide`
+    fi_5368.change(cond_logic_896)
+    fi_884.change(cond_logic_896)
+    fi_885.change(cond_logic_896)
+    fi_3713.change(cond_logic_896)
+    function cond_logic_896() {
         const not_empty_5361 = user_uploaded_bundled_rfp//`` != fi_5361.val()
-        if (`Business` == val_3458) {
-            decission = `` != fi_878.val() && (`` != val_3713 || force) ? `show` : `hide`
-        } else if (`Provider` == val_3458) {
-            decission = (`` != fi_5356.val() && `` != fi_5363.val() && not_empty_5361) || force ? `show` : `hide`
-        }
-        toggle(fi_896, decission)
+        let decission = `` != fi_5356.val() &&
+            `` != fi_5363.val() &&
+            not_empty_5361
+
+        decission = decission ||
+            `` != fi_5368.val() &&
+            (`` != fi_884.val() || `` != fi_885.val()) &&
+            `` != val_3713
+
+        decission = decission && `` != fi_878.val()
+        toggle(fi_896, decission ? `show` : `hide`)
+        if (!decission && `Yes` == fo_58.find(`[name="item_meta[896][]"]:checked`).val()) fo_58.find(`[name="item_meta[896][]"]`).click()
     }
 
     cond_logic_4654()
