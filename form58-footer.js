@@ -154,16 +154,19 @@
     fi_3713.change(cond_logic_896)
     function cond_logic_896() {
         const not_empty_5361 = user_uploaded_bundled_rfp//`` != fi_5361.val()
-        let decission = `` != fi_5356.val() &&
+        const bundled_service_complete =
+            `` != fi_5356.val() &&
             `` != fi_5363.val() &&
             not_empty_5361
 
-        decission = decission ||
+        const single_service_complete =
             `` != fi_5368.val() &&
             (`` != fi_884.val() || `` != fi_885.val()) &&
             `` != val_3713
 
-        decission = decission && `` != fi_878.val()
+        const provider_selected_customer_client = `` != fi_5368.val() && fi_5453.is(`:visible`)
+
+        const decission = (bundled_service_complete || single_service_complete || provider_selected_customer_client) && `` != fi_878.val()
         toggle(fi_896, decission ? `show` : `hide`)
         if (!decission && `Yes` == fo_58.find(`[name="item_meta[896][]"]:checked`).val()) fo_58.find(`[name="item_meta[896][]"]`).click()
     }
@@ -280,16 +283,18 @@
     fi_3713.change(cond_logic_878)
     function cond_logic_878() {
         const not_empty_5361 = user_uploaded_bundled_rfp//`` != fi_5361.val()
-        toggle(fi_878, (
+        const single_service_complete =
+            `` != fi_5368.val() &&
+            (`` != fi_884.val() || `` != fi_885.val()) &&
+            `` != val_3713
+        const bundled_service_complete =
             `` != fi_5356.val() &&
             `` != fi_5363.val() &&
             not_empty_5361
-        ) || (
-                `` != fi_5368.val() &&
-                (`` != fi_884.val() || `` != fi_885.val()) &&
-                `` != val_3713
-            )
-            ? `show` : `hide`)
+        const provider_selected_customer_client = `` != fi_5368.val() && fi_5453.is(`:visible`)
+
+        const decission = single_service_complete || bundled_service_complete || provider_selected_customer_client
+        toggle(fi_878, decission ? `show` : `hide`)
     }
 
     cond_logic_3001()
