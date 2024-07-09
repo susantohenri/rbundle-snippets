@@ -246,8 +246,9 @@
 
     cond_logic_881()
     fi_880.change(cond_logic_881)
+    fi_5453.click(cond_logic_881)
     function cond_logic_881() {
-        toggle(section_881, `Single Service` == get_checkbox_value(880) ? `show` : `hide`)
+        toggle(section_881, `Single Service` == get_checkbox_value(880) && (!fi_5453.is(`:visible`) || `` != get_checkbox_value(5453)) ? `show` : `hide`)
         fi_5368.change()
     }
 
