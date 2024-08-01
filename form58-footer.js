@@ -15,6 +15,7 @@
     const section_1089 = fo_58.find(`#frm_field_1089_container > div`)
     const fi_2534 = fo_58.find(`[name="item_meta[2534][]"]`)
     const section_2574 = fo_58.find(`#frm_field_2574_container > div`)
+    const section_2610 = fo_58.find(`#frm_field_2610_container > div`)
     const fi_2999_container = fo_58.find(`#frm_field_2999_container > *`)
     const fi_2999 = fo_58.find(`[name="item_meta[2999][]"]`)
     const fi_3000_container = fo_58.find(`#frm_field_3000_container > *`)
@@ -48,6 +49,7 @@
     const fi_5368 = fo_58.find(`[name="item_meta[5368]"]`)
     const fi_5415 = fo_58.find(`[name="item_meta[5415]"]`)
     const fi_5420_container = fo_58.find(`#frm_field_5420_container > *`)
+    const fi_6249 = fo_58.find(`[name="item_meta[6249]"]`)
     const bundled_services = fo_58.find(`#frm_field_5412_container`)
     const single_service = fo_58.find(`#frm_field_881_container`)
     const bundled_file_field_id = 5361
@@ -55,7 +57,7 @@
 
     setTimeout(bundled_service_init, 1000)
 
-    fo_58.parent().parent().parent().submit(() => {
+    fo_58.parent().parent().parent().css(`display`, `block`).submit(() => {
         let is_valid = true
         const hidden_list_field_name = `skip_hidden_fields_required_validation`
         let hidden_fields = []
@@ -78,6 +80,12 @@
         bundled_service_naming_file()
         return is_valid && bundled_service_validation()
     })
+
+    cond_logic_2610()
+    fi_6249.click(cond_logic_2610)
+    function cond_logic_2610() {
+        toggle(section_2610, `Yes` == get_checkbox_value(6249) ? `show` : `hide`)
+    }
 
     cond_logic_884()
     fi_5368.change(cond_logic_884)
@@ -186,7 +194,7 @@
     cond_logic_5142()
     fi_880.change(cond_logic_5142)
     function cond_logic_5142() {
-        fi_5142.val(`Bundled Services` == get_checkbox_value(880) ? `Show` : ``)
+        fi_5142.val(`Bundle` == get_checkbox_value(880) ? `Show` : ``)
     }
 
     cond_logic_2574()
@@ -251,14 +259,14 @@
     fi_880.change(cond_logic_881)
     fi_5453.click(cond_logic_881)
     function cond_logic_881() {
-        toggle(section_881, `Single Service` == get_checkbox_value(880) && (!fi_5453.is(`:visible`) || `` != get_checkbox_value(5453)) ? `show` : `hide`)
+        toggle(section_881, `Single` == get_checkbox_value(880) && (!fi_5453.is(`:visible`) || `` != get_checkbox_value(5453)) ? `show` : `hide`)
         fi_5368.change()
     }
 
     cond_logic_5413()
     fi_880.change(cond_logic_5413)
     function cond_logic_5413() {
-        toggle(section_5413, `Bundled Services` == get_checkbox_value(880) ? `show` : `hide`)
+        toggle(section_5413, `Bundle` == get_checkbox_value(880) ? `show` : `hide`)
     }
 
     cond_logic_5338()
