@@ -764,7 +764,11 @@
                 bus_num++
                 if (1 < bus_num) is_multi_bus = true
 
-                for (let field_id of textareas) list_down[field_id].push(`Business ${bus_num}`)
+                for (let field_id of textareas) {
+                    let bus_num_line = `Business ${bus_num}`
+                    if (0 < list_down[field_id].length) bus_num_line = `\n${bus_num_line}`
+                    list_down[field_id].push(bus_num_line)
+                }
 
                 business.find(`.bundled_children`).each(function () {
                     const service = jQuery(this)
