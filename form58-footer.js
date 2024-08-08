@@ -76,9 +76,18 @@
         hidden_fields = hidden_fields.join(`,`)
         fo_58.append(`<input type="hidden" name="${hidden_list_field_name}" value="${hidden_fields}">`)
 
-        bundled_service_list_down_answers()
-        bundled_service_naming_file()
-        return is_valid && bundled_service_validation()
+        if (is_valid && bundled_service_validation()) {
+            switch (get_checkbox_value(880)) {
+                case `Bundle`:
+                    bundled_service_list_down_answers()
+                    reset_single_service()
+                        ; break
+                case `Single`:
+                    reset_bundle_service()
+                        ; break
+            }
+            return true
+        } else return false
     })
 
     cond_logic_2610()
@@ -749,6 +758,7 @@
             5363: [],
             5367: [],
         }
+
         const single_lines = [5356, 5364, 5357]
         const textareas = [5365, 5366, 5363, 5367]
         let bus_num = 0
@@ -835,6 +845,19 @@
 
             })
         })
+    }
+
+    function reset_single_service() {
+        fi_5368.val(``)
+        fi_884.val(``)
+        fi_885.val(``)
+        fi_3713.val(``)
+    }
+
+    function reset_bundle_service() {
+        let field_to_reset = [5356, 5365, 5364, 5366, 5357, 5363, 5367, 5349]
+        for (let field_id of field_to_reset) fo_58.find(`[name="item_meta[${field_id}]"]`).val(``)
+        return true
     }
 
 })(document.currentScript);
