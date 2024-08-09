@@ -133,8 +133,10 @@
     fi_885.change(cond_logic_4556)
     fi_3713.change(cond_logic_4556)
     fi_3712.click(cond_logic_4556)
+    fi_880.change(cond_logic_4556)
     function cond_logic_4556() {
         let decission = `hide`
+        const val_880 = get_checkbox_value(880)
         const not_empty_5356 = `` != fi_5356.val()
         const not_empty_5363 = `` != fi_5363.val()
         const not_empty_5361 = user_uploaded_bundled_rfp//`` != fi_5361.val()
@@ -143,9 +145,10 @@
         const not_empty_3713 = `` != val_3713
 
         if (`Business` == val_3458) {
-            decission = (not_empty_5356 && not_empty_5363 && not_empty_5361)
-                || (not_empty_5368 && not_empty_884_885 && not_empty_3713)
-                ? `show` : `hide`
+            switch (val_880) {
+                case `Bundle`: decission = not_empty_5356 && not_empty_5363 && not_empty_5361 ? `show` : `hide`; break
+                case `Single`: decission = not_empty_5368 && not_empty_884_885 && not_empty_3713 ? `show` : `hide`; break
+            }
         } else if (`Provider` == val_3458) {
             if (`This user` == get_checkbox_value(3712)) {
                 decission = (not_empty_5356 && not_empty_5363 && not_empty_5361)
@@ -169,21 +172,19 @@
     fi_884.change(cond_logic_896)
     fi_885.change(cond_logic_896)
     fi_3713.change(cond_logic_896)
+    fi_880.change(cond_logic_896)
     function cond_logic_896() {
         const not_empty_5361 = user_uploaded_bundled_rfp//`` != fi_5361.val()
-        const bundled_service_complete =
-            `` != fi_5356.val() &&
-            `` != fi_5363.val() &&
-            not_empty_5361
 
-        const single_service_complete =
-            `` != fi_5368.val() &&
-            (`` != fi_884.val() || `` != fi_885.val()) &&
-            `` != val_3713
+        let service_complete = false
+        switch (get_checkbox_value(880)) {
+            case `Bundle`: service_complete = `` != fi_5356.val() && `` != fi_5363.val() && not_empty_5361; break
+            case `Single`: service_complete = `` != fi_5368.val() && (`` != fi_884.val() || `` != fi_885.val()) && `` != val_3713; break
+        }
 
         const provider_selected_customer_client = `` != fi_5368.val() && fi_5453.is(`:visible`)
 
-        const decission = (bundled_service_complete || single_service_complete || provider_selected_customer_client) && `` != fi_878.val()
+        const decission = (service_complete || provider_selected_customer_client) && `` != fi_878.val()
         toggle(fi_896, decission ? `show` : `hide`)
         if (!decission && `Yes` == fo_58.find(`[name="item_meta[896][]"]:checked`).val()) fo_58.find(`[name="item_meta[896][]"]`).click()
     }
