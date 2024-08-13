@@ -86,6 +86,7 @@
                     reset_bundle_service()
                         ; break
             }
+            bundled_service_naming_file()
             return true
         } else return false
     })
