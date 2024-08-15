@@ -6,7 +6,7 @@
     const fi_880_container = fo_58.find(`#frm_field_880_container > *`)
     const section_881 = fo_58.find(`#frm_field_881_container > div`)
     const fi_884 = fo_58.find(`[name="item_meta[884][]"]`)
-    const fi_885 = fo_58.find(`[name="item_meta[885]"]`)
+    const fi_885 = fo_58.find(`[name="item_meta[885][]"]`)
     const fi_893_container = fo_58.find(`#frm_field_893_container > *`)
     const fi_893 = fo_58.find(`[name="item_meta[893][]"]`)
     const fi_894 = fo_58.find(`[name="item_meta[894][]"]`)
@@ -507,7 +507,7 @@
                         const bu_5368_selector = `[name="bundled_children[5368][]"]`
                         const bu_5368 = bundled_children.find(bu_5368_selector)
                         const bu_884 = bundled_children.find(`[name="bundled_children[884][][]"]`)
-                        const bu_885 = bundled_children.find(`[name="bundled_children[885][]"]`)
+                        const bu_885 = bundled_children.find(`[name="bundled_children[885][][]"]`)
                         const bu_938 = bundled_children.find(`[name="bundled_children[938][]"]`)
                         const bu_5057 = bundled_children.find(`[name="bundled_children[5057][]"]`)
                         const bu_3713 = bundled_children.find(`[name="bundled_children[3713][]"]`)
@@ -698,7 +698,7 @@
             }
 
             let area = child.find(`[name="bundled_children[884][][]"]:visible`)
-            area = 0 < area.length ? area : child.find(`[name="bundled_children[885][]"]:visible`)
+            area = 0 < area.length ? area : child.find(`[name="bundled_children[885][][]"]:visible`)
             if (0 < area.length) {
                 if (`` == area.val()) {
                     is_valid = false
@@ -793,7 +793,7 @@
                     const category = service.find(`[name="bundled_children[5057][]"]`).val()
 
                     let area = service.find(`[name="bundled_children[884][][]"]:visible`)
-                    area = 0 < area.length ? area : service.find(`[name="bundled_children[885][]"]:visible`)
+                    area = 0 < area.length ? area : service.find(`[name="bundled_children[885][][]"]:visible`)
                     if (0 < area.length) {
                         area = area.val()
                         area = Array.isArray(area) ? area.join(`, `) : area
